@@ -17,7 +17,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/assest/**").addResourceLocations("/assest/");
+		registry.addResourceHandler("/asset/**").addResourceLocations("/asset/");
 	}
 	
 	@Bean
@@ -32,7 +32,8 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
 		tilesConfigurer.setDefinitions(new String[] {
 				// define tiles.xml config view resolver
-				"/WEB-INF/tiles-home.xml"
+				"/WEB-INF/tiles-home.xml",
+				"/WEB-INF/tiles-admin.xml"
 		});
 		tilesConfigurer.setCheckRefresh(true);
 		tilesConfigurer.setCompleteAutoload(true);

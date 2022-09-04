@@ -3,15 +3,20 @@
         "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-	<definition name="homeLayout"
+	<definition name="defaultLayout"
 		template="/WEB-INF/views/common/web/base.jsp">
 		<put-attribute name="title" value="BuiManhThanh" />
 		<put-attribute name="header"
 			value="/WEB-INF/views/common/web/header.jsp" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/common/web/content.jsp" />
+		<put-attribute name="deal-of-week"
+					   value="/WEB-INF/views/common/web/deal-of-week.jsp" />
 		<put-attribute name="footer"
 			value="/WEB-INF/views/common/web/footer.jsp" />
+	</definition>
+	<definition name="index" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/index.jsp" />
 	</definition>
 
 </tiles-definitions>
