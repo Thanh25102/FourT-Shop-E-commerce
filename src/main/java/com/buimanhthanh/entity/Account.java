@@ -34,8 +34,10 @@ public class Account {
 	private Collection<Cart> cartsByUsername;
 	@OneToMany(mappedBy = "accountByUsername")
 	private Collection<Order> ordersByUsername;
-	@OneToOne(mappedBy = "accountByUsername")
-	private Role roleByUsername;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id",referencedColumnName = "id",nullable = false)
+	private Role roleById;
 
 	public String getUsername() {
 		return username;
@@ -159,11 +161,11 @@ public class Account {
 		this.ordersByUsername = ordersByUsername;
 	}
 
-	public Role getRoleByUsername() {
-		return roleByUsername;
+	public Role getRoleById() {
+		return roleById;
 	}
 
-	public void setRoleByUsername(Role roleByUsername) {
-		this.roleByUsername = roleByUsername;
+	public void setRoleById(Role roleById) {
+		this.roleById = roleById;
 	}
 }

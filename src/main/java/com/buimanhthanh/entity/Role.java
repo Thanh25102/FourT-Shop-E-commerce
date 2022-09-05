@@ -1,18 +1,28 @@
 package com.buimanhthanh.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.*;
 
 @Entity
 public class Role implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Basic
 	@Column(name = "authority", nullable = false, length = 64)
 	private String authority;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@OneToOne
-	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
-	private Account accountByUsername;
+	@Column(name = "id")
+	private Integer id;
+
+	@OneToMany(mappedBy = "roleById")
+	private Collection<Account> accountByRoleId;
+
+
 
 	public String getAuthority() {
 		return authority;
@@ -22,11 +32,19 @@ public class Role implements Serializable{
 		this.authority = authority;
 	}
 
-	public Account getAccountByUsername() {
-		return accountByUsername;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setAccountByUsername(Account accountByUsername) {
-		this.accountByUsername = accountByUsername;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Collection<Account> getAccountByRoleId() {
+		return accountByRoleId;
+	}
+
+	public void setAccountByRoleId(Collection<Account> accountByRoleId) {
+		this.accountByRoleId = accountByRoleId;
 	}
 }

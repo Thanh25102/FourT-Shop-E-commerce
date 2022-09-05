@@ -7,6 +7,11 @@ import javax.persistence.*;
 @Entity
 public class Permission implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "access_id", referencedColumnName = "id", nullable = false)
@@ -14,8 +19,8 @@ public class Permission implements Serializable{
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "authority", referencedColumnName = "authority", nullable = false)
-	private Role roleByAuthority;
+	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+	private Role roleByRoleId;
 
 	public Access getAccessByAccessId() {
 		return accessByAccessId;
@@ -25,11 +30,11 @@ public class Permission implements Serializable{
 		this.accessByAccessId = accessByAccessId;
 	}
 
-	public Role getRoleByAuthority() {
-		return roleByAuthority;
+	public Role getRoleByRoleId() {
+		return roleByRoleId;
 	}
 
-	public void setRoleByAuthority(Role roleByAuthority) {
-		this.roleByAuthority = roleByAuthority;
+	public void setRoleByRoleId(Role roleByRoleId) {
+		this.roleByRoleId = roleByRoleId;
 	}
 }

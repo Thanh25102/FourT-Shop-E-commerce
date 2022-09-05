@@ -10,16 +10,17 @@ create table `account` (
                            phone varchar(20) null unique,
                            full_name nvarchar(55) not null,
                            address nvarchar(255) null,
-                           `rank_account` nvarchar(55) not null
+                           `rank_account` nvarchar(55) not null,
+                           role_id int not null
 );
 create table `role`(
-                       username varchar(50) not null primary key,
+                       id int primary key auto_increment,
                        authority varchar(64) not null
 );
 create table `permission`(
-                             authority varchar(64) not null,
+                             role_id int not null,
                              access_id int not null,
-                             primary key(authority,access_id)
+                             primary key(role_id,access_id)
 );
 create table `access`(
                          id int primary key auto_increment,
@@ -111,10 +112,10 @@ create table color(
                       `description` nvarchar(255) null
 );
 
-ALTER TABLE `role` ADD FOREIGN KEY (username) REFERENCES `account`(username);
-ALTER TABLE `role` ADD FOREIGN KEY (authority) REFERENCES `permission`(authority);
+ALTER TABLE `account` ADD FOREIGN KEY (role_id) REFERENCES `role`(id);
 
 ALTER TABLE `permission` ADD FOREIGN KEY (access_id) REFERENCES `access`(id);
+ALTER TABLE `permission` ADD FOREIGN KEY (role_id) REFERENCES `role`(id);
 
 ALTER TABLE `order` ADD FOREIGN KEY (username) REFERENCES `account`(username);
 ALTER TABLE `order` ADD FOREIGN KEY (discount_code_id) REFERENCES `discount_code`(id);
