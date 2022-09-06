@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Category;
-import com.buimanhthanh.entity.Product;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.Product;
 
 public interface ProductDao {
     Optional<Product> getProductById(Integer id);

@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Color;
-import com.buimanhthanh.entity.Role;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.Color;
 
 public interface ColorDao {
     Optional<Color> getColorById(Integer id);

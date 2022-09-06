@@ -1,16 +1,16 @@
 package com.buimanhthanh.dao.impl;
 
-import com.buimanhthanh.dao.ColorDao;
-import com.buimanhthanh.entity.Color;
-import com.buimanhthanh.entity.Role;
+import java.util.List;
+import java.util.Optional;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.buimanhthanh.dao.ColorDao;
+import com.buimanhthanh.entity.Color;
 
 @Repository
 public class ColorDaoImpl implements ColorDao {

@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Color;
-import com.buimanhthanh.entity.Size;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.Size;
 
 public interface SizeDao {
     Optional<Size> getSizeById(Integer id);

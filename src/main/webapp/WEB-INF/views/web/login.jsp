@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <!--================Login Box Area =================-->
 	<section class="login_box_area section_gap">
 		<div class="container">
@@ -17,12 +18,12 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
-						<form class="row login_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+						<form class="row login_form" action="<c:url value="/login"/>" method="post" id="contactForm" novalidate="novalidate">
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="password" class="form-control" id="password" name="password" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">

@@ -41,4 +41,15 @@ public class AccountDaoImpl implements AccountDao {
         return false;
     }
 
+	@Override
+	public Boolean registerAccount(Account account) {
+		try {
+            sessionFactory.getCurrentSession().save(account);
+            return true;
+        } catch (HibernateException e){
+            System.out.println( "Error == add Account" + e.getMessage());
+        }
+        return false;
+	}
+
 }

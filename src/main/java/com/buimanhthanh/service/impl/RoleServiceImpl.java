@@ -20,6 +20,12 @@ public class RoleServiceImpl implements RoleService {
     public Optional<Role> getRoleById(Integer id) {
         return roleDao.getRoleById(id);
     }
+    
+    @Override
+    @Transactional
+    public Optional<Role> getRoleByAuthority(String authority) {
+        return roleDao.getRoleByAuthority(authority);
+    }
 
     @Override
     @Transactional

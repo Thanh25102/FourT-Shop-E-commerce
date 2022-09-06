@@ -43,4 +43,10 @@ public class AccountServiceImpl implements AccountService {
 			throw new UsernameNotFoundException("ncc");
 		return account.get();
 	}
+
+	@Override
+	@Transactional
+	public Boolean registerAccount(Account account) {
+		return accountDao.registerAccount(account);
+	}
 }

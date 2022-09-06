@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Discount;
-import com.buimanhthanh.entity.Size;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.Discount;
 
 public interface DiscountDao {
     Optional<Discount> getDiscountById(Integer id);

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface RoleService {
     Optional<Role> getRoleById(Integer id);
+    
+    Optional<Role> getRoleByAuthority(String authority);
 
     Optional<List<Role>> getAllRole();
 

@@ -12,13 +12,20 @@ import java.util.Set;
 
 @Entity
 public class Account implements UserDetails {
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "username", nullable = false, length = 50)
 	private String username;
 	@Basic
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
+	
+	@Transient
+	private String passwordConfirm;
+	
 	@Basic
 	@Column(name = "enabled", nullable = false)
 	private Boolean enabled4;
@@ -60,14 +67,6 @@ public class Account implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Boolean getEnabled_() {
-		return enabled4;
-	}
-
-	public void setEnabled_(Boolean enabled4) {
-		this.enabled4 = enabled4;
 	}
 
 	public String getEmail() {
@@ -134,10 +133,28 @@ public class Account implements UserDetails {
 		this.roleById = roleById;
 	}
 
+	
+	
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	public Boolean getEnabled4() {
+		return enabled4;
+	}
+
+	public void setEnabled4(Boolean enabled4) {
+		this.enabled4 = enabled4;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> auths = new HashSet<>();
-		roleById.getPermissionByRoleId().forEach(permiss -> auths.add(new SimpleGrantedAuthority(permiss.getAccessByAccessId().getCode())));
+		auths.add(new SimpleGrantedAuthority(roleById.getAuthority()));
 		return auths;
 	}
 

@@ -1,13 +1,14 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Access;
-import com.buimanhthanh.entity.Role;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.entity.Role;
+
 public interface RoleDao {
     Optional<Role> getRoleById(Integer id);
+    
+    Optional<Role> getRoleByAuthority(String authority);
 
     Optional<List<Role>> getAllRole();
 

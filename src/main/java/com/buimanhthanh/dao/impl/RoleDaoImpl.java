@@ -1,16 +1,16 @@
 package com.buimanhthanh.dao.impl;
 
-import com.buimanhthanh.dao.RoleDao;
-import com.buimanhthanh.entity.Access;
-import com.buimanhthanh.entity.Role;
+import java.util.List;
+import java.util.Optional;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.buimanhthanh.dao.RoleDao;
+import com.buimanhthanh.entity.Role;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
@@ -22,6 +22,14 @@ public class RoleDaoImpl implements RoleDao {
         return Optional.ofNullable(sessionFactory.getCurrentSession()
                 .createQuery("from Role as a where a.id =: i",Role.class)
                 .setParameter("i",id)
+                .getSingleResult());
+    }
+    
+    @Override
+    public Optional<Role> getRoleByAuthority(String authority){
+    	return Optional.ofNullable(sessionFactory.getCurrentSession()
+                .createQuery("from Role as a where a.authority =: i",Role.class)
+                .setParameter("i",authority)
                 .getSingleResult());
     }
 

@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Discount;
-import com.buimanhthanh.entity.DiscountCode;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.DiscountCode;
 
 public interface DiscountCodeDao {
     Optional<DiscountCode> getDiscountCodeById(Integer id);

@@ -14,4 +14,5 @@ public interface AccountService extends UserDetailsService{
 
     Boolean saveOrUpdateAccount(Account account);
 
+    Boolean registerAccount(Account account);
 }

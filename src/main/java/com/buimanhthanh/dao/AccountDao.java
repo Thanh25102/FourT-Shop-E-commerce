@@ -12,4 +12,6 @@ public interface AccountDao {
 
     Boolean saveOrUpdateAccount(Account account);
 
+	Boolean registerAccount(Account account);
+
 }
