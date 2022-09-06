@@ -21,8 +21,19 @@ public class Role implements Serializable{
 
 	@OneToMany(mappedBy = "roleById")
 	private Collection<Account> accountByRoleId;
+	
+	@OneToMany(mappedBy = "roleByRoleId")
+	private Collection<Permission> permissionByRoleId;
 
 
+
+	public Collection<Permission> getPermissionByRoleId() {
+		return permissionByRoleId;
+	}
+
+	public void setPermissionByRoleId(Collection<Permission> permissionByRoleId) {
+		this.permissionByRoleId = permissionByRoleId;
+	}
 
 	public String getAuthority() {
 		return authority;

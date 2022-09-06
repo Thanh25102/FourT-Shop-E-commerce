@@ -18,5 +18,8 @@
 	<definition name="index" extends="defaultLayout">
 		<put-attribute name="content" value="/WEB-INF/views/web/index.jsp" />
 	</definition>
-
+	<definition name="login" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/login.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
 </tiles-definitions>

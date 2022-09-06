@@ -5,7 +5,9 @@ import com.buimanhthanh.entity.Account;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountService {
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface AccountService extends UserDetailsService{
     Optional<Account> getAccountByUsername(String username);
 
     Optional<List<Account>> getAllAccount();

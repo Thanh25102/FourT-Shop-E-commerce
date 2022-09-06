@@ -1,10 +1,17 @@
 package com.buimanhthanh.entity;
 
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Account {
+public class Account implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "username", nullable = false, length = 50)
@@ -14,7 +21,7 @@ public class Account {
 	private String password;
 	@Basic
 	@Column(name = "enabled", nullable = false)
-	private Byte enabled;
+	private Boolean enabled4;
 	@Basic
 	@Column(name = "email", nullable = false, length = 100)
 	private String email;
@@ -55,12 +62,12 @@ public class Account {
 		this.password = password;
 	}
 
-	public Byte getEnabled() {
-		return enabled;
+	public Boolean getEnabled_() {
+		return enabled4;
 	}
 
-	public void setEnabled(Byte enabled) {
-		this.enabled = enabled;
+	public void setEnabled_(Boolean enabled4) {
+		this.enabled4 = enabled4;
 	}
 
 	public String getEmail() {
@@ -103,48 +110,6 @@ public class Account {
 		this.rankAccount = rankAccount;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		Account account = (Account) o;
-
-		if (username != null ? !username.equals(account.username) : account.username != null)
-			return false;
-		if (password != null ? !password.equals(account.password) : account.password != null)
-			return false;
-		if (enabled != null ? !enabled.equals(account.enabled) : account.enabled != null)
-			return false;
-		if (email != null ? !email.equals(account.email) : account.email != null)
-			return false;
-		if (phone != null ? !phone.equals(account.phone) : account.phone != null)
-			return false;
-		if (fullName != null ? !fullName.equals(account.fullName) : account.fullName != null)
-			return false;
-		if (address != null ? !address.equals(account.address) : account.address != null)
-			return false;
-		if (rankAccount != null ? !rankAccount.equals(account.rankAccount) : account.rankAccount != null)
-			return false;
-
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = username != null ? username.hashCode() : 0;
-		result = 31 * result + (password != null ? password.hashCode() : 0);
-		result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
-		result = 31 * result + (email != null ? email.hashCode() : 0);
-		result = 31 * result + (phone != null ? phone.hashCode() : 0);
-		result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-		result = 31 * result + (address != null ? address.hashCode() : 0);
-		result = 31 * result + (rankAccount != null ? rankAccount.hashCode() : 0);
-		return result;
-	}
-
 	public Collection<Cart> getCartsByUsername() {
 		return cartsByUsername;
 	}
@@ -167,5 +132,32 @@ public class Account {
 
 	public void setRoleById(Role roleById) {
 		this.roleById = roleById;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> auths = new HashSet<>();
+		roleById.getPermissionByRoleId().forEach(permiss -> auths.add(new SimpleGrantedAuthority(permiss.getAccessByAccessId().getCode())));
+		return auths;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.enabled4;
 	}
 }

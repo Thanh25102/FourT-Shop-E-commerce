@@ -1,10 +1,9 @@
 package com.buimanhthanh.dao;
 
-import com.buimanhthanh.entity.Cart;
-import com.buimanhthanh.entity.Order;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.entity.Cart;
 
 public interface CartDao {
     Optional<Cart> getCartById(Integer id);
