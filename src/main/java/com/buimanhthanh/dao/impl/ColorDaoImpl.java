@@ -19,10 +19,10 @@ public class ColorDaoImpl implements ColorDao {
 
     @Override
     public Optional<Color> getColorById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from Color as a where a.id =: i",Color.class)
                 .setParameter("i",id)
-                .getSingleResult());
+                .getResultList().stream().findFirst();
     }
 
     @Override

@@ -18,10 +18,10 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> getOrderById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from Order as a where a.id =: i",Order.class)
                 .setParameter("i",id)
-                .getSingleResult());
+                .getResultList().stream().findFirst();
     }
 
     @Override

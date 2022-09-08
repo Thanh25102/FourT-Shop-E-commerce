@@ -18,10 +18,10 @@ public class ProductDaoImpl implements ProductDao {
     private SessionFactory sessionFactory;
     @Override
     public Optional<Product> getProductById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from Product as a where a.id =: i", Product.class)
                 .setParameter("i",id)
-                .getSingleResult());
+                .getResultList().stream().findFirst();
     }
 
     @Override

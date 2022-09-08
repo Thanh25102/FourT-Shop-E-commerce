@@ -12,6 +12,9 @@
 						<h3>Register account FourT</h3>
 						<form:form class="row login_form" action="${ url }" method="post" id="contactForm" novalidate="novalidate" style="max-width: 600px;" modelAttribute="userRegister">
 							<div class="col-md-12 form-group">
+								<form:errors path="*" cssClass="text-danger" element="p" />
+							</div>
+							<div class="col-md-12 form-group">
 								<form:input type="text" class="form-control" id="fullName" name="fullName" placeholder="Fullname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Fullname'" path="fullName"/>
 							</div>
 							<div class="col-md-6 form-group">

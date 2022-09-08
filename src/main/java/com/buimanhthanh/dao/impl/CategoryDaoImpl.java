@@ -18,10 +18,10 @@ public class CategoryDaoImpl implements CategoryDao {
     private SessionFactory sessionFactory;
     @Override
     public Optional<Category> getCategoryById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from Category as a where a.id =: i", Category.class)
                 .setParameter("i",id)
-                .getSingleResult());
+                .getResultList().stream().findFirst();
     }
 
     @Override

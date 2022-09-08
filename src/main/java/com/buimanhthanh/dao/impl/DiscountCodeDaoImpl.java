@@ -19,10 +19,10 @@ public class DiscountCodeDaoImpl implements DiscountCodeDao {
 
     @Override
     public Optional<DiscountCode> getDiscountCodeById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from DiscountCode as a where a.id =: i",DiscountCode.class)
                 .setParameter("i",id)
-                .getSingleResult());
+                .getResultList().stream().findFirst();
     }
 
     @Override

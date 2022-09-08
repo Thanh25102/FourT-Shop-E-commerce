@@ -19,10 +19,10 @@ public class AccessDaoImpl implements AccessDao {
 
 	@Override
 	public Optional<Access> getAccessById(Integer id) {
-		return Optional.ofNullable(sessionFactory.getCurrentSession()
+		return sessionFactory.getCurrentSession()
 				.createQuery("from Access as a where a.id =: i",Access.class)
 				.setParameter("i",id)
-				.getSingleResult());
+				.getResultList().stream().findFirst();
 	}
 
 	@Override

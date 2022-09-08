@@ -14,46 +14,43 @@ import com.buimanhthanh.entity.Discount;
 
 @Repository
 public class DiscountDaoImpl implements DiscountDao {
-    @Autowired
-    private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    @Override
-    public Optional<Discount> getDiscountById(Integer id) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Discount as a where a.id =: i",Discount.class)
-                .setParameter("i",id)
-                .getSingleResult());
-    }
+	@Override
+	public Optional<Discount> getDiscountById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery("from Discount as a where a.id =: i", Discount.class)
+				.setParameter("i", id).getResultList().stream().findFirst();
+	}
 
-    @Override
-    public Optional<List<Discount>> getAllDiscount() {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Discount",Discount.class)
-                .getResultList());
-    }
+	@Override
+	public Optional<List<Discount>> getAllDiscount() {
+		return Optional.ofNullable(
+				sessionFactory.getCurrentSession().createQuery("from Discount", Discount.class).getResultList());
+	}
 
-    @Override
-    public Boolean saveOrUpdateDiscount(Discount discount) {
-        try {
-            sessionFactory.getCurrentSession().saveOrUpdate(discount);
-            return true;
-        } catch (HibernateException e){
-            System.out.println( "Error == add Discount" + e.getMessage());
-        }
-        return false;
-    }
+	@Override
+	public Boolean saveOrUpdateDiscount(Discount discount) {
+		try {
+			sessionFactory.getCurrentSession().saveOrUpdate(discount);
+			return true;
+		} catch (HibernateException e) {
+			System.out.println("Error == add Discount" + e.getMessage());
+		}
+		return false;
+	}
 
-    @Override
-    public void deleteDiscount(Integer id) {
-        Session session = sessionFactory.getCurrentSession();
-        Discount discount = session.get(Discount.class, id);
-        if(discount!=null)
-            session.delete(discount);
-    }
+	@Override
+	public void deleteDiscount(Integer id) {
+		Session session = sessionFactory.getCurrentSession();
+		Discount discount = session.get(Discount.class, id);
+		if (discount != null)
+			session.delete(discount);
+	}
 
-    @Override
-    public void deleteDiscount(List<Integer> ids) {
-        if(!ids.isEmpty())
-            ids.forEach(this::deleteDiscount);
-    }
+	@Override
+	public void deleteDiscount(List<Integer> ids) {
+		if (!ids.isEmpty())
+			ids.forEach(this::deleteDiscount);
+	}
 }

@@ -1,22 +1,34 @@
 package com.buimanhthanh.entity;
 
-import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import com.buimanhthanh.validation.PasswordConfirmMatch;
+import com.buimanhthanh.validation.UsernameExist;
 
 @Entity
+@PasswordConfirmMatch
 public class Account implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@UsernameExist
 	@Column(name = "username", nullable = false, length = 50)
 	private String username;
 	@Basic
@@ -30,7 +42,7 @@ public class Account implements UserDetails {
 	@Column(name = "enabled", nullable = false)
 	private Boolean enabled4;
 	@Basic
-	@Column(name = "email", nullable = false, length = 100)
+	@Column(name = "email", nullable = false, length = 100,unique = true)
 	private String email;
 	@Basic
 	@Column(name = "phone", nullable = true, length = 20)

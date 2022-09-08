@@ -13,15 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.service.AccountService;
 import com.buimanhthanh.service.RoleService;
+import com.buimanhthanh.service.SizeService;
 
 @Controller
 public class LoginController {
 
 	@Autowired
-	private AccountService accountService;
+	private AccountService userDetailService;
 	
 	@Autowired
 	private RoleService roleService;
+	
 	
     @GetMapping("/login")
     public String login(){
@@ -35,11 +37,13 @@ public class LoginController {
     }
     
     @PostMapping(value = { "/register" })
-	public String register(@ModelAttribute(value = "userRegister") @Valid Account account, BindingResult result,
-			ModelMap modelMap) {
+	public String register(@ModelAttribute(value = "userRegister") @Valid Account account, BindingResult result, ModelMap modelMap) {
     	account.setEnabled4(true);
     	account.setRankAccount("MEMBER");
     	account.setRoleById(roleService.getRoleByAuthority("CUSTOMER").get());
-		return accountService.registerAccount(account) ? "redirect:/index" : "register";
+    	if(result.hasErrors())
+    		return "register";
+    
+		return userDetailService.registerAccount(account) ? "redirect:/" : "register";
 	}
 }

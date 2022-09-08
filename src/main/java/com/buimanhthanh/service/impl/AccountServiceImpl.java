@@ -6,6 +6,7 @@ import com.buimanhthanh.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import java.util.Optional;
 
 @Service("userDetailService")
 public class AccountServiceImpl implements AccountService {
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	@Autowired
 	private AccountDao accountDao;
 
@@ -47,6 +50,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public Boolean registerAccount(Account account) {
-		return accountDao.registerAccount(account);
+		String newPassword = passwordEncoder.encode(account.getPassword());
+		account.setPassword(newPassword);
+		account.setPasswordConfirm(newPassword);
+		return accountDao.getAccountByUsername(account.getUsername()).isEmpty() ? accountDao.registerAccount(account) : false;
+		
 	}
 }
