@@ -27,6 +27,14 @@ public class AccountDaoImpl implements AccountDao {
 				
 	}
 
+    
+    @Override
+	public Optional<Account> getAccountByEmail(String email){
+		return sessionFactory.getCurrentSession().createQuery("from Account as a where a.email =: u", Account.class)
+						.setParameter("u", email).getResultList().stream().findFirst();
+				
+	}
+
 	@Override
 	public Optional<List<Account>> getAllAccount() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery("from Account", Account.class).getResultList());

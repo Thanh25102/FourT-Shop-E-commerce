@@ -18,7 +18,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.buimanhthanh.validation.PasswordConfirmMatch;
-import com.buimanhthanh.validation.UsernameExist;
 
 @Entity
 @PasswordConfirmMatch
@@ -28,7 +27,6 @@ public class Account implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@UsernameExist
 	@Column(name = "username", nullable = false, length = 50)
 	private String username;
 	@Basic

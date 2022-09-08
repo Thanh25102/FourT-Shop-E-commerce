@@ -3,6 +3,8 @@ package com.buimanhthanh.service.impl;
 import com.buimanhthanh.dao.AccountDao;
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.service.AccountService;
+import com.buimanhthanh.service.RoleService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,8 +17,13 @@ import java.util.Optional;
 
 @Service("userDetailService")
 public class AccountServiceImpl implements AccountService {
+
+	@Autowired
+	private RoleService roleService;
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private AccountDao accountDao;
 
@@ -24,6 +31,12 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional
 	public Optional<Account> getAccountByUsername(String username) {
 		return accountDao.getAccountByUsername(username);
+	}
+	
+	@Override
+	@Transactional
+	public Optional<Account> getAccountByEmail(String email) {
+		return accountDao.getAccountByEmail(email);
 	}
 
 	@Override
@@ -50,10 +63,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public Boolean registerAccount(Account account) {
+		account.setEnabled4(true);
+    	account.setRankAccount("MEMBER");
+    	account.setRoleById(roleService.getRoleByAuthority("CUSTOMER").get());
 		String newPassword = passwordEncoder.encode(account.getPassword());
 		account.setPassword(newPassword);
 		account.setPasswordConfirm(newPassword);
-		return accountDao.getAccountByUsername(account.getUsername()).isEmpty() ? accountDao.registerAccount(account) : false;
-		
+		return accountDao.registerAccount(account);
 	}
+	
 }

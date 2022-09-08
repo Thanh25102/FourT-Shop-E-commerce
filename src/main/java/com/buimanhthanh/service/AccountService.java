@@ -9,10 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AccountService extends UserDetailsService{
     Optional<Account> getAccountByUsername(String username);
+    
+    Optional<Account> getAccountByEmail(String email);
 
     Optional<List<Account>> getAllAccount();
 
     Boolean saveOrUpdateAccount(Account account);
 
     Boolean registerAccount(Account account);
+    
 }

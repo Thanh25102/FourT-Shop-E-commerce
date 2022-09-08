@@ -19,8 +19,10 @@
 					<div class="login_form_inner">
 						<h3>Log in to enter</h3>
 						<form class="row login_form" action="<c:url value="/login"/>" method="post" id="contactForm" novalidate="novalidate">
-							
-							
+
+							<div class="col-md-12 form-group">
+								<p class="text-danger text-center0">${param.error != null ? "Account or password is not correct" : " "}</p>
+							</div>
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
 							</div>

@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface AccountDao {
     Optional<Account> getAccountByUsername(String username);
 
+    Optional<Account> getAccountByEmail(String email);
+    
     Optional<List<Account>> getAllAccount();
 
     Boolean saveOrUpdateAccount(Account account);
