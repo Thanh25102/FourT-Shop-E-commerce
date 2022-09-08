@@ -298,3 +298,14 @@ insert into product values
                         (null,'Fila Wavelet Og',120000,4,"This is fake description fila .... fake 123456 . . . . .","fake thumbnail fila ","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaRennoNextGenTrainers_ajtqgi.png",null),
                         (null,'Fila Xlite Click Run',12800000,4,"This is fake description fila .... fake 123456 . . . . .","fake thumbnail fila ","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png",null),
                         (null,'Fila Zagato',12800000,4,"This is fake description fila .... fake 123456 . . . . .","fake thumbnail fila ","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png",null);
+
+
+insert into access values(null,"/shop","co the truy cap vao url /shop"),
+                         (null,"/admin/**","co the truy cap vao tat ca admin");
+
+insert into `role` values(null,"ADMIN"),
+                         (null,"CUSTOMER");
+insert into `permission` values(1,2),
+                               (2,1);
+insert into `account` values("AdminThanh","$2a$12$ddHf7yPdK5JuoclRSheqRu6BU1PHnbQg/nay3u6AxvNDs.JEvjnNm"
+                            ,true,"thanh12@gmail.com","0328735659","Bui Manh Thanh","Sai gon dau co lanh","member",1);
