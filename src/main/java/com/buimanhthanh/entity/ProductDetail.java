@@ -1,6 +1,9 @@
 package com.buimanhthanh.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -9,16 +12,21 @@ public class ProductDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer id;
 
 	@Basic
 	@Column(name = "quantity", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer quantity;
 	@Basic
 	@Column(name = "description", nullable = false, length = 255)
+	@Length(max = 255,message = "{access.description.err}")
+	@NotNull(message = "{null.err}")
 	private String description;
 	@Basic
 	@Column(name = "image", nullable = true, length = 255)
+	@Length(max = 255,message = "{access.description.err}")
 	private String image;
 	@OneToMany(mappedBy = "productDetailByProductId")
 	private Collection<CartDetail> cartDetailsById;
@@ -26,12 +34,15 @@ public class ProductDetail {
 	private Collection<OrderDetail> orderDetailsById;
 	@ManyToOne
 	@JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Product productByProductId;
 	@ManyToOne
 	@JoinColumn(name = "size_id", referencedColumnName = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Size sizeBySizeId;
 	@ManyToOne
 	@JoinColumn(name = "color_id", referencedColumnName = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Color colorByColorId;
 
 	public Integer getId() {

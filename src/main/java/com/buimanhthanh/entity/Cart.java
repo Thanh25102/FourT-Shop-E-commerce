@@ -1,6 +1,7 @@
 package com.buimanhthanh.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -8,9 +9,11 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer id;
 	@Basic
 	@Column(name = "ammount", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer ammount;
 	
 	@ManyToOne

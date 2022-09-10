@@ -1,6 +1,9 @@
 package com.buimanhthanh.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -9,21 +12,28 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer id;
 	@Basic
 	@Column(name = "order_status", nullable = false, length = 20)
+	@NotNull(message = "{null.err}")
 	private String orderStatus;
 	@Basic
 	@Column(name = "ammount", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Integer ammount;
 	@Basic
 	@Column(name = "payment_method", nullable = false, length = 50)
+	@NotNull(message = "{null.err}")
+	@Length(max = 50,message = "{access.code.err}")
 	private String paymentMethod;
 	@Basic
 	@Column(name = "create_time", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Timestamp createTime;
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
+	@NotNull(message = "{null.err}")
 	private Account accountByUsername;
 	@ManyToOne
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")

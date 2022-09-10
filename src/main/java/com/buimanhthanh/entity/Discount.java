@@ -1,6 +1,9 @@
 package com.buimanhthanh.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Collection;
 
@@ -9,18 +12,23 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
+    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "sale_percent", nullable = false)
+    @NotNull(message = "{null.err}")
     private Integer salePercent;
     @Basic
     @Column(name = "start_day", nullable = false)
+
     private Date startDay;
     @Basic
     @Column(name = "end_day", nullable = false)
+    @NotNull(message = "{null.err}")
     private Date endDay;
     @Basic
     @Column(name = "description", nullable = true, length = 255)
+    @Length(max = 255,message = "{access.description.err}")
     private String description;
     @OneToMany(mappedBy = "discountByDiscountId")
     private Collection<Product> productsById;

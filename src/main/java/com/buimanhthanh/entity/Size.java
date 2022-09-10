@@ -1,6 +1,7 @@
 package com.buimanhthanh.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -8,12 +9,15 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
+    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)
+    @NotNull(message = "{null.err}")
     private String name;
     @Basic
     @Column(name = "code", nullable = false, length = 50)
+    @NotNull(message = "{null.err}")
     private String code;
     @Basic
     @Column(name = "description", nullable = true, length = 255)
