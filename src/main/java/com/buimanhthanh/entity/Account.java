@@ -188,4 +188,21 @@ public class Account implements UserDetails {
 		return this.enabled4;
 	}
 
+	@Override
+	public String toString() {
+		return "Account{" +
+				"username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", passwordConfirm='" + passwordConfirm + '\'' +
+				", enabled4=" + enabled4 +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				", fullName='" + fullName + '\'' +
+				", address='" + address + '\'' +
+				", rankAccount='" + rankAccount + '\'' +
+				", cartsByUsername=" + cartsByUsername +
+				", ordersByUsername=" + ordersByUsername +
+				", roleById=" + roleById +
+				'}';
+	}
 }

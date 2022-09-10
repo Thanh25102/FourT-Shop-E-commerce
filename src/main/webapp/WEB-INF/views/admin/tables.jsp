@@ -107,6 +107,7 @@
                                                     <th>Represent</th>
                                                     <th>Category</th>
                                                     <th>Discount</th>
+                                                    <th>Detail</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </c:when>
@@ -230,6 +231,7 @@
                                                     <th>Represent</th>
                                                     <th>Category</th>
                                                     <th>Discount</th>
+                                                    <th>Detail</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </c:when>
@@ -364,7 +366,9 @@
                                                         <th>${product.price}</th>
                                                         <th>${product.description}</th>
                                                         <th>${product.thumbnail}</th>
-                                                        <th>${product.represent}</th>
+                                                        <th>
+                                                        	<img src="${product.represent}"/>
+                                                        </th>
                                                         <th>${product.categoryByCategoryId.name}</th>
                                                         <th>${product.discountByDiscountId.id}</th>
                                                         <th>Detail</th>

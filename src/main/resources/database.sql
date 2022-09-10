@@ -312,4 +312,6 @@ insert into `account` values("AdminThanh","$2a$12$ddHf7yPdK5JuoclRSheqRu6BU1PHnb
 
 insert into `account` values("AdminThanh123","$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tRiFGI5crbkrJ.XQfyYRv8C7ozzq"
                             ,true,"thanh123@gmail.com","0328735658","Bui Manh Thanh","Sai gon dau co lanh","member",1);
+insert into `account` values("CustomerThanh123","$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tRiFGI5crbkrJ.XQfyYRv8C7ozzq"
+                            ,true,"thanh1234@gmail.com","0328735657","Bui Manh Thanh Customer","Sai gon dau co lanh","member",2);
 

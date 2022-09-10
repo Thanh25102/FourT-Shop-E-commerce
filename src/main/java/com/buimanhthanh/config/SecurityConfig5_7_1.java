@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.buimanhthanh.const_.ROLE;
+
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = {
@@ -40,8 +42,9 @@ public class SecurityConfig5_7_1 {
                 .and().formLogin().defaultSuccessUrl("/").failureUrl("/login?error")
                 .and().exceptionHandling().accessDeniedPage("/error")
                 .and().logout().logoutSuccessUrl("/login").logoutUrl("/logout")
-                .and().authorizeRequests().antMatchers("/","/login","/register","/product","/product-detail").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .and().authorizeRequests().antMatchers("/","/login","/register").permitAll()
+                    .antMatchers("/admin/**").hasAuthority(ROLE.ADMIN)
+                    .antMatchers("/*").hasAuthority(ROLE.CUSTOMER)
                     .anyRequest().authenticated()
                 .and().csrf().disable().build();
     }

@@ -46,7 +46,6 @@ public class LoginController {
 		userDetailService.getAccountByEmail(account.getEmail())
 				.ifPresent(a -> result.addError(new ObjectError("email", messageSource.getMessage("account.email.err.exist",null,"email has already exists :D",null))));
 		
-		
 		if (result.hasErrors() || optionalAccount.isPresent())
 			return "register";
 		return userDetailService.registerAccount(account) ? "redirect:/" : "register";
