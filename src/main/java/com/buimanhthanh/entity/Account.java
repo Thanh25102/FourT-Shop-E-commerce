@@ -32,15 +32,15 @@ public class Account implements UserDetails {
 	@Basic
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
-	
+
 	@Transient
 	private String passwordConfirm;
-	
+
 	@Basic
 	@Column(name = "enabled", nullable = false)
 	private Boolean enabled4;
 	@Basic
-	@Column(name = "email", nullable = false, length = 100,unique = true)
+	@Column(name = "email", nullable = false, length = 100, unique = true)
 	private String email;
 	@Basic
 	@Column(name = "phone", nullable = true, length = 20)
@@ -54,13 +54,15 @@ public class Account implements UserDetails {
 	@Basic
 	@Column(name = "rank_account", nullable = false, length = 55)
 	private String rankAccount;
+
 	@OneToMany(mappedBy = "accountByUsername")
 	private Collection<Cart> cartsByUsername;
+
 	@OneToMany(mappedBy = "accountByUsername")
 	private Collection<Order> ordersByUsername;
 
 	@ManyToOne
-	@JoinColumn(name = "role_id",referencedColumnName = "id",nullable = false)
+	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
 	private Role roleById;
 
 	public String getUsername() {
@@ -143,8 +145,6 @@ public class Account implements UserDetails {
 		this.roleById = roleById;
 	}
 
-	
-	
 	public String getPasswordConfirm() {
 		return passwordConfirm;
 	}
@@ -187,4 +187,5 @@ public class Account implements UserDetails {
 	public boolean isEnabled() {
 		return this.enabled4;
 	}
+
 }

@@ -10,8 +10,8 @@ public class Cart {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 	@Basic
-	@Column(name = "customer_id", nullable = false)
-	private Integer customerId;
+	@Column(name = "ammount", nullable = false)
+	private Integer ammount;
 	
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
@@ -28,12 +28,12 @@ public class Cart {
 		this.id = id;
 	}
 
-	public Integer getCustomerId() {
-		return customerId;
+	public Integer getAmmount() {
+		return ammount;
 	}
 
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
+	public void setAmmount(Integer customerId) {
+		this.ammount = customerId;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class Cart {
 
 		if (id != null ? !id.equals(cart.id) : cart.id != null)
 			return false;
-		if (customerId != null ? !customerId.equals(cart.customerId) : cart.customerId != null)
+		if (ammount != null ? !ammount.equals(cart.ammount) : cart.ammount != null)
 			return false;
 
 		return true;
@@ -56,7 +56,7 @@ public class Cart {
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
+		result = 31 * result + (ammount != null ? ammount.hashCode() : 0);
 		return result;
 	}
 

@@ -22,8 +22,8 @@ public class Product {
 	@Column(name = "thumbnail", nullable = true, length = 55)
 	private String thumbnail;
 	@Basic
-	@Column(name = "repesent", nullable = true, length = 255)
-	private String repesent;
+	@Column(name = "represent", nullable = true, length = 255)
+	private String represent;
 	@ManyToOne
 	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
 	private Category categoryByCategoryId;
@@ -73,12 +73,12 @@ public class Product {
 		this.thumbnail = thumbnail;
 	}
 
-	public String getRepesent() {
-		return repesent;
+	public String getRepresent() {
+		return represent;
 	}
 
-	public void setRepesent(String repesent) {
-		this.repesent = repesent;
+	public void setRepresent(String repesent) {
+		this.represent = repesent;
 	}
 
 	public Category getCategoryByCategoryId() {

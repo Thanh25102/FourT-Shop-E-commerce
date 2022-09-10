@@ -50,7 +50,7 @@ create table product (
                          category_id int not null,
                          `description` nvarchar(255) null,
                          thumbnail varchar(55) null,
-                         repesent varchar(255) null,
+                         represent varchar(255) null,
                          discount_id int null
 );
 create table product_detail(
@@ -72,7 +72,7 @@ create table category (
 );
 create table cart (
                       id int primary key auto_increment,
-                      customer_id int not null,
+                      ammount int not null,
                       username varchar(50) not null
 );
 create table cart_detail (
@@ -309,3 +309,7 @@ insert into `permission` values(1,2),
                                (2,1);
 insert into `account` values("AdminThanh","$2a$12$ddHf7yPdK5JuoclRSheqRu6BU1PHnbQg/nay3u6AxvNDs.JEvjnNm"
                             ,true,"thanh12@gmail.com","0328735659","Bui Manh Thanh","Sai gon dau co lanh","member",1);
+
+insert into `account` values("AdminThanh123","$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tRiFGI5crbkrJ.XQfyYRv8C7ozzq"
+                            ,true,"thanh123@gmail.com","0328735658","Bui Manh Thanh","Sai gon dau co lanh","member",1);
+

@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -83,16 +85,30 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
            aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
+            <span>Manage</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                <h6 class="collapse-header">Manage list:</h6>
+                <security:authorize access="hasAnyRole('ADMIN')">
+                    <a class="collapse-item" href="<c:url value='/admin/account'/>">Account</a>
+                    <a class="collapse-item" href="<c:url value='/admin/discount_code'/>">Discount Code</a>
+                    <a class="collapse-item" href="<c:url value='/admin/discount'/>">Discount</a>
+                    <a class="collapse-item" href="<c:url value='/admin/role'/>">Role</a>
+                    <a class="collapse-item" href="<c:url value='/admin/access'/>">Access</a>
+                </security:authorize>
+                <security:authorize access="hasAnyRole('ADMIN','SALE')">
+                    <a class="collapse-item" href="<c:url value='/admin/order'/>">Order</a>
+                    <a class="collapse-item" href="<c:url value='/admin/cart'/>">Cart</a>
+                    <a class="collapse-item" href="<c:url value='/admin/product'/>">Product</a>
+                    <a class="collapse-item" href="<c:url value='/admin/category'/>">Category</a>
+                </security:authorize>
+                <security:authorize access="hasAnyRole('ADMIN','EDITOR')">
+                    <a class="collapse-item" href="<c:url value='/admin/size'/>">Size</a>
+                    <a class="collapse-item" href="<c:url value='/admin/color'/>">Color</a>
+                </security:authorize>
                 <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
+                <h6 class="collapse-header">Pages:</h6>
                 <a class="collapse-item" href="404.html">404 Page</a>
                 <a class="collapse-item" href="blank.html">Blank Page</a>
             </div>
