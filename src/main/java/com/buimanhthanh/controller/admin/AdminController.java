@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/admin")
@@ -106,10 +109,22 @@ public class AdminController {
 	}
 
 	@GetMapping("/product")
-	public String product(ModelMap model) {
-
+	public String product(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
+						  @RequestParam(required = false,defaultValue = "null") String action) {
 		model.addAttribute("model", Product.class.getSimpleName());
-		System.out.println(Product.class.getSimpleName());
+		if(action.equals("update")){
+			productService.getProductById(id)
+						.ifPresentOrElse(p->model.addAttribute("Product",p),
+								()->model.addAttribute("Product",new Product()));
+			categoryService.getAllCategory()
+						.ifPresentOrElse(c->model.addAttribute("Categories",c),
+							()->model.addAttribute("Categories",new ArrayList<Category>()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Product",new Product());
+			categoryService.getAllCategory()
+					.ifPresentOrElse(c->model.addAttribute("Categories",c),
+							()->model.addAttribute("Categories",new ArrayList<Category>()));
+		}
 		model.addAttribute("listObject", productService.getAllProduct().get());
 		return "adminTable";
 	}

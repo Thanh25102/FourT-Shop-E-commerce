@@ -90,23 +90,31 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage list:</h6>
-                <security:authorize access="hasAnyRole('ADMIN')">
+                <security:authorize access="hasAnyAuthority('ADMIN')">
                     <a class="collapse-item" href="<c:url value='/admin/account'/>">Account</a>
                     <a class="collapse-item" href="<c:url value='/admin/discount_code'/>">Discount Code</a>
                     <a class="collapse-item" href="<c:url value='/admin/discount'/>">Discount</a>
                     <a class="collapse-item" href="<c:url value='/admin/role'/>">Role</a>
                     <a class="collapse-item" href="<c:url value='/admin/access'/>">Access</a>
                 </security:authorize>
-                <security:authorize access="hasAnyRole('ADMIN','SALE')">
+                <security:authorize access="hasAnyAuthority('ADMIN','SALE')">
                     <a class="collapse-item" href="<c:url value='/admin/order'/>">Order</a>
                     <a class="collapse-item" href="<c:url value='/admin/cart'/>">Cart</a>
                     <a class="collapse-item" href="<c:url value='/admin/product'/>">Product</a>
                     <a class="collapse-item" href="<c:url value='/admin/category'/>">Category</a>
                 </security:authorize>
-                <security:authorize access="hasAnyRole('ADMIN','EDITOR')">
+                <security:authorize access="hasAnyAuthority('ADMIN','EDITOR')">
                     <a class="collapse-item" href="<c:url value='/admin/size'/>">Size</a>
                     <a class="collapse-item" href="<c:url value='/admin/color'/>">Color</a>
                 </security:authorize>
+                <security:authorize access="hasAnyAuthority('ADMIN')">
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Style:</h6>
+					<a class="collapse-item" href="utilities-color.html">Colors</a>
+					<a class="collapse-item" href="utilities-border.html">Borders</a>
+					<a class="collapse-item" href="utilities-animation.html">Animations</a>
+					<a class="collapse-item" href="utilities-other.html">Other</a>
+				</security:authorize>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Pages:</h6>
                 <a class="collapse-item" href="404.html">404 Page</a>

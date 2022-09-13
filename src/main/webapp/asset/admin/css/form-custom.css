@@ -1,0 +1,205 @@
+
+
+header,
+form {
+    padding: 4em 10%;
+}
+
+.controls {
+    text-align: left;
+    position: relative;
+}
+.controls input[type="text"],
+.controls input[type="email"],
+.controls input[type="number"],
+.controls input[type="date"],
+.controls input[type="tel"],
+.controls textarea,
+.controls button,
+.controls select {
+    padding: 16px 12px;
+    font-size: 14px;
+    border: 1px solid #c6c6c6;
+    width: 100%;
+    margin-bottom: 18px;
+    color: #888;
+    font-family: "Lato", "sans-serif";
+    font-size: 16px;
+    font-weight: 300;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.controls input[type="text"]:focus, .controls input[type="text"]:hover,
+.controls input[type="email"]:focus,
+.controls input[type="email"]:hover,
+.controls input[type="number"]:focus,
+.controls input[type="number"]:hover,
+.controls input[type="date"]:focus,
+.controls input[type="date"]:hover,
+.controls input[type="tel"]:focus,
+.controls input[type="tel"]:hover,
+.controls textarea:focus,
+.controls textarea:hover,
+.controls button:focus,
+.controls button:hover,
+.controls select:focus,
+.controls select:hover {
+    outline: none;
+    border-color: #9fb1c1;
+}
+.controls input[type="text"]:focus + label, .controls input[type="text"]:hover + label,
+.controls input[type="email"]:focus + label,
+.controls input[type="email"]:hover + label,
+.controls input[type="number"]:focus + label,
+.controls input[type="number"]:hover + label,
+.controls input[type="date"]:focus + label,
+.controls input[type="date"]:hover + label,
+.controls input[type="tel"]:focus + label,
+.controls input[type="tel"]:hover + label,
+.controls textarea:focus + label,
+.controls textarea:hover + label,
+.controls button:focus + label,
+.controls button:hover + label,
+.controls select:focus + label,
+.controls select:hover + label {
+    color: #bdcc00;
+    cursor: text;
+}
+.controls .fa-sort {
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    color: #999;
+}
+.controls select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+.controls label {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    width: 60%;
+    color: #999;
+    font-size: 16px;
+    display: inline-block;
+    padding: 4px 10px;
+    font-weight: 400;
+    background-color: rgba(255, 255, 255, 0);
+    -moz-transition: color 0.3s, top 0.3s, background-color 0.8s;
+    -o-transition: color 0.3s, top 0.3s, background-color 0.8s;
+    -webkit-transition: color 0.3s, top 0.3s, background-color 0.8s;
+    transition: color 0.3s, top 0.3s, background-color 0.8s;
+    background-color: white;
+}
+.controls label.active {
+    top: -11px;
+    color: #555;
+    background-color: white;
+    width: auto;
+}
+.controls textarea {
+    resize: none;
+    height: 200px;
+}
+
+.clear:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.overlay{
+    position: fixed;
+    inset: 0;
+    background-color: #fff;
+    z-index: 100;
+    overflow-y: scroll;
+    margin: 50px 150px;
+    border-radius: 6px;
+}
+.wrapper{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(51, 51, 51, 0.5);
+    z-index: 99;
+}
+.close{
+    font-size: 2rem;
+}
+.close:hover{
+    color: red;
+    font-size: 2.1rem;
+    font-weight: 1000;
+}
+
+
+
+/*-----------------------------------------------------------------------------*/
+.custom-file-upload-hidden {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
+}
+
+.custom-file-upload {
+    display: block;
+    width: auto;
+    font-size: 16px;
+}
+.custom-file-upload label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.file-upload-wrapper {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.file-upload-input {
+    width: 300px;
+    color: #fff;
+    font-size: 16px;
+    padding: 11px 17px;
+    border: none;
+    background-color: #c0392b;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    float: left;
+    /* IE 9 Fix */
+}
+.file-upload-input:hover, .file-upload-input:focus {
+    background-color: #ab3326;
+    outline: none;
+}
+
+.file-upload-button {
+    cursor: pointer;
+    display: inline-block;
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border: none;
+    margin-left: -1px;
+    background-color: #962d22;
+    float: left;
+    /* IE 9 Fix */
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+.file-upload-button:hover {
+    background-color: #6d2018;
+}

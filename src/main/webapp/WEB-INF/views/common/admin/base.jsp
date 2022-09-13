@@ -31,6 +31,7 @@
     <!-- Custom styles for this page -->
     <link href="<c:url value="/asset/admin/vendor/datatables/dataTables.bootstrap4.min.css"/>" rel="stylesheet">
 
+    <link rel="stylesheet" href="<c:url value="/asset/admin/css/form-custom.css"/>">
 </head>
 
 <body>
@@ -89,5 +90,6 @@
     <script src="<c:url value="/asset/admin/js/demo/chart-area-demo.js"/>"></script>
     <script src="<c:url value="/asset/admin/js/demo/chart-pie-demo.js"/>"></script>
     <script src="<c:url value="/asset/admin/js/demo/datatables-demo.js"/>"></script>
+    <script src="<c:url value="/asset/admin/js/form-custom.js"/>"></script>
 </body>
 </html>
