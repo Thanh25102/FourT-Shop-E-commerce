@@ -15,8 +15,8 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="row">
-            <div class="card-header py-3 col-sm-12 col-md-6 text-left">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <div class="py-3 col-sm-12 col-md-6 text-left">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
             </div>
             <div class="col-sm-12 col-md-6 text-right  align-items-center row justify-content-end">
                 <a href="<c:url value="/admin/product?action=add"/>">
@@ -376,14 +376,14 @@
                                     <th>${product.description}</th>
                                     <th>${product.thumbnail}</th>
                                     <th>
-                                        <img src="${product.represent}"/>
+                                        <img src="${product.represent}" class="custom-img-o img-thumbnail"/>
                                     </th>
                                     <th>${product.categoryByCategoryId.name}</th>
                                     <th>${product.discountByDiscountId.id}</th>
                                     <th>Detail</th>
                                     <th>
                                         <a href="<c:url value="/admin/product?action=update&&id=${product.id}"/>">update</a>
-                                        <a href="<c:url value="/admin/product?action=delete&&id=${product.id}"/>">delete</a>
+                                        <a href="#" onclick="sendPostRequest(`<c:url value="/admin/product/delete/${ product.id }"/>`);">delete</a>
                                     </th>
                                 </tr>
                             </c:forEach>
@@ -431,12 +431,17 @@
         </div>
     </div>
     <c:if test="${param.action != null}">
+    
         <div class="wrapper">
             <div class="overlay">
                 <c:choose>
                     <c:when test="${model eq 'Product'}">
-                        <c:url value="/product" var="url"/>
-                        <form:form action="${url}" modelAttribute="Product">
+                        <c:url value="/admin/product/edit/${ param.id }" var="url"/>
+                        <form:form action="${url}" modelAttribute="Product" method="post">
+                        	
+                            <div class="form-group row">
+                            	<form:errors path="*" cssClass="col-lg-12 text-danger" element="p"/>
+                            </div>
                             <div class="form-group row">
                                 <h2 class="heading col-lg-6">${model} form</h2>
                                 <div class="col-lg-6 text-right">
@@ -464,23 +469,13 @@
                                 <div class="controls col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <div class="custom-file-upload">
-                                                <div class="row col-lg-12">
-                                                    <div class="file-upload-wrapper row col-lg-12">
-                                                        <input type="file" id="file" name="myfiles[]" multiple="" class="custom-file-upload-hidden " tabindex="-1" style="position: absolute; left: -9999px;">
-                                                        <input type="text" class="file-upload-input col-lg-6">
-                                                        <button type="button" class="file-upload-button col-lg-6" tabindex="-1">
-                                                            Select a File
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <input type="file" class="floatLabel" id="customFile" />
                                         </div>
                                         <div class="col-lg-6">
                                             <i class="fa fa-sort"></i>
-                                            <form:select class="floatLabel" path="categoryByCategoryId">
+                                            <form:select class="floatLabel" name="categoryByCategoryId" path="categoryByCategoryId">
                                                 <c:forEach var="category" items="${Categories}">
-                                                    <form:option value="${category}">${category.name}</form:option>
+                                                    <form:option value="${category.id}" >${category.name}</form:option>
                                                 </c:forEach>
                                             </form:select>
                                             <label ${Product.categoryByCategoryId !=null ? "class='active'" : ""}>Category</label>
@@ -498,8 +493,8 @@
                                     <div class="col-lg-5"></div>
                                 </div>
                                 <form:input type="hidden" path="id"/>
-                                <form:input type="hidden" path="discountByDiscountId"/>
-                                <form:input type="hidden" path="productDetailsById"/>
+                                <form:input type="hidden" path="discountByDiscountId" value="${ Product.discountByDiscountId.id}"/>
+                                <%-- <form:input type="hidden" path="productDetailsById"  value="${ Product.productDetailsById.id}"/> --%>
                             </div>
                         </form:form>
                     </c:when>

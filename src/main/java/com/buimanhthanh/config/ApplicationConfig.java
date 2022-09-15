@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,6 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
+
+import com.buimanhthanh.formatter.CategoryFormatter;
+import com.buimanhthanh.formatter.DiscountFormatter;
 
 @EnableWebMvc
 @Configuration
@@ -55,6 +59,12 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
 		source.setBasename("message");
 		return source;
+	}
+	
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addFormatter(new CategoryFormatter());
+		registry.addFormatter(new DiscountFormatter());
 	}
 	
 }

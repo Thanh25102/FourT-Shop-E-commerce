@@ -29,16 +29,20 @@ public class Product {
 	private String thumbnail;
 	@Basic
 	@Column(name = "represent", nullable = true, length = 255)
-	@Length(max = 255,message = "{access.description.err}")
+	@Length(max = 255, message = "{access.description.err}")
 	private String represent;
 	@ManyToOne
 	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Category categoryByCategoryId;
+	
 	@ManyToOne
 	@JoinColumn(name = "discount_id", referencedColumnName = "id")
 	private Discount discountByDiscountId;
-	@OneToMany(mappedBy = "productByProductId")
+	
+	@OneToMany(mappedBy = "productByProductId", fetch = FetchType.EAGER,cascade = {
+			CascadeType.REMOVE
+	})
 	private Collection<ProductDetail> productDetailsById;
 
 	public Integer getId() {
