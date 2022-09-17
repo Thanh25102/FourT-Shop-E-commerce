@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.entity.Cart;
@@ -23,6 +24,7 @@ import com.buimanhthanh.entity.Discount;
 import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.entity.Order;
 import com.buimanhthanh.entity.Product;
+import com.buimanhthanh.entity.ProductDetail;
 import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.entity.Size;
 import com.buimanhthanh.service.AccessService;
@@ -33,6 +35,7 @@ import com.buimanhthanh.service.ColorService;
 import com.buimanhthanh.service.DiscountCodeService;
 import com.buimanhthanh.service.DiscountService;
 import com.buimanhthanh.service.OrderService;
+import com.buimanhthanh.service.ProductDetailService;
 import com.buimanhthanh.service.ProductService;
 import com.buimanhthanh.service.RoleService;
 import com.buimanhthanh.service.SizeService;
@@ -64,6 +67,8 @@ public class PostAdminController {
 	private SizeService sizeService;
 	@Autowired
 	private ColorService colorService;
+	@Autowired
+	private ProductDetailService productDetailService;
 
 	@PostMapping("/account")
 	public String account(ModelMap model, @ModelAttribute("Account") @Valid Account account, BindingResult result) {
@@ -97,6 +102,24 @@ public class PostAdminController {
 		return "redirect:/admin/product";
 	}
 
+	@PostMapping("/product-detail/{id}")
+	public String productDetail(ModelMap model, @ModelAttribute("ProductDetail") @Valid ProductDetail productDetail,
+			BindingResult result, @PathVariable(required = true) Integer id) {
+		if (result.hasErrors()) {
+			System.out.println("Looix ne`");
+			return "redirect:/admin/product-detail/" + id + "?action=update&&detailId=" + productDetail.getId();
+		}
+		else {
+			productDetailService.saveOrUpdateProductDetail(productDetail);
+			return "redirect:/admin/product-detail/"+id;
+		}
+	}
+
+	@PostMapping("/product-detail/delete/{id}")
+	public void productDetail(@PathVariable(required = true)Integer id) {
+		productDetailService.deleteProductDetail(id);
+	}
+	
 	@PostMapping("/role")
 	public String role(ModelMap model, @ModelAttribute("role") @Valid Role role, BindingResult result) {
 		if (result.hasErrors())

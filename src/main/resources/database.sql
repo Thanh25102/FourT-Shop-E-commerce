@@ -27,7 +27,7 @@ create table `access`(
                          `code` varchar(50) not null,
                          `description` varchar(255) null
 );
-create table `order` (
+create table `order_` (
                          id int primary key auto_increment,
                          username varchar(50) not null,
                          order_status varchar(20) not null,
@@ -62,6 +62,7 @@ create table product_detail(
                                `description` varchar(255) not null,
                                image varchar(255) null
 );
+
 create table category (
                           id int primary key auto_increment,
                           `name` nvarchar(50) not null,
@@ -140,6 +141,7 @@ insert into category values
                          (null, "Adidas","adidas", "Sieu ben", "troi be bau troi","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853222/shoes/categories/adidas-logo_b1ryvd.png"),
                          (null, "Bitis","bitis", "Sieu ben", "troi be bau troi","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853218/shoes/categories/bitis-logo_wzebl7.png"),
                          (null, "Fila","fila", "Sieu ben", "troi be bau troi","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853220/shoes/categories/fila-logo_kkxasd.png");
+
 
 insert into product values
                         (null,'Air Force1 Pixel',180000,1,"Fake description nike .... this is content .... haloo 123456789","Fake thumnail nike","https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853252/shoes/product-thumb-4_vptfsm.jpg",null),

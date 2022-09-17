@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Entity
+@Table(name = "order_")
 public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

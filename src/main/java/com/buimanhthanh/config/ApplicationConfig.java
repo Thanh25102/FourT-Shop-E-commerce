@@ -15,18 +15,21 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import com.buimanhthanh.formatter.CategoryFormatter;
+import com.buimanhthanh.formatter.ColorFormatter;
 import com.buimanhthanh.formatter.DiscountFormatter;
+import com.buimanhthanh.formatter.ProductFormatter;
+import com.buimanhthanh.formatter.SizeFormatter;
 
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = { "com.buimanhthanh" })
 public class ApplicationConfig implements WebMvcConfigurer {
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/asset/**").addResourceLocations("/asset/");
 	}
-	
+
 	@Bean
 	public UrlBasedViewResolver viewResolver() {
 		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
@@ -39,14 +42,12 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
 		tilesConfigurer.setDefinitions(new String[] {
 				// define tiles.xml config view resolver
-				"/WEB-INF/tiles-home.xml",
-				"/WEB-INF/tiles-admin.xml"
-		});
+				"/WEB-INF/tiles-home.xml", "/WEB-INF/tiles-admin.xml" });
 		tilesConfigurer.setCheckRefresh(true);
 		tilesConfigurer.setCompleteAutoload(true);
 		return tilesConfigurer;
 	}
-	
+
 	@Bean
 	public LocalValidatorFactoryBean getValidator() {
 		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
@@ -60,11 +61,14 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		source.setBasename("message");
 		return source;
 	}
-	
+
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addFormatter(new CategoryFormatter());
 		registry.addFormatter(new DiscountFormatter());
+		registry.addFormatter(new SizeFormatter());
+		registry.addFormatter(new ColorFormatter());
+		registry.addFormatter(new ProductFormatter());
 	}
-	
+
 }

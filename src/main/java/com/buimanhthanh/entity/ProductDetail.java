@@ -1,10 +1,22 @@
 package com.buimanhthanh.entity;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "product_detail", schema = "buimanhthanhecormmercespringmvc", catalog = "")
@@ -21,17 +33,17 @@ public class ProductDetail {
 	private Integer quantity;
 	@Basic
 	@Column(name = "description", nullable = false, length = 255)
-	@Length(max = 255,message = "{access.description.err}")
+	@Length(max = 255, message = "{access.description.err}")
 	@NotNull(message = "{null.err}")
 	private String description;
 	@Basic
 	@Column(name = "image", nullable = true, length = 255)
-	@Length(max = 255,message = "{access.description.err}")
+	@Length(max = 255, message = "{access.description.err}")
 	private String image;
-	@OneToMany(mappedBy = "productDetailByProductId")
+	@OneToMany(mappedBy = "productDetailByProductId",fetch = FetchType.EAGER)
 	private Collection<CartDetail> cartDetailsById;
-	@OneToMany(mappedBy = "productDetailByProductId")
-	private Collection<OrderDetail> orderDetailsById;
+	@OneToMany(mappedBy = "productDetailByProductId",fetch = FetchType.EAGER)
+	private Set<OrderDetail> orderDetailsById;
 	@ManyToOne
 	@JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
 	@NotNull(message = "{null.err}")
@@ -85,11 +97,11 @@ public class ProductDetail {
 		this.cartDetailsById = cartDetailsById;
 	}
 
-	public Collection<OrderDetail> getOrderDetailsById() {
+	public Set<OrderDetail> getOrderDetailsById() {
 		return orderDetailsById;
 	}
 
-	public void setOrderDetailsById(Collection<OrderDetail> orderDetailsById) {
+	public void setOrderDetailsById(Set<OrderDetail> orderDetailsById) {
 		this.orderDetailsById = orderDetailsById;
 	}
 
@@ -115,5 +127,13 @@ public class ProductDetail {
 
 	public void setColorByColorId(Color colorByColorId) {
 		this.colorByColorId = colorByColorId;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDetail [id=" + id + ", quantity=" + quantity + ", description=" + description + ", image="
+				+ image + ", cartDetailsById=" + cartDetailsById + ", orderDetailsById=" + orderDetailsById
+				+ ", productByProductId=" + productByProductId + ", sizeBySizeId=" + sizeBySizeId + ", colorByColorId="
+				+ colorByColorId + "]";
 	}
 }

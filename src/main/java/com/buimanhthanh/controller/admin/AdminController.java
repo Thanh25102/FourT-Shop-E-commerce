@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,6 +38,8 @@ public class AdminController {
 	private SizeService sizeService;
 	@Autowired
 	private ColorService colorService;
+	@Autowired
+	private ProductDetailService productDetailService;
 
 	@GetMapping("/")
 	public String index() {
@@ -110,22 +113,44 @@ public class AdminController {
 
 	@GetMapping("/product")
 	public String product(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
-						  @RequestParam(required = false,defaultValue = "null") String action) {
+			@RequestParam(required = false, defaultValue = "null") String action) {
 		model.addAttribute("model", Product.class.getSimpleName());
-		if(action.equals("update")){
-			productService.getProductById(id)
-						.ifPresentOrElse(p->model.addAttribute("Product",p),
-								()->model.addAttribute("Product",new Product()));
-			categoryService.getAllCategory()
-						.ifPresentOrElse(c->model.addAttribute("Categories",c),
-							()->model.addAttribute("Categories",new ArrayList<Category>()));
+		if (action.equals("update")) {
+			productService.getProductById(id).ifPresentOrElse(p -> model.addAttribute("Product", p),
+					() -> model.addAttribute("Product", new Product()));
+			categoryService.getAllCategory().ifPresentOrElse(c -> model.addAttribute("Categories", c),
+					() -> model.addAttribute("Categories", new ArrayList<Category>()));
 		} else if (action.equals("add")) {
-			model.addAttribute("Product",new Product());
-			categoryService.getAllCategory()
-					.ifPresentOrElse(c->model.addAttribute("Categories",c),
-							()->model.addAttribute("Categories",new ArrayList<Category>()));
+			model.addAttribute("Product", new Product());
+			categoryService.getAllCategory().ifPresentOrElse(c -> model.addAttribute("Categories", c),
+					() -> model.addAttribute("Categories", new ArrayList<Category>()));
 		}
 		model.addAttribute("listObject", productService.getAllProduct().get());
+		return "adminTable";
+	}
+
+	@GetMapping("/product-detail/{id}")
+	public String productDetail(ModelMap model, @PathVariable Integer id,
+			@RequestParam(required = false, defaultValue = "-1") Integer detailId,
+			@RequestParam(required = false, defaultValue = "null") String action) {
+		model.addAttribute("model", ProductDetail.class.getSimpleName());
+		model.addAttribute("pathVariable",id);
+		productService.getProductById(id).ifPresentOrElse(
+				p -> model.addAttribute("ProductDetails", p.getProductDetailsById()),
+				() -> model.addAttribute("ProductDetails", new ArrayList<ProductDetail>()));
+		if (action.equals("update")) {
+			productDetailService.getProductDetailById(detailId).ifPresentOrElse(
+					pd -> {
+						model.addAttribute("productDetailForm", pd);
+					},
+					() -> model.addAttribute("productDetailForm", new ProductDetail()));
+			model.addAttribute("Sizes", sizeService.getAllSize().get());
+			model.addAttribute("Colors", colorService.getAllColor().get());
+		} else if (action.equals("add")) {
+			model.addAttribute("productDetailForm", new ProductDetail());
+			model.addAttribute("Sizes", sizeService.getAllSize().get());
+			model.addAttribute("Colors", colorService.getAllColor().get());
+		}
 		return "adminTable";
 	}
 

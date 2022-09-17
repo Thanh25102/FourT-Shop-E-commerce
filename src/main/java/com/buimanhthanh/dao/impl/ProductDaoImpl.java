@@ -14,46 +14,44 @@ import com.buimanhthanh.entity.Product;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
-    @Autowired
-    private SessionFactory sessionFactory;
-    @Override
-    public Optional<Product> getProductById(Integer id) {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Product as a where a.id =: i", Product.class)
-                .setParameter("i",id)
-                .getResultList().stream().findFirst();
-    }
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    @Override
-    public Optional<List<Product>> getAllProduct() {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Product",Product.class)
-                .getResultList());
-    }
+	@Override
+	public Optional<Product> getProductById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery("from Product as a where a.id =: i", Product.class)
+				.setParameter("i", id).getResultList().stream().findFirst();
+	}
 
-    @Override
-    public Boolean saveOrUpdateProduct(Product product) {
-        try {
-            sessionFactory.getCurrentSession().saveOrUpdate(product);
-            return true;
-        } catch (HibernateException e){
-            System.out.println( "Error == add Product" + e.getMessage());
-        }
-        return false;
-    }
+	@Override
+	public Optional<List<Product>> getAllProduct() {
+		return Optional.ofNullable(
+				sessionFactory.getCurrentSession().createQuery("from Product", Product.class).getResultList());
+	}
 
-    @Override
-    public void deleteProduct(Integer id) {
-        Session session = sessionFactory.getCurrentSession();
-        Product product = session.get(Product.class, id);
-        if(product!=null)
-            session.delete(product);
-    }
+	@Override
+	public Boolean saveOrUpdateProduct(Product product) {
+		try {
+			sessionFactory.getCurrentSession().saveOrUpdate(product);
+			return true;
+		} catch (HibernateException e) {
+			System.out.println("Error == add Product" + e.getMessage());
+		}
+		return false;
+	}
 
-    @Override
-    public void deleteProduct(List<Integer> ids) {
+	@Override
+	public void deleteProduct(Integer id) {
+		Session session = sessionFactory.getCurrentSession();
+		Product product = session.get(Product.class, id);
+		if (product != null)
+			session.delete(product);
+	}
 
-        if(!ids.isEmpty())
-            ids.forEach(this::deleteProduct);
-    }
+	@Override
+	public void deleteProduct(List<Integer> ids) {
+
+		if (!ids.isEmpty())
+			ids.forEach(this::deleteProduct);
+	}
 }
