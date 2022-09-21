@@ -11,7 +11,6 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)

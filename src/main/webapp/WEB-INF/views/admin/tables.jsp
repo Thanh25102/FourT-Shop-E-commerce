@@ -19,7 +19,7 @@
 	<div class="card shadow mb-4">
 		<div class="row">
 			<div class="py-3 col-sm-12 col-md-6 text-left">
-				<c:if test="${ model eq 'ProductDetail' }">
+				<c:if test="${ back eq 'Product' }">
 					<a href="<c:url value="/admin/product"/>">
 						<button class="btn-facebook rounded px-3">Back</button>
 					</a>
@@ -38,8 +38,27 @@
 						</a>
 					</c:when>
 					<c:when test="${ model eq 'ProductDetail' }">
-						<a
-							href="<c:url value="/admin/product-detail/${ pathVariable }?action=add"/>">
+						<a href="<c:url value="/admin/product/detail/${ pathVariable }?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Account' }">
+						<a href="<c:url value="/admin/account?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Category' }">
+						<a href="<c:url value="/admin/category?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Size' }">
+						<a href="<c:url value="/admin/size?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Color' }">
+						<a href="<c:url value="/admin/color?action=add"/>">
 							<button class="btn-facebook rounded px-3">Add data</button>
 						</a>
 					</c:when>
@@ -117,6 +136,15 @@
 									<th>Username</th>
 									<th>Discount Code</th>
 									<th>Order Detail</th>
+									<th>Action</th>
+								</tr>
+							</c:when>
+							<c:when test="${model eq 'OrderDetail' }">
+								<tr>
+									<th>Id</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Product detail</th>
 									<th>Action</th>
 								</tr>
 							</c:when>
@@ -255,6 +283,15 @@
 									<th>Action</th>
 								</tr>
 							</c:when>
+							<c:when test="${model eq 'OrderDetail' }">
+								<tr>
+									<th>Id</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Product detail</th>
+									<th>Action</th>
+								</tr>
+							</c:when>
 							<c:when test="${model eq 'Cart' }">
 								<tr>
 									<th>Id</th>
@@ -335,7 +372,10 @@
 										<th>${account.rankAccount}</th>
 										<th><a href="#">Order Detail</a></th>
 										<th>${account.roleById.authority}</th>
-										<th><a>update</a> <a>delete</a></th>
+										<th>
+											<a href="<c:url value="/admin/account?action=update&&username=${account.username}"/>">update</a>
+											<a href="<c:url value="/admin/account/delete/${ account.username }"/>" >disable</a>
+										</th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -420,12 +460,11 @@
 										<th>${product.price}</th>
 										<th>${product.description}</th>
 										<th>${product.thumbnail}</th>
-										<th><img src="${product.represent}"
-											class="custom-img-o img-thumbnail" /></th>
+										<th><img src="${product.represent}" class="custom-img-o img-thumbnail" /></th>
 										<th>${product.categoryByCategoryId.name}</th>
 										<th>${product.discountByDiscountId.id}</th>
 										<th><a
-											href="<c:url value='/admin/product-detail/${product.id}'/>">
+											href="<c:url value='/admin/product/detail/${product.id}'/>">
 												Detail</a></th>
 										<th><a
 											href="<c:url value="/admin/product?action=update&&id=${product.id}"/>">update</a>
@@ -444,7 +483,9 @@
 										<th>${category.thumbnail}</th>
 										<th>${category.description}</th>
 										<th>${category.logo}</th>
-										<th><a>update</a> <a>delete</a></th>
+										<th>
+											<a href="<c:url value="/admin/category?action=update&&id=${category.id}"/>">update</a>
+										</th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -455,7 +496,11 @@
 										<th>${size.name}</th>
 										<th>${size.code}</th>
 										<th>${size.description}</th>
-										<th><a>update</a> <a>delete</a></th>
+										
+										<th>
+											<a href="<c:url value="/admin/size?action=update&&id=${size.id}"/>">update</a>
+											<a>delete</a>
+										</th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -466,7 +511,10 @@
 										<th>${color.name}</th>
 										<th>${color.code}</th>
 										<th>${color.description}</th>
-										<th><a>update</a> <a>delete</a></th>
+										<th>
+											<a href="<c:url value="/admin/color?action=update&&id=${color.id}"/>">update</a>
+											<a>delete</a>
+										</th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -481,8 +529,24 @@
 										<th>${productDetailI.sizeBySizeId.name}</th>
 										<th>${productDetailI.colorByColorId.name}</th>
 										<th><a
-											href="<c:url value="/admin/product-detail/${ pathVariable }?action=update&&detailId=${productDetailI.id}"/>">update</a>
-											<a href="#" onclick="sendPostRequest(`<c:url value="/admin/product-detail/delete/${ productDetailI.id }"/>`);">delete</a>
+											href="<c:url value="/admin/product/detail/${ pathVariable }?action=update&&detailId=${productDetailI.id}"/>">update</a>
+											<a href="#" onclick="sendPostRequest(`<c:url value="/admin/product/detail/delete/${ productDetailI.id }"/>`);">delete</a>
+										</th>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:when test="${model eq 'OrderDetail' }">
+								<c:forEach var="orderDetail" items="${ listObject }">
+									<tr> 
+										<th>${ orderDetail.id }</th>
+										<th>${ orderDetail.price }</th> 
+										<th>${ orderDetail.quantity }</th>
+										<th>
+											<a href="<c:url value="/admin/product-detail/${orderDetail.productDetailByProductId.id }"/>">ProductDetail</a>
+										</th>
+										<th>
+											<a href="#">Update</a>
+											<a href="#">Delete</a>
 										</th>
 									</tr>
 								</c:forEach>
@@ -570,7 +634,7 @@
 						</form:form>
 					</c:when>
 					<c:when test="${model eq 'ProductDetail'}">
-						<c:url value="/admin/product-detail/${pathVariable }" var="url" />
+						<c:url value="/admin/product/detail/${pathVariable }" var="url" />
 						<form:form action="${url}" modelAttribute="productDetailForm" method="post">
 							<div class="form-group row">
 								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
@@ -579,7 +643,7 @@
 								<h2 class="heading col-lg-6">${model}form</h2>
 								<div class="col-lg-6 text-right">
 									<button type="button" class="close" aria-label="Close">
-										<a href="<c:url value="/admin/product-detail/${pathVariable }"/>">
+										<a href="<c:url value="/admin/product/detail/${pathVariable }"/>">
 											<span aria-hidden="true">&times;</span>
 										</a>
 									</button>
@@ -626,6 +690,222 @@
 									<form:input path="productByProductId" value="${pathVariable}" type="hidden"/>
 								</div>
 								
+							</div>
+						</form:form>
+					</c:when>
+					<c:when test="${model eq 'Account'}">
+						<c:url value="/admin/account/edit/${param.username }" var="urlEdit" />
+						<c:url value="/admin/account" var="urlAdd" />
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="Account" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/account"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="username" class="floatLabel" name="username" path="username" />
+									<label for="username" ${Account.username !=null ? "class='active'" : ""}>Username</label>
+								</div>
+								<div class="controls col-lg-6">
+									<i class="fa fa-sort"></i>
+									<form:select class="floatLabel" name="enabled4" path="enabled4">
+										<form:option value="${true}">Active</form:option>
+										<form:option value="${false}">Disable</form:option>
+									</form:select>
+									<label ${Account.enabled4 !=null ? "class='active'" : ""}>Enable</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="email" class="floatLabel" name="email" path="email" />
+									<label for="email" ${Account.email !=null ? "class='active'" : ""}>Email</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="phone" class="floatLabel" name="phone" path="phone" />
+									<label for="phone" ${Account.phone !=null ? "class='active'" : ""}>Phone</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="fullName" class="floatLabel" name="fullName" path="fullName" />
+									<label for="fullName" ${Account.fullName !=null ? "class='active'" : ""}>FullName</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="address" class="floatLabel" name="address" path="address" />
+									<label for="address" ${Account.address !=null ? "class='active'" : ""}>Address</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="rankAccount" class="floatLabel" name="rankAccount" path="rankAccount" />
+									<label for="rankAccount" ${Account.rankAccount !=null ? "class='active'" : ""}>RankAccount</label>
+								</div>
+								<div class="controls col-lg-6">
+									<i class="fa fa-sort"></i>
+									<form:select class="floatLabel" name="roleById" path="roleById">
+										<c:forEach var="role" items="${Roles}">
+											<form:option value="${role.id}">${role.authority}</form:option>
+										</c:forEach>
+									</form:select>
+									<label ${Account.roleById !=null ? "class='active'" : ""}>Role</label>
+								</div>
+								<c:if test="${param.action eq 'add' }">
+									<div class="controls col-lg-6">
+										<form:input type="text" id="password" class="floatLabel" name="password" path="password" />
+										<label for="password" ${Account.password !=null ? "class='active'" : ""}>Password</label>
+									</div>
+									<div class="controls col-lg-6">
+										<form:input type="text" id="passwordConfirm" class="floatLabel" name="passwordConfirm" path="passwordConfirm" />
+										<label for="passwordConfirm" ${Account.passwordConfirm !=null ? "class='active'" : ""}>Confirm Password</label>
+									</div>
+								</c:if>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<c:if test="${ action eq 'update' }">
+									<div class="row col-lg-12">
+										<form:input path="password" value="${password}" type="hidden"/>
+										<form:input path="passwordConfirm" value="${password}" type="hidden"/>
+									</div>
+								</c:if>
+							</div>
+						</form:form>
+					</c:when>
+					<c:when test="${model eq 'Category'}">
+						<c:url value="/admin/category" var="urlAdd"/>
+						<c:url value="/admin/category/edit/${ Category.id }" var="urlEdit"/>
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="Category" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/category"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="name" path="name" />
+									<label for="name" ${Category.name !=null ? "class='active'" : ""}>name</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="code" class="floatLabel" name="code" path="code" />
+									<label for="code" ${Category.code !=null ? "class='active'" : ""}>code</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="thumbnail" class="floatLabel" name="thumbnail" path="thumbnail" />
+									<label for="thumbnail" ${Category.thumbnail !=null ? "class='active'" : ""}>thumbnail</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="logo" class="floatLabel" name="logo" path="logo" />
+									<label for="logo" ${Category.logo !=null ? "class='active'" : ""}>logo</label>
+								</div>
+								<div class="controls col-lg-12">
+									<form:textarea name="description" class="floatLabel"
+										id="description" path="description"></form:textarea>
+									<label for="description"
+										${Category.description !=null ? "class='active'" : ""}>Description</label>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<div class="row col-lg-12">
+									<form:input type="hidden" path="id"/>
+								</div>
+							</div>
+						</form:form>
+					</c:when>
+					<c:when test="${model eq 'Color'}">
+						<c:url value="/admin/color" var="urlAdd"/>
+						<c:url value="/admin/color/edit/${ Color.id }" var="urlEdit"/>
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="Color" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/color"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="name" path="name" />
+									<label for="name" ${Color.name !=null ? "class='active'" : ""}>Name</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="code" class="floatLabel" name="code" path="code" />
+									<label for="code" ${Color.code !=null ? "class='active'" : ""}>Code</label>
+								</div>
+								<div class="controls col-lg-12">
+									<form:textarea name="description" class="floatLabel" id="description" path="description"></form:textarea>
+									<label for="description" ${Color.description !=null ? "class='active'" : ""}>Description</label>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<div class="row col-lg-12">
+									<form:input type="hidden" path="id"/>
+								</div>
+							</div>
+						</form:form>
+					</c:when>
+					<c:when test="${model eq 'Size'}">
+						<c:url value="/admin/size" var="urlAdd"/>
+						<c:url value="/admin/size/edit/${ Size.id }" var="urlEdit"/>
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="Size" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/size"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="name" path="name" />
+									<label for="name" ${Size.name !=null ? "class='active'" : ""}>Name</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="code" class="floatLabel" name="code" path="code" />
+									<label for="code" ${Size.code !=null ? "class='active'" : ""}>Code</label>
+								</div>
+								<div class="controls col-lg-12">
+									<form:textarea name="description" class="floatLabel" id="description" path="description"></form:textarea>
+									<label for="description" ${Size.description !=null ? "class='active'" : ""}>Description</label>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<div class="row col-lg-12">
+									<form:input type="hidden" path="id"/>
+								</div>
 							</div>
 						</form:form>
 					</c:when>

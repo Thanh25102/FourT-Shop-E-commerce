@@ -18,6 +18,7 @@ import com.buimanhthanh.formatter.CategoryFormatter;
 import com.buimanhthanh.formatter.ColorFormatter;
 import com.buimanhthanh.formatter.DiscountFormatter;
 import com.buimanhthanh.formatter.ProductFormatter;
+import com.buimanhthanh.formatter.RoleFormatter;
 import com.buimanhthanh.formatter.SizeFormatter;
 
 @EnableWebMvc
@@ -69,6 +70,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		registry.addFormatter(new SizeFormatter());
 		registry.addFormatter(new ColorFormatter());
 		registry.addFormatter(new ProductFormatter());
+		registry.addFormatter(new RoleFormatter());
 	}
 
 }

@@ -6,15 +6,18 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.entity.Cart;
@@ -69,20 +72,46 @@ public class PostAdminController {
 	private ColorService colorService;
 	@Autowired
 	private ProductDetailService productDetailService;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@PostMapping("/account")
 	public String account(ModelMap model, @ModelAttribute("Account") @Valid Account account, BindingResult result) {
-		Optional<Account> optionalAccount = userDetailService.getAccountByUsername(account.getUsername());
-		optionalAccount.ifPresent(a -> result.addError(new ObjectError("username",
+		userDetailService.getAccountByUsername(account.getUsername()).ifPresent(a -> result.addError(new ObjectError(
+				"username",
 				messageSource.getMessage("account.username.err.exist", null, "username has already exists :D", null))));
 		userDetailService.getAccountByEmail(account.getEmail()).ifPresent(a -> result.addError(new ObjectError("email",
 				messageSource.getMessage("account.email.err.exist", null, "email has already exists :D", null))));
+		String passwordEncode = passwordEncoder.encode(account.getPassword());
+		if (result.hasErrors() || !account.getPassword().equals(account.getPasswordConfirm())) {
+			result.addError(new ObjectError("passwordConfirm", "password does not match"));
+			return "redirect:/admin/account";
+		} else {
+			account.setPassword(passwordEncode);
+			account.setPasswordConfirm(passwordEncode);
+			userDetailService.saveOrUpdateAccount(account);
+			return "redirect:/admin/account";
+		}
+	}
+
+	@PostMapping("/account/edit/{username}")
+	public String updateAccount(ModelMap model, @ModelAttribute("Account") @Valid Account account, BindingResult result,
+			@PathVariable String username) {
 		if (result.hasErrors())
-			return "adminTable";
+			return "redirect:/admin/account?action=update&&username=" + username;
 		else {
 			userDetailService.saveOrUpdateAccount(account);
-			return "redirect:/account";
+			return "redirect:/admin/account";
 		}
+	}
+
+	@GetMapping("/account/delete/{username}")
+	public String disableAccount(ModelMap model, @PathVariable(required = true) String username) {
+		Account account = userDetailService.getAccountByUsername(username).get();
+		account.setEnabled4(false);
+		account.setPasswordConfirm(account.getPassword());
+		userDetailService.saveOrUpdateAccount(account);
+		return "redirect:/admin/account";
 	}
 
 	@PostMapping("/product/edit/{id}")
@@ -102,24 +131,44 @@ public class PostAdminController {
 		return "redirect:/admin/product";
 	}
 
-	@PostMapping("/product-detail/{id}")
-	public String productDetail(ModelMap model, @ModelAttribute("ProductDetail") @Valid ProductDetail productDetail,
+	@PostMapping("/product/detail/{id}")
+	public String productDetail(ModelMap model, @ModelAttribute("productDetailForm") @Valid ProductDetail productDetail,
 			BindingResult result, @PathVariable(required = true) Integer id) {
 		if (result.hasErrors()) {
 			System.out.println("Looix ne`");
-			return "redirect:/admin/product-detail/" + id + "?action=update&&detailId=" + productDetail.getId();
-		}
-		else {
+			return "redirect:/admin/product/detail/" + id + "?action=update&&detailId=" + productDetail.getId();
+		} else {
 			productDetailService.saveOrUpdateProductDetail(productDetail);
-			return "redirect:/admin/product-detail/"+id;
+			return "redirect:/admin/product/detail/" + id;
 		}
 	}
 
-	@PostMapping("/product-detail/delete/{id}")
-	public void productDetail(@PathVariable(required = true)Integer id) {
+	@PostMapping("/product/detail/delete/{id}")
+	public void productDetail(@PathVariable(required = true) Integer id) {
 		productDetailService.deleteProductDetail(id);
 	}
-	
+
+	@PostMapping("/category")
+	public String category(ModelMap model, @ModelAttribute("Category") @Valid Category category, BindingResult result) {
+		if (result.hasErrors()) {
+			return "redirect:/admin/category?action=add";
+		} else {
+			categoryService.saveOrUpdateCategory(category);
+			return "redirect:/admin/category";
+		}
+	}
+
+	@PostMapping("/category/edit/{id}")
+	public String updateCategory(ModelMap model, @ModelAttribute("Category") @Valid Category category,
+			BindingResult result, @PathVariable(required = true) Integer id) {
+		if (result.hasErrors()) {
+			return "redirect:/admin/category?action=update&&id=" + id;
+		} else {
+			categoryService.saveOrUpdateCategory(category);
+			return "redirect:/admin/category";
+		}
+	}
+
 	@PostMapping("/role")
 	public String role(ModelMap model, @ModelAttribute("role") @Valid Role role, BindingResult result) {
 		if (result.hasErrors())
@@ -133,20 +182,42 @@ public class PostAdminController {
 	@PostMapping("/color")
 	public String color(ModelMap model, @ModelAttribute("color") @Valid Color color, BindingResult result) {
 		if (result.hasErrors())
-			return "adminTable";
+			return "redirect:/admin/color?action=add";
 		else {
 			colorService.saveOrUpdateColor(color);
-			return "redirect:/color";
+			return "redirect:/admin/color";
+		}
+	}
+	
+	@PostMapping("/color/edit/{id}")
+	public String updateColor(ModelMap model, @ModelAttribute("color") @Valid Color color, BindingResult result,
+			@PathVariable(required = true) Integer id) {
+		if (result.hasErrors())
+			return "redirect:/admin/color?action=update&&id="+id;
+		else {
+			colorService.saveOrUpdateColor(color);
+			return "redirect:/admin/color";
 		}
 	}
 
 	@PostMapping("/size")
 	public String size(ModelMap model, @ModelAttribute("size") @Valid Size size, BindingResult result) {
 		if (result.hasErrors())
-			return "adminTable";
+			return "redirect:/admin/size?action=add";
 		else {
 			sizeService.saveOrUpdateSize(size);
-			return "redirect:/size";
+			return "redirect:/admin/size";
+		}
+	}
+	
+	@PostMapping("/size/edit/{id}")
+	public String updateSize(ModelMap model, @ModelAttribute("size") @Valid Size size, BindingResult result,
+			@PathVariable(required = true) Integer id) {
+		if (result.hasErrors())
+			return "redirect:/admin/size?action=update&&id="+id;
+		else {
+			sizeService.saveOrUpdateSize(size);
+			return "redirect:/admin/size";
 		}
 	}
 
@@ -188,16 +259,6 @@ public class PostAdminController {
 		else {
 			cartService.saveOrUpdateCart(cart);
 			return "redirect:/cart";
-		}
-	}
-
-	@PostMapping("/category")
-	public String category(ModelMap model, @ModelAttribute("category") @Valid Category category, BindingResult result) {
-		if (result.hasErrors())
-			return "adminTable";
-		else {
-			categoryService.saveOrUpdateCategory(category);
-			return "redirect:/category";
 		}
 	}
 }

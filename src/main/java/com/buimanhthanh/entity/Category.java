@@ -11,7 +11,6 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)
@@ -29,11 +28,11 @@ public class Category {
     private String thumbnail;
     @Basic
     @Column(name = "description", nullable = true, length = 255)
-    @Length(max = 50,message = "{access.description.err}")
+    @Length(max = 255,message = "{access.description.err}")
     private String description;
     @Basic
     @Column(name = "logo", nullable = true, length = 255)
-    @Length(max = 50,message = "{access.description.err}")
+    @Length(max = 255,message = "{access.description.err}")
     private String logo;
     @OneToMany(mappedBy = "categoryByCategoryId")
     private Collection<Product> productsById;

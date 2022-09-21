@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -53,11 +54,21 @@ public class AdminController {
 	}
 
 	@GetMapping("/account")
-	public String account(ModelMap model) {
-		userDetailService.getAllAccount().get().forEach(System.out::println);
+	public String account(ModelMap model, @RequestParam(required = false, defaultValue = "null") String action,
+			@RequestParam(required = false, defaultValue = "null") String username) {
+		if (action.equals("update")) {
+			userDetailService.getAccountByUsername(username).ifPresentOrElse(a -> {
+				model.addAttribute("Account", a);
+				model.addAttribute("password", a.getPassword());
+			}, () -> model.addAttribute("Account", new Account()));
+			roleService.getAllRole().ifPresentOrElse(r -> model.addAttribute("Roles", r),
+					() -> model.addAttribute("Roles", new ArrayList<Role>()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Account", new Account());
+			roleService.getAllRole().ifPresentOrElse(r -> model.addAttribute("Roles", r),
+					() -> model.addAttribute("Roles", new ArrayList<Role>()));
+		}
 		model.addAttribute("model", Account.class.getSimpleName());
-		System.out.println(Account.class.getSimpleName());
-		userDetailService.getAllAccount().get().forEach(a -> System.out.println(a));
 		model.addAttribute("listObject", userDetailService.getAllAccount().get());
 		return "adminTable";
 	}
@@ -102,6 +113,14 @@ public class AdminController {
 		return "adminTable";
 	}
 
+	@GetMapping("/order/detail/{id}")
+	public String orderDetail(ModelMap model, @PathVariable(required = true, name = "id") Integer id) {
+		model.addAttribute("model", OrderDetail.class.getSimpleName());
+		orderService.getOrderById(id).ifPresentOrElse(o -> model.addAttribute("listObject", o.getOrderDetailsById()),
+				() -> model.addAttribute("listObject", new ArrayList<OrderDetail>()));
+		return "adminTable";
+	}
+
 	@GetMapping("/cart")
 	public String cart(ModelMap model) {
 
@@ -129,21 +148,20 @@ public class AdminController {
 		return "adminTable";
 	}
 
-	@GetMapping("/product-detail/{id}")
-	public String productDetail(ModelMap model, @PathVariable Integer id,
+	@GetMapping("/product/detail/{id}")
+	public String productDetailByProduct(ModelMap model, @PathVariable Integer id,
 			@RequestParam(required = false, defaultValue = "-1") Integer detailId,
 			@RequestParam(required = false, defaultValue = "null") String action) {
 		model.addAttribute("model", ProductDetail.class.getSimpleName());
-		model.addAttribute("pathVariable",id);
+		model.addAttribute("back", Product.class.getSimpleName());
+		model.addAttribute("pathVariable", id);
 		productService.getProductById(id).ifPresentOrElse(
 				p -> model.addAttribute("ProductDetails", p.getProductDetailsById()),
 				() -> model.addAttribute("ProductDetails", new ArrayList<ProductDetail>()));
 		if (action.equals("update")) {
-			productDetailService.getProductDetailById(detailId).ifPresentOrElse(
-					pd -> {
-						model.addAttribute("productDetailForm", pd);
-					},
-					() -> model.addAttribute("productDetailForm", new ProductDetail()));
+			productDetailService.getProductDetailById(detailId).ifPresentOrElse(pd -> {
+				model.addAttribute("productDetailForm", pd);
+			}, () -> model.addAttribute("productDetailForm", new ProductDetail()));
 			model.addAttribute("Sizes", sizeService.getAllSize().get());
 			model.addAttribute("Colors", colorService.getAllColor().get());
 		} else if (action.equals("add")) {
@@ -154,29 +172,62 @@ public class AdminController {
 		return "adminTable";
 	}
 
+	@GetMapping("/product-detail/{id}")
+	public String productDetail(ModelMap model, @PathVariable Integer id,@RequestParam(required = false, defaultValue = "null") String action) {
+		model.addAttribute("model", ProductDetail.class.getSimpleName());
+		ProductDetail l = productDetailService.getProductDetailById(id).get();
+		model.addAttribute("ProductDetails",List.of(l));
+		if (action.equals("update")) {
+			model.addAttribute("productDetailForm", l);
+			model.addAttribute("Sizes", sizeService.getAllSize().get());
+			model.addAttribute("Colors", colorService.getAllColor().get());
+		} else if (action.equals("add")) {
+			model.addAttribute("productDetailForm", new ProductDetail());
+			model.addAttribute("Sizes", sizeService.getAllSize().get());
+			model.addAttribute("Colors", colorService.getAllColor().get());
+		}
+		return "adminTable";
+	}
+	
 	@GetMapping("/category")
-	public String category(ModelMap model) {
+	public String category(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
+			@RequestParam(required = false, defaultValue = "null") String action) {
 
+		if (action.equals("update")) {
+			categoryService.getCategoryById(id).ifPresentOrElse(c -> model.addAttribute("Category", c),
+					() -> model.addAttribute("Category", new Category()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Category", new Category());
+		}
 		model.addAttribute("model", Category.class.getSimpleName());
-		System.out.println(Category.class.getSimpleName());
 		model.addAttribute("listObject", categoryService.getAllCategory().get());
 		return "adminTable";
 	}
 
 	@GetMapping("/size")
-	public String size(ModelMap model) {
-
+	public String size(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
+			@RequestParam(required = false, defaultValue = "null") String action) {
+		if (action.equals("update")) {
+			sizeService.getSizeById(id).ifPresentOrElse(s -> model.addAttribute("Size", s),
+					() -> model.addAttribute("Size", new Size()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Size", new Size());
+		}
 		model.addAttribute("model", Size.class.getSimpleName());
-		System.out.println(Size.class.getSimpleName());
 		model.addAttribute("listObject", sizeService.getAllSize().get());
 		return "adminTable";
 	}
 
 	@GetMapping("/color")
-	public String color(ModelMap model) {
-
+	public String color(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
+			@RequestParam(required = false, defaultValue = "null") String action) {
+		if (action.equals("update")) {
+			colorService.getColorById(id).ifPresentOrElse(c -> model.addAttribute("Color", c),
+					() -> model.addAttribute("Color", new Color()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Color", new Color());
+		}
 		model.addAttribute("model", Color.class.getSimpleName());
-		System.out.println(Color.class.getSimpleName());
 		model.addAttribute("listObject", colorService.getAllColor().get());
 		return "adminTable";
 	}

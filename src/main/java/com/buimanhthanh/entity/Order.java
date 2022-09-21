@@ -1,11 +1,22 @@
 package com.buimanhthanh.entity;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "order_")
@@ -39,8 +50,8 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")
 	private DiscountCode discountCodeByDiscountCodeId;
-	@OneToMany(mappedBy = "orderByOrderId")
-	private Collection<OrderDetail> orderDetailsById;
+	@OneToMany(mappedBy = "orderByOrderId",fetch = FetchType.EAGER)
+	private Set<OrderDetail> orderDetailsById;
 
 	public Integer getId() {
 		return id;
@@ -100,11 +111,11 @@ public class Order {
 		this.discountCodeByDiscountCodeId = discountCodeByDiscountCodeId;
 	}
 
-	public Collection<OrderDetail> getOrderDetailsById() {
+	public Set<OrderDetail> getOrderDetailsById() {
 		return orderDetailsById;
 	}
 
-	public void setOrderDetailsById(Collection<OrderDetail> orderDetailsById) {
+	public void setOrderDetailsById(Set<OrderDetail> orderDetailsById) {
 		this.orderDetailsById = orderDetailsById;
 	}
 }

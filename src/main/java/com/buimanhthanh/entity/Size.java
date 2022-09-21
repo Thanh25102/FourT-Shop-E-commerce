@@ -2,6 +2,9 @@ package com.buimanhthanh.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Collection;
 
 @Entity
@@ -9,7 +12,6 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)
@@ -21,6 +23,7 @@ public class Size {
     private String code;
     @Basic
     @Column(name = "description", nullable = true, length = 255)
+    @Length(max = 255,message = "{access.description.err}")
     private String description;
     @OneToMany(mappedBy = "sizeBySizeId")
     private Collection<ProductDetail> productDetailsById;

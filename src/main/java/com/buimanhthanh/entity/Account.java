@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -55,11 +56,11 @@ public class Account implements UserDetails {
 	@Column(name = "rank_account", nullable = false, length = 55)
 	private String rankAccount;
 
-	@OneToMany(mappedBy = "accountByUsername")
-	private Collection<Cart> cartsByUsername;
+	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.EAGER)
+	private Set<Cart> cartsByUsername;
 
-	@OneToMany(mappedBy = "accountByUsername")
-	private Collection<Order> ordersByUsername;
+	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.EAGER)
+	private Set<Order> ordersByUsername;
 
 	@ManyToOne
 	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
@@ -121,19 +122,19 @@ public class Account implements UserDetails {
 		this.rankAccount = rankAccount;
 	}
 
-	public Collection<Cart> getCartsByUsername() {
+	public Set<Cart> getCartsByUsername() {
 		return cartsByUsername;
 	}
 
-	public void setCartsByUsername(Collection<Cart> cartsByUsername) {
+	public void setCartsByUsername(Set<Cart> cartsByUsername) {
 		this.cartsByUsername = cartsByUsername;
 	}
 
-	public Collection<Order> getOrdersByUsername() {
+	public Set<Order> getOrdersByUsername() {
 		return ordersByUsername;
 	}
 
-	public void setOrdersByUsername(Collection<Order> ordersByUsername) {
+	public void setOrdersByUsername(Set<Order> ordersByUsername) {
 		this.ordersByUsername = ordersByUsername;
 	}
 
