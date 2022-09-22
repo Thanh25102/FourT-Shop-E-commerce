@@ -1,18 +1,25 @@
 package com.buimanhthanh.entity;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    @NotNull(message = "{null.err}")
     private Integer id;
     @Basic
     @Column(name = "sale_percent", nullable = false)
@@ -20,7 +27,6 @@ public class Discount {
     private Integer salePercent;
     @Basic
     @Column(name = "start_day", nullable = false)
-
     private Date startDay;
     @Basic
     @Column(name = "end_day", nullable = false)
@@ -30,8 +36,8 @@ public class Discount {
     @Column(name = "description", nullable = true, length = 255)
     @Length(max = 255,message = "{access.description.err}")
     private String description;
-    @OneToMany(mappedBy = "discountByDiscountId")
-    private Collection<Product> productsById;
+    @OneToMany(mappedBy = "discountByDiscountId",fetch = FetchType.EAGER)
+    private Set<Product> productsById;
 
     public Integer getId() {
         return id;
@@ -101,11 +107,11 @@ public class Discount {
         return result;
     }
 
-    public Collection<Product> getProductsById() {
+    public Set<Product> getProductsById() {
         return productsById;
     }
 
-    public void setProductsById(Collection<Product> productsById) {
+    public void setProductsById(Set<Product> productsById) {
         this.productsById = productsById;
     }
 }

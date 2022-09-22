@@ -41,7 +41,9 @@ public class AdminController {
 	private ColorService colorService;
 	@Autowired
 	private ProductDetailService productDetailService;
-
+	@Autowired
+	private PermissionService permissionService;
+	
 	@GetMapping("/")
 	public String index() {
 
@@ -74,18 +76,39 @@ public class AdminController {
 	}
 
 	@GetMapping("/discount_code")
-	public String discountCode(ModelMap model) {
+	public String discountCode(ModelMap model, @RequestParam(required = false, defaultValue = "null") String action,
+			@RequestParam(required = false, defaultValue = "-1") Integer id) {
+		if (action.equals("update")) {
+			discountCodeService.getDiscountCodeById(id).ifPresentOrElse(dc -> model.addAttribute("DiscountCode", dc),
+					() -> model.addAttribute("DiscountCode", new DiscountCode()));
+		} else if (action.equals("add")) {
+			model.addAttribute("DiscountCode", new DiscountCode());
+		}
 		model.addAttribute("model", DiscountCode.class.getSimpleName());
-		System.out.println(DiscountCode.class.getSimpleName());
 		model.addAttribute("listObject", discountCodeService.getAllDiscountCode().get());
 		return "adminTable";
 	}
 
 	@GetMapping("/discount")
-	public String discount(ModelMap model) {
+	public String discount(ModelMap model, @RequestParam(required = false, defaultValue = "null") String action,
+			@RequestParam(required = false, defaultValue = "-1") Integer id) {
+		if (action.equals("update")) {
+			discountService.getDiscountById(id).ifPresentOrElse(d -> model.addAttribute("Discount", d),
+					() -> model.addAttribute("Discount", new Discount()));
+		} else if (action.equals("add")) {
+			model.addAttribute("Discount", new Discount());
+		}
 		model.addAttribute("model", Discount.class.getSimpleName());
-		System.out.println(Discount.class.getSimpleName());
 		model.addAttribute("listObject", discountService.getAllDiscount().get());
+		return "adminTable";
+	}
+
+	@GetMapping("/discount/{id}/product")
+	public String productByDiscount(ModelMap model, @PathVariable(required = true) Integer id) {
+		model.addAttribute("model", Product.class.getSimpleName());
+		model.addAttribute("discountProduct", "discountProduct");
+		discountService.getDiscountById(id).ifPresentOrElse(p -> model.addAttribute("listObject", p.getProductsById()),
+				() -> model.addAttribute("listObject", new ArrayList<Product>()));
 		return "adminTable";
 	}
 
@@ -96,6 +119,17 @@ public class AdminController {
 		model.addAttribute("listObject", roleService.getAllRole().get());
 		return "adminTable";
 	}
+	
+	/*
+	 * @GetMapping("/role/{id}/access") public String accessByRole(ModelMap
+	 * model, @PathVariable(required = true) Integer id) {
+	 * model.addAttribute("model", Access.class.getSimpleName());
+	 * permissionService.getPermissionByRoleId(id).ifPresentOrElse(permission -> {
+	 * List<Access> listObject = new ArrayList<>(); permission.forEach(p->
+	 * listObject.add(p.getAccessByAccessId())); model.addAttribute("listObject",
+	 * listObject); }, () -> model.addAttribute("listObject", new
+	 * ArrayList<Access>())); return "adminTable"; }
+	 */
 
 	@GetMapping("/access")
 	public String access(ModelMap model) {
@@ -173,10 +207,11 @@ public class AdminController {
 	}
 
 	@GetMapping("/product-detail/{id}")
-	public String productDetail(ModelMap model, @PathVariable Integer id,@RequestParam(required = false, defaultValue = "null") String action) {
+	public String productDetail(ModelMap model, @PathVariable Integer id,
+			@RequestParam(required = false, defaultValue = "null") String action) {
 		model.addAttribute("model", ProductDetail.class.getSimpleName());
 		ProductDetail l = productDetailService.getProductDetailById(id).get();
-		model.addAttribute("ProductDetails",List.of(l));
+		model.addAttribute("ProductDetails", List.of(l));
 		if (action.equals("update")) {
 			model.addAttribute("productDetailForm", l);
 			model.addAttribute("Sizes", sizeService.getAllSize().get());
@@ -188,7 +223,7 @@ public class AdminController {
 		}
 		return "adminTable";
 	}
-	
+
 	@GetMapping("/category")
 	public String category(ModelMap model, @RequestParam(required = false, defaultValue = "-1") Integer id,
 			@RequestParam(required = false, defaultValue = "null") String action) {

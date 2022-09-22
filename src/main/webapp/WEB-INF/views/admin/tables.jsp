@@ -24,15 +24,25 @@
 						<button class="btn-facebook rounded px-3">Back</button>
 					</a>
 				</c:if>
-				<c:if test="${ model != 'ProductDetail' }">
+				<c:if test="${ model eq 'OrderDetail' }">
+					<a href="<c:url value="/admin/order"/>">
+						<button class="btn-facebook rounded px-3">Back</button>
+					</a>
+				</c:if>
+				<c:if test="${ model != 'ProductDetail' && model != 'OrderDetail' && discountProduct == null}">
 					<h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+				</c:if>
+				<c:if test="${ model eq 'Product' && discountProduct eq 'discountProduct' }">
+					<a href="<c:url value="/admin/discount"/>">
+						<button class="btn-facebook rounded px-3">Back</button>
+					</a>
 				</c:if>
 			</div>
 			<div
 				class="col-sm-12 col-md-6 text-right  align-items-center row justify-content-end">
 
 				<c:choose>
-					<c:when test="${ model eq 'Product' }">
+					<c:when test="${ model eq 'Product' && discountProduct == null }">
 						<a href="<c:url value="/admin/product?action=add"/>">
 							<button class="btn-facebook rounded px-3">Add data</button>
 						</a>
@@ -59,6 +69,21 @@
 					</c:when>
 					<c:when test="${ model eq 'Color' }">
 						<a href="<c:url value="/admin/color?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Order' }">
+						<a href="<c:url value="/admin/order?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'DiscountCode' }">
+						<a href="<c:url value="/admin/discount_code?action=add"/>">
+							<button class="btn-facebook rounded px-3">Add data</button>
+						</a>
+					</c:when>
+					<c:when test="${ model eq 'Discount' }">
+						<a href="<c:url value="/admin/discount?action=add"/>">
 							<button class="btn-facebook rounded px-3">Add data</button>
 						</a>
 					</c:when>
@@ -167,8 +192,10 @@
 									<th>Represent</th>
 									<th>Category</th>
 									<th>Discount</th>
-									<th>Detail</th>
-									<th>Action</th>
+									<c:if test="${discountProduct != 'discountProduct'}">
+										<th>Detail</th>
+										<th>Action</th>
+									</c:if>
 								</tr>
 							</c:when>
 							<c:when test="${model eq 'Category' }">
@@ -311,8 +338,11 @@
 									<th>Represent</th>
 									<th>Category</th>
 									<th>Discount</th>
-									<th>Detail</th>
-									<th>Action</th>
+									
+									<c:if test="${discountProduct != 'discountProduct'}">  
+										<th>Detail</th>
+										<th>Action</th>
+									</c:if>
 								</tr>
 							</c:when>
 							<c:when test="${model eq 'Category' }">
@@ -390,7 +420,10 @@
 										<th>${discountCode.endDay}</th>
 										<th>${discountCode.maxDiscount}</th>
 										<th>${discountCode.description}</th>
-										<th><a>update</a> <a>delete</a></th>
+										<th>
+											<a href="<c:url  value="/admin/discount_code?action=update&&id=${discountCode.id }"/>">update</a> 
+											<a>delete</a>
+										</th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -401,8 +434,9 @@
 										<th>${discount.salePercent}</th>
 										<th>${discount.startDay}</th>
 										<th>${discount.endDay}</th>
+										<th><a href="<c:url value="/admin/discount/${discount.id}/product"/>">ListProduct</a></th>
 										<th>${discount.description}</th>
-										<th><a>update</a> <a>delete</a></th>
+										<th><a href="<c:url value="/admin/discount?action=update&&id=${discount.id}"/>">update</a> <a>delete</a></th>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -436,7 +470,7 @@
 										<th>${order.createTime}</th>
 										<th>${order.accountByUsername.username}</th>
 										<th>${order.discountCodeByDiscountCodeId.code}</th>
-										<th><a>Detail</a></th>
+										<th><a href="<c:url value="/admin/order/detail/${order.id}"/>">Detail</a></th>
 										<th><a>update</a> <a>delete</a></th>
 									</tr>
 								</c:forEach>
@@ -463,14 +497,16 @@
 										<th><img src="${product.represent}" class="custom-img-o img-thumbnail" /></th>
 										<th>${product.categoryByCategoryId.name}</th>
 										<th>${product.discountByDiscountId.id}</th>
-										<th><a
-											href="<c:url value='/admin/product/detail/${product.id}'/>">
-												Detail</a></th>
-										<th><a
-											href="<c:url value="/admin/product?action=update&&id=${product.id}"/>">update</a>
-											<a href="#"
-											onclick="sendPostRequest(`<c:url value="/admin/product/delete/${ product.id }"/>`);">delete</a>
-										</th>
+										<c:if test="${discountProduct != 'discountProduct'}"> 
+											<th><a
+												href="<c:url value='/admin/product/detail/${product.id}'/>">
+													Detail</a></th>
+											<th><a
+												href="<c:url value="/admin/product?action=update&&id=${product.id}"/>">update</a>
+												<a href="#"
+												onclick="sendPostRequest(`<c:url value="/admin/product/delete/${ product.id }"/>`);">delete</a>
+											</th>
+										</c:if>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -767,7 +803,7 @@
 									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
 									<div class="col-lg-5"></div>
 								</div>
-								<c:if test="${ action eq 'update' }">
+								<c:if test="${ param.action eq 'update' }">
 									<div class="row col-lg-12">
 										<form:input path="password" value="${password}" type="hidden"/>
 										<form:input path="passwordConfirm" value="${password}" type="hidden"/>
@@ -909,6 +945,109 @@
 							</div>
 						</form:form>
 					</c:when>
+					<c:when test="${model eq 'DiscountCode'}">
+						<c:url value="/admin/discount_code" var="urlAdd"/>
+						<c:url value="/admin/discount_code/edit/${ DiscountCode.id }" var="urlEdit"/>
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="DiscountCode" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/discount_code"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="code" path="code" />
+									<label for="code" ${DiscountCode.code !=null ? "class='active'" : ""}>Code</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="salePercent" path="salePercent" />
+									<label for="salePercent" ${DiscountCode.salePercent !=null ? "class='active'" : ""}>SalePercent</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="saleMoney" class="floatLabel" name="saleMoney" path="saleMoney" />
+									<label for="saleMoney" ${DiscountCode.saleMoney !=null ? "class='active'" : ""}>SaleMoney</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="startDay" class="floatLabel" name="startDay" path="startDay" />
+									<label for="startDay" ${DiscountCode.startDay !=null ? "class='active'" : ""}>StartDay</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="endDay" class="floatLabel" name="endDay" path="endDay" />
+									<label for="endDay" ${DiscountCode.endDay !=null ? "class='active'" : ""}>EndDay</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="maxDiscount" class="floatLabel" name="maxDiscount" path="maxDiscount" />
+									<label for="maxDiscount" ${DiscountCode.maxDiscount !=null ? "class='active'" : ""}>MaxDiscount</label>
+								</div>
+								<div class="controls col-lg-12">
+									<form:textarea name="description" class="floatLabel" id="description" path="description"></form:textarea>
+									<label for="description" ${DiscountCode.description !=null ? "class='active'" : ""}>Description</label>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<div class="row col-lg-12">
+									<form:input type="hidden" path="id"/>
+								</div>
+							</div>
+						</form:form>
+					</c:when>
+					<c:when test="${model eq 'Discount'}">
+						<c:url value="/admin/discount" var="urlAdd"/>
+						<c:url value="/admin/discount/edit/${ Discount.id }" var="urlEdit"/>
+						<form:form action="${param.action eq 'add' ? urlAdd : urlEdit}" modelAttribute="Discount" method="POST">
+							<div class="form-group row">
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
+							</div>
+							<div class="form-group row">
+								<h2 class="heading col-lg-6">${model}form</h2>
+								<div class="col-lg-6 text-right">
+									<button type="button" class="close" aria-label="Close">
+										<a href="<c:url value="/admin/discount"/>">
+											<span aria-hidden="true">&times;</span>
+										</a>
+									</button>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="controls col-lg-6">
+									<form:input type="text" id="name" class="floatLabel" name="salePercent" path="salePercent" />
+									<label for="salePercent" ${Discount.salePercent !=null ? "class='active'" : ""}>SalePercent</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="startDay" class="floatLabel" name="startDay" path="startDay" />
+									<label for="startDay" ${Discount.startDay !=null ? "class='active'" : ""}>StartDay</label>
+								</div>
+								<div class="controls col-lg-6">
+									<form:input type="text" id="endDay" class="floatLabel" name="endDay" path="endDay" />
+									<label for="endDay" ${Discount.endDay !=null ? "class='active'" : ""}>EndDay</label>
+								</div>
+								<div class="controls col-lg-12">
+									<form:textarea name="description" class="floatLabel" id="description" path="description"></form:textarea>
+									<label for="description" ${Discount.description !=null ? "class='active'" : ""}>Description</label>
+								</div>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
+								<div class="row col-lg-12">
+									<form:input type="hidden" path="id"/>
+								</div>
+							</div>
+						</form:form>
+					</c:when>
+				
 				</c:choose>
 			</div>
 		</div>

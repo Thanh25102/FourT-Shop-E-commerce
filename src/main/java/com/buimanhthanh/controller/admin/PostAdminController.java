@@ -135,7 +135,6 @@ public class PostAdminController {
 	public String productDetail(ModelMap model, @ModelAttribute("productDetailForm") @Valid ProductDetail productDetail,
 			BindingResult result, @PathVariable(required = true) Integer id) {
 		if (result.hasErrors()) {
-			System.out.println("Looix ne`");
 			return "redirect:/admin/product/detail/" + id + "?action=update&&detailId=" + productDetail.getId();
 		} else {
 			productDetailService.saveOrUpdateProductDetail(productDetail);
@@ -188,12 +187,12 @@ public class PostAdminController {
 			return "redirect:/admin/color";
 		}
 	}
-	
+
 	@PostMapping("/color/edit/{id}")
 	public String updateColor(ModelMap model, @ModelAttribute("color") @Valid Color color, BindingResult result,
 			@PathVariable(required = true) Integer id) {
 		if (result.hasErrors())
-			return "redirect:/admin/color?action=update&&id="+id;
+			return "redirect:/admin/color?action=update&&id=" + id;
 		else {
 			colorService.saveOrUpdateColor(color);
 			return "redirect:/admin/color";
@@ -209,12 +208,12 @@ public class PostAdminController {
 			return "redirect:/admin/size";
 		}
 	}
-	
+
 	@PostMapping("/size/edit/{id}")
 	public String updateSize(ModelMap model, @ModelAttribute("size") @Valid Size size, BindingResult result,
 			@PathVariable(required = true) Integer id) {
 		if (result.hasErrors())
-			return "redirect:/admin/size?action=update&&id="+id;
+			return "redirect:/admin/size?action=update&&id=" + id;
 		else {
 			sizeService.saveOrUpdateSize(size);
 			return "redirect:/admin/size";
@@ -224,21 +223,43 @@ public class PostAdminController {
 	@PostMapping("/discount")
 	public String discount(ModelMap model, @ModelAttribute("discount") @Valid Discount discount, BindingResult result) {
 		if (result.hasErrors())
-			return "adminTable";
+			return "redirect:/admin/discount?action=add";
 		else {
 			discountService.saveOrUpdateDiscount(discount);
-			return "redirect:/discount";
+			return "redirect:/admin/discount";
+		}
+	}
+
+	@PostMapping("/discount/edit/{id}")
+	public String updateDiscount(ModelMap model, @ModelAttribute("Discount") @Valid Discount discount,
+			BindingResult result, @PathVariable Integer id) {
+		if (result.hasErrors())
+			return "redirect:/admin/discount?action=update&&id="+id;
+		else {
+			discountService.saveOrUpdateDiscount(discount);
+			return "redirect:/admin/discount";
 		}
 	}
 
 	@PostMapping("/discount_code")
-	public String discountCode(ModelMap model, @ModelAttribute("discountCode") @Valid DiscountCode discountCode,
+	public String discountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCode discountCode,
 			BindingResult result) {
 		if (result.hasErrors())
-			return "adminTable";
+			return "redirect:/admin/discount_code?action=add";
 		else {
 			discountCodeService.saveOrUpdateDiscountCode(discountCode);
-			return "redirect:/discount_code";
+			return "redirect:/admin/discount_code";
+		}
+	}
+
+	@PostMapping("/discount_code/edit/{id}")
+	public String updateDiscountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCode discountCode,
+			BindingResult result, @PathVariable Integer id) {
+		if (result.hasErrors())
+			return "redirect:/admin/discount_code?action=update&&id=" + id;
+		else {
+			discountCodeService.saveOrUpdateDiscountCode(discountCode);
+			return "redirect:/admin/discount_code";
 		}
 	}
 
