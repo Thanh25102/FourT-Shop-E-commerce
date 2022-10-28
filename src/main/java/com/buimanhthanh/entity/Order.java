@@ -16,10 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "order_")
+@Data
 public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -52,70 +54,4 @@ public class Order {
 	private DiscountCode discountCodeByDiscountCodeId;
 	@OneToMany(mappedBy = "orderByOrderId",fetch = FetchType.EAGER)
 	private Set<OrderDetail> orderDetailsById;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public Integer getAmmount() {
-		return ammount;
-	}
-
-	public void setAmmount(Integer ammount) {
-		this.ammount = ammount;
-	}
-
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
-	public Timestamp getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
-	}
-
-
-	public Account getAccountByUsername() {
-		return accountByUsername;
-	}
-
-	public void setAccountByUsername(Account accountByUsername) {
-		this.accountByUsername = accountByUsername;
-	}
-
-	public DiscountCode getDiscountCodeByDiscountCodeId() {
-		return discountCodeByDiscountCodeId;
-	}
-
-	public void setDiscountCodeByDiscountCodeId(DiscountCode discountCodeByDiscountCodeId) {
-		this.discountCodeByDiscountCodeId = discountCodeByDiscountCodeId;
-	}
-
-	public Set<OrderDetail> getOrderDetailsById() {
-		return orderDetailsById;
-	}
-
-	public void setOrderDetailsById(Set<OrderDetail> orderDetailsById) {
-		this.orderDetailsById = orderDetailsById;
-	}
 }

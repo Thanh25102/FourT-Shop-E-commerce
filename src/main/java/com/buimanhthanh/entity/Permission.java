@@ -1,5 +1,7 @@
 package com.buimanhthanh.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "permission")
+@Data
 public class Permission implements Serializable{
 
 	/**
@@ -26,19 +29,4 @@ public class Permission implements Serializable{
 	@NotNull(message = "{null.err}")
 	private Role roleByRoleId;
 
-	public Access getAccessByAccessId() {
-		return accessByAccessId;
-	}
-
-	public void setAccessByAccessId(Access accessByAccessId) {
-		this.accessByAccessId = accessByAccessId;
-	}
-
-	public Role getRoleByRoleId() {
-		return roleByRoleId;
-	}
-
-	public void setRoleByRoleId(Role roleByRoleId) {
-		this.roleByRoleId = roleByRoleId;
-	}
 }

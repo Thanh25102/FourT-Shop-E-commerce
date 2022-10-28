@@ -16,10 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "product_detail", schema = "buimanhthanhecormmercespringmvc", catalog = "")
+@Table(name = "product_detail", schema = "buimanhthanhecormmercespringmvc")
+@Data
 public class ProductDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -56,84 +58,4 @@ public class ProductDetail {
 	@JoinColumn(name = "color_id", referencedColumnName = "id", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Color colorByColorId;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public Collection<CartDetail> getCartDetailsById() {
-		return cartDetailsById;
-	}
-
-	public void setCartDetailsById(Collection<CartDetail> cartDetailsById) {
-		this.cartDetailsById = cartDetailsById;
-	}
-
-	public Set<OrderDetail> getOrderDetailsById() {
-		return orderDetailsById;
-	}
-
-	public void setOrderDetailsById(Set<OrderDetail> orderDetailsById) {
-		this.orderDetailsById = orderDetailsById;
-	}
-
-	public Product getProductByProductId() {
-		return productByProductId;
-	}
-
-	public void setProductByProductId(Product productByProductId) {
-		this.productByProductId = productByProductId;
-	}
-
-	public Size getSizeBySizeId() {
-		return sizeBySizeId;
-	}
-
-	public void setSizeBySizeId(Size sizeBySizeId) {
-		this.sizeBySizeId = sizeBySizeId;
-	}
-
-	public Color getColorByColorId() {
-		return colorByColorId;
-	}
-
-	public void setColorByColorId(Color colorByColorId) {
-		this.colorByColorId = colorByColorId;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductDetail [id=" + id + ", quantity=" + quantity + ", description=" + description + ", image="
-				+ image + ", cartDetailsById=" + cartDetailsById + ", orderDetailsById=" + orderDetailsById
-				+ ", productByProductId=" + productByProductId + ", sizeBySizeId=" + sizeBySizeId + ", colorByColorId="
-				+ colorByColorId + "]";
-	}
 }

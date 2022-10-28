@@ -44,9 +44,8 @@ public class AdminController {
 	@Autowired
 	private PermissionService permissionService;
 	
-	@GetMapping("/")
+	@GetMapping(value = {"/",""})
 	public String index() {
-
 		return "adminIndex";
 	}
 

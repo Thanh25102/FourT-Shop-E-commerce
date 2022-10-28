@@ -1,5 +1,6 @@
 package com.buimanhthanh.entity;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "product")
+@Data
 public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -45,76 +47,4 @@ public class Product {
 			CascadeType.REMOVE
 	})
 	private Collection<ProductDetail> productDetailsById;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
-	public String getRepresent() {
-		return represent;
-	}
-
-	public void setRepresent(String repesent) {
-		this.represent = repesent;
-	}
-
-	public Category getCategoryByCategoryId() {
-		return categoryByCategoryId;
-	}
-
-	public void setCategoryByCategoryId(Category categoryByCategoryId) {
-		this.categoryByCategoryId = categoryByCategoryId;
-	}
-
-	public Discount getDiscountByDiscountId() {
-		return discountByDiscountId;
-	}
-
-	public void setDiscountByDiscountId(Discount discountByDiscountId) {
-		this.discountByDiscountId = discountByDiscountId;
-	}
-
-	public Collection<ProductDetail> getProductDetailsById() {
-		return productDetailsById;
-	}
-
-	public void setProductDetailsById(Collection<ProductDetail> productDetailsById) {
-		this.productDetailsById = productDetailsById;
-	}
 }
