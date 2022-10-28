@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
+@Table(name ="cart")
 public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

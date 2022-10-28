@@ -118,10 +118,10 @@ ALTER TABLE `account` ADD FOREIGN KEY (role_id) REFERENCES `role`(id);
 ALTER TABLE `permission` ADD FOREIGN KEY (access_id) REFERENCES `access`(id);
 ALTER TABLE `permission` ADD FOREIGN KEY (role_id) REFERENCES `role`(id);
 
-ALTER TABLE `order` ADD FOREIGN KEY (username) REFERENCES `account`(username);
-ALTER TABLE `order` ADD FOREIGN KEY (discount_code_id) REFERENCES `discount_code`(id);
+ALTER TABLE `order_` ADD FOREIGN KEY (username) REFERENCES `account`(username);
+ALTER TABLE `order_` ADD FOREIGN KEY (discount_code_id) REFERENCES `discount_code`(id);
 
-ALTER TABLE order_detail ADD FOREIGN KEY (order_id) REFERENCES `order`(id);
+ALTER TABLE order_detail ADD FOREIGN KEY (order_id) REFERENCES `order_`(id);
 ALTER TABLE order_detail ADD FOREIGN KEY (product_id) REFERENCES product_detail(id);
 
 ALTER TABLE `cart` ADD FOREIGN KEY (username) REFERENCES `account`(username);
@@ -316,4 +316,6 @@ insert into `account` values("AdminThanh123","$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tR
                             ,true,"thanh123@gmail.com","0328735658","Bui Manh Thanh","Sai gon dau co lanh","member",1);
 insert into `account` values("CustomerThanh123","$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tRiFGI5crbkrJ.XQfyYRv8C7ozzq"
                             ,true,"thanh1234@gmail.com","0328735657","Bui Manh Thanh Customer","Sai gon dau co lanh","member",2);
+insert into `account` values("Test123","$2a$12$NNbCQSF1CP7mJtGSp57JROD6m3F3t26qHHKZf175EWyGPd0A/EpO6"
+                            ,true,"thanh123434@gmail.com","123","Bui Manh Thanh","Sai gon dau co lanh","member",1);
 

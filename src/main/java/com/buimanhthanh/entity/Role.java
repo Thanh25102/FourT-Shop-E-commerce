@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "role")
 public class Role implements Serializable{
 	/**
 	 * 

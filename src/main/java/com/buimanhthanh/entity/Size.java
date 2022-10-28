@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.Collection;
 
 @Entity
+@Table(name = "size")
 public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

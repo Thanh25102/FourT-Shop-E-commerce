@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
+@Table(name = "access")
 public class Access {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

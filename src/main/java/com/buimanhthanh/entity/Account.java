@@ -4,15 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.buimanhthanh.validation.PasswordConfirmMatch;
 
 @Entity
+@Table(name = "account")
 @PasswordConfirmMatch
 public class Account implements UserDetails {
 	/**

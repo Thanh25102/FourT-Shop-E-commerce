@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
+@Table(name = "color")
 public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
