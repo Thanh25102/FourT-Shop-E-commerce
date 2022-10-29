@@ -13,6 +13,4 @@ public class AccountDTO {
     private String address;
     private String rankAccount;
     private Integer roleId;
-
-
 }
