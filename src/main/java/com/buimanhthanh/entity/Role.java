@@ -1,6 +1,8 @@
 package com.buimanhthanh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "role")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role implements Serializable{
 	/**
 	 * 

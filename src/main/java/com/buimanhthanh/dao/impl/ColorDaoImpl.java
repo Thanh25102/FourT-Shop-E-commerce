@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.ColorDao;
+import com.buimanhthanh.dto.ColorDTO;
 import com.buimanhthanh.entity.Color;
 
 @Repository
@@ -18,17 +19,17 @@ public class ColorDaoImpl implements ColorDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public Optional<Color> getColorById(Integer id) {
+    public Optional<ColorDTO> getColorById(Integer id) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Color as a where a.id =: i",Color.class)
+                .createQuery("select new com.buimanhthanh.dto.ColorDTO(a.id,a.name,a.code,a.description) from Color a where a.id =: i",ColorDTO.class)
                 .setParameter("i",id)
                 .getResultList().stream().findFirst();
     }
 
     @Override
-    public Optional<List<Color>> getAllColor() {
+    public Optional<List<ColorDTO>> getAllColor() {
         return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Color",Color.class)
+                .createQuery("select new com.buimanhthanh.dto.ColorDTO(a.id,a.name,a.code,a.description) from Color a",ColorDTO.class)
                 .getResultList());
     }
 

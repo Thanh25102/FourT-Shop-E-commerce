@@ -3,12 +3,13 @@ package com.buimanhthanh.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.CartDTO;
 import com.buimanhthanh.entity.Cart;
 
 public interface CartDao {
-    Optional<Cart> getCartById(Integer id);
+    Optional<CartDTO> getCartById(Integer id);
 
-    Optional<List<Cart>> getAllCart();
+    Optional<List<CartDTO>> getAllCart();
 
     Boolean saveOrUpdateCart(Cart cart);
 

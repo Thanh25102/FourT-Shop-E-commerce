@@ -3,12 +3,13 @@ package com.buimanhthanh.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.DiscountDTO;
 import com.buimanhthanh.entity.Discount;
 
 public interface DiscountDao {
-    Optional<Discount> getDiscountById(Integer id);
+    Optional<DiscountDTO> getDiscountById(Integer id);
 
-    Optional<List<Discount>> getAllDiscount();
+    Optional<List<DiscountDTO>> getAllDiscount();
 
     Boolean saveOrUpdateDiscount(Discount discount);
 

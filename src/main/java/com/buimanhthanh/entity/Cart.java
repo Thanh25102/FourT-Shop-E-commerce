@@ -1,6 +1,8 @@
 package com.buimanhthanh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +11,8 @@ import java.util.Collection;
 @Entity
 @Table(name ="cart")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

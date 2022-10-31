@@ -1,21 +1,21 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Account;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.buimanhthanh.dto.AccountDTO;
+
 public interface AccountService extends UserDetailsService{
-    Optional<Account> getAccountByUsername(String username);
+    Optional<AccountDTO> getAccountByUsername(String username);
     
-    Optional<Account> getAccountByEmail(String email);
+    Optional<AccountDTO> getAccountByEmail(String email);
 
-    Optional<List<Account>> getAllAccount();
+    Optional<List<AccountDTO>> getAllAccount();
 
-    Boolean saveOrUpdateAccount(Account account);
+    Boolean saveOrUpdateAccount(AccountDTO accountDTO);
 
-    Boolean registerAccount(Account account);
+    Boolean registerAccount(AccountDTO accountDTO);
     
 }

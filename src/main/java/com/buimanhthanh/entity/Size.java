@@ -3,7 +3,10 @@ package com.buimanhthanh.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Collection;
@@ -11,6 +14,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "size")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

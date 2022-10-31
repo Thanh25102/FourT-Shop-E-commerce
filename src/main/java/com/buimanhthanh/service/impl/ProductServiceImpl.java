@@ -1,47 +1,65 @@
 package com.buimanhthanh.service.impl;
 
-import com.buimanhthanh.dao.ProductDao;
-import com.buimanhthanh.entity.Product;
-import com.buimanhthanh.service.ProductService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.buimanhthanh.dao.ProductDao;
+import com.buimanhthanh.dto.ProductDTO;
+import com.buimanhthanh.entity.Category;
+import com.buimanhthanh.entity.Discount;
+import com.buimanhthanh.entity.Product;
+import com.buimanhthanh.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductDao productDao;
+	@Autowired
+	private ProductDao productDao;
 
-    @Override
-    @Transactional
-    public Optional<Product> getProductById(Integer id) {
-        return productDao.getProductById(id);
-    }
+	@Override
+	@Transactional
+	public Optional<ProductDTO> getProductById(Integer id) {
+		return productDao.getProductById(id);
+	}
 
-    @Override
-    @Transactional
-    public Optional<List<Product>> getAllProduct() {
-        return productDao.getAllProduct();
-    }
+	@Override
+	@Transactional
+	public Optional<List<ProductDTO>> getAllProduct() {
+		return productDao.getAllProduct();
+	}
 
-    @Override
-    @Transactional
-    public Boolean saveOrUpdateProduct(Product product) {
-        return productDao.saveOrUpdateProduct(product);
-    }
+	@Override
+	@Transactional
+	public Boolean saveOrUpdateProduct(ProductDTO productDTO) {
+		Product product = new Product(productDTO.getId(), productDTO.getName(), productDTO.getPrice(),
+				productDTO.getDescription(), productDTO.getThumbnail(), productDTO.getRepresent(), null, null, null);
 
-    @Override
-    @Transactional
-    public void deleteProduct(Integer id) {
-        productDao.deleteProduct(id);
-    }
+		if (productDTO.getCategoryId() != null) {
+			Category category = new Category();
+			category.setId(productDTO.getCategoryId());
+			product.setCategoryByCategoryId(category);
+		}
+		if (productDTO.getDiscountId() != null) {
+			Discount discount = new Discount();
+			discount.setId(productDTO.getDiscountId());
+			product.setDiscountByDiscountId(discount);
+		}
 
-    @Override
-    @Transactional
-    public void deleteProduct(List<Integer> ids) {
-        productDao.deleteProduct(ids);
-    }
+		return productDao.saveOrUpdateProduct(product);
+	}
+
+	@Override
+	@Transactional
+	public void deleteProduct(Integer id) {
+		productDao.deleteProduct(id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteProduct(List<Integer> ids) {
+		productDao.deleteProduct(ids);
+	}
 }

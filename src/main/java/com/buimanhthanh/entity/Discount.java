@@ -1,17 +1,22 @@
 package com.buimanhthanh.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "discount")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -32,6 +37,6 @@ public class Discount {
     @Column(name = "description", nullable = true, length = 255)
     @Length(max = 255,message = "{access.description.err}")
     private String description;
-    @OneToMany(mappedBy = "discountByDiscountId",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "discountByDiscountId",fetch = FetchType.LAZY)
     private Set<Product> productsById;
 }

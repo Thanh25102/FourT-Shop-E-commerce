@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.SizeDao;
+import com.buimanhthanh.dto.SizeDTO;
 import com.buimanhthanh.entity.Size;
 import com.buimanhthanh.service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,20 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     @Transactional
-    public Optional<Size> getSizeById(Integer id) {
+    public Optional<SizeDTO> getSizeById(Integer id) {
         return sizeDao.getSizeById(id);
     }
 
     @Override
     @Transactional
-    public Optional<List<Size>> getAllSize() {
+    public Optional<List<SizeDTO>> getAllSize() {
         return sizeDao.getAllSize();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateSize(Size size) {
+    public Boolean saveOrUpdateSize(SizeDTO sizeDTO) {
+    	Size size = new Size(sizeDTO.getId(),sizeDTO.getName(),sizeDTO.getCode(),sizeDTO.getDescription(),null);
         return sizeDao.saveOrUpdateSize(size);
     }
 

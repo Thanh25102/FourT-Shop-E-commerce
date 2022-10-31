@@ -1,16 +1,16 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Cart;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.CartDTO;
+
 public interface CartService {
-    Optional<Cart> getCartById(Integer id);
+    Optional<CartDTO> getCartById(Integer id);
 
-    Optional<List<Cart>> getAllCart();
+    Optional<List<CartDTO>> getAllCart();
 
-    Boolean saveOrUpdateCart(Cart cart);
+    Boolean saveOrUpdateCart(CartDTO cartDTO);
 
     void deleteCart(Integer id);
 

@@ -3,6 +3,7 @@ package com.buimanhthanh.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.ProductDetailDTO;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,16 +19,24 @@ public class ProductDetailDaoImpl implements ProductDetailDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<ProductDetail> getProductDetailById(Integer id) {
+	public Optional<ProductDetailDTO> getProductDetailById(Integer id) {
 		return sessionFactory.getCurrentSession()
-				.createQuery("from ProductDetail as a where a.id =: i", ProductDetail.class).setParameter("i", id)
+				.createQuery("select new com.buimanhthanh.dto.ProductDetailDTO(a.id,a.productByProductId.id,a.sizeBySizeId.id,a.colorByColorId.id,a.quantity,a.description,a.image) from ProductDetail as a where a.id =: i", ProductDetailDTO.class).setParameter("i", id)
 				.getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<ProductDetail>> getAllProductDetail() {
+	public Optional<List<ProductDetailDTO>> getAllProductDetail() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession()
-				.createQuery("from ProductDetail", ProductDetail.class).getResultList());
+				.createQuery("select new com.buimanhthanh.dto.ProductDetailDTO(a.id,a.productByProductId.id,a.sizeBySizeId.id,a.colorByColorId.id,a.quantity,a.description,a.image) from ProductDetail a", ProductDetailDTO.class).getResultList());
+	}
+
+	@Override
+	public Optional<List<ProductDetailDTO>> getProductDetailByProductId(Integer id) {
+		return Optional.ofNullable(sessionFactory.getCurrentSession()
+				.createQuery("select new com.buimanhthanh.dto.ProductDetailDTO(a.id,a.productByProductId.id,a.sizeBySizeId.id,a.colorByColorId.id,a.quantity,a.description,a.image) from ProductDetail a where a.productByProductId.id =: i", ProductDetailDTO.class)
+				.setParameter("i", id)
+				.getResultList());
 	}
 
 	@Override

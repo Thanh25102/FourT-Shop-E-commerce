@@ -1,16 +1,17 @@
 package com.buimanhthanh.dao;
 
+import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.entity.Account;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AccountDao {
-    Optional<Account> getAccountByUsername(String username);
+    Optional<AccountDTO> getAccountByUsername(String username);
 
-    Optional<Account> getAccountByEmail(String email);
+    Optional<AccountDTO> getAccountByEmail(String email);
     
-    Optional<List<Account>> getAllAccount();
+    Optional<List<AccountDTO>> getAllAccount();
 
     Boolean saveOrUpdateAccount(Account account);
 

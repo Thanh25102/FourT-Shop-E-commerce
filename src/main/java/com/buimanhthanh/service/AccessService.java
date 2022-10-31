@@ -1,16 +1,16 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Access;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.AccessDTO;
+
 public interface AccessService {
-	Optional<Access> getAccessById(Integer id);
+	Optional<AccessDTO> getAccessById(Integer id);
 
-	Optional<List<Access>> getAllAccess();
+	Optional<List<AccessDTO>> getAllAccess();
 
-	Boolean saveOrUpdateAccess(Access access);
+	Boolean saveOrUpdateAccess(AccessDTO accessDTO);
 
 	void deleteAccess(Integer id);
 

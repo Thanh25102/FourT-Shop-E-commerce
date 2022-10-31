@@ -1,6 +1,7 @@
 package com.buimanhthanh.dao.impl;
 
 import com.buimanhthanh.dao.OrderDao;
+import com.buimanhthanh.dto.OrderDTO;
 import com.buimanhthanh.entity.Order;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -17,17 +18,17 @@ public class OrderDaoImpl implements OrderDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public Optional<Order> getOrderById(Integer id) {
+    public Optional<OrderDTO> getOrderById(Integer id) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Order as a where a.id =: i",Order.class)
+                .createQuery("select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.discountCodeByDiscountCodeId.id) from Order as a where a.id =: i",OrderDTO.class)
                 .setParameter("i",id)
                 .getResultList().stream().findFirst();
     }
 
     @Override
-    public Optional<List<Order>> getAllOrder() {
+    public Optional<List<OrderDTO>> getAllOrder() {
         return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Order",Order.class)
+                .createQuery("select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.discountCodeByDiscountCodeId.id) from Order a",OrderDTO.class)
                 .getResultList());
     }
 

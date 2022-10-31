@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.CartDao;
+import com.buimanhthanh.dto.CartDTO;
 import com.buimanhthanh.entity.Cart;
 
 @Repository
@@ -18,15 +19,15 @@ public class CartDaoImpl implements CartDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Cart> getCartById(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery("from Cart as a where a.id =: i", Cart.class)
+	public Optional<CartDTO> getCartById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.CartDTO(a.id,a.ammount,a.accountByUsername.username) from Cart a where a.id =: i", CartDTO.class)
 				.setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<Cart>> getAllCart() {
+	public Optional<List<CartDTO>> getAllCart() {
 		return Optional
-				.ofNullable(sessionFactory.getCurrentSession().createQuery("from Cart", Cart.class).getResultList());
+				.ofNullable(sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.CartDTO(a.id,a.ammount,a.accountByUsername.username) from Cart a", CartDTO.class).getResultList());
 	}
 
 	@Override

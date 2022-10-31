@@ -394,14 +394,14 @@
 									<tr>
 										<th>${account.username}</th>
 										<th>${account.password}</th>
-										<th>${account.enabled4}</th>
+										<th>${account.enabled}</th>
 										<th>${account.email}</th>
 										<th>${account.phone}</th>
 										<th>${account.fullName}</th>
 										<th>${account.address}</th>
 										<th>${account.rankAccount}</th>
 										<th><a href="#">Order Detail</a></th>
-										<th>${account.roleById.authority}</th>
+										<th>${account.roleId}</th>
 										<th>
 											<a href="<c:url value="/admin/account?action=update&&username=${account.username}"/>">update</a>
 											<a href="<c:url value="/admin/account/delete/${ account.username }"/>" >disable</a>
@@ -468,8 +468,8 @@
 										<th>${order.ammount}</th>
 										<th>${order.paymentMethod}</th>
 										<th>${order.createTime}</th>
-										<th>${order.accountByUsername.username}</th>
-										<th>${order.discountCodeByDiscountCodeId.code}</th>
+										<th>${order.username}</th>
+										<th>${order.discountCodeId}</th>
 										<th><a href="<c:url value="/admin/order/detail/${order.id}"/>">Detail</a></th>
 										<th><a>update</a> <a>delete</a></th>
 									</tr>
@@ -480,7 +480,7 @@
 									<tr>
 										<th>${cart.id}</th>
 										<th>${cart.ammount}</th>
-										<th>${cart.accountByUsername.username}</th>
+										<th>${cart.username}</th>
 										<th><a>Detail</a></th>
 										<th><a>update</a> <a>delete</a></th>
 									</tr>
@@ -495,8 +495,8 @@
 										<th>${product.description}</th>
 										<th>${product.thumbnail}</th>
 										<th><img src="${product.represent}" class="custom-img-o img-thumbnail" /></th>
-										<th>${product.categoryByCategoryId.name}</th>
-										<th>${product.discountByDiscountId.id}</th>
+										<th>${product.categoryId}</th>
+										<th>${product.discountId}</th>
 										<c:if test="${discountProduct != 'discountProduct'}"> 
 											<th><a
 												href="<c:url value='/admin/product/detail/${product.id}'/>">
@@ -525,7 +525,7 @@
 									</tr>
 								</c:forEach>
 							</c:when>
-							<c:when test="${model eq 'Size' }">
+							<%-- <c:when test="${model eq 'Size' }">
 								<c:forEach var="size" items="${ listObject }">
 									<tr>
 										<th>${size.id}</th>
@@ -539,7 +539,7 @@
 										</th>
 									</tr>
 								</c:forEach>
-							</c:when>
+							</c:when> --%>
 							<c:when test="${model eq 'Color' }">
 								<c:forEach var="color" items="${ listObject }">
 									<tr>
@@ -562,10 +562,10 @@
 											class="custom-img-o img-thumbnail" /></th>
 										<th>${productDetailI.description}</th>
 										<th>${productDetailI.quantity}</th>
-										<th>${productDetailI.sizeBySizeId.name}</th>
-										<th>${productDetailI.colorByColorId.name}</th>
+										<th>${productDetailI.sizeId}</th>
+										<th>${productDetailI.sizeId}</th>
 										<th><a
-											href="<c:url value="/admin/product/detail/${ pathVariable }?action=update&&detailId=${productDetailI.id}"/>">update</a>
+											href="<c:url value="/admin/product/detail/${ productDetailI.productId }?action=update&&detailId=${productDetailI.id}"/>">update</a>
 											<a href="#" onclick="sendPostRequest(`<c:url value="/admin/product/detail/delete/${ productDetailI.id }"/>`);">delete</a>
 										</th>
 									</tr>
@@ -589,7 +589,7 @@
 							</c:when>
 						</c:choose>
 
-					</tbody>
+					</tbody>0
 				</table>
 			</div>
 		</div>
@@ -599,8 +599,9 @@
 			<div class="overlay">
 				<c:choose>
 					<c:when test="${model eq 'Product'}">
-						<c:url value="/admin/product/edit/${ param.detailId }" var="url" />
-						<form:form action="${url}" modelAttribute="Product" method="post">
+						<c:url value="/admin/product/edit/${ param.id }" var="url" />
+						<c:url value="/admin/product/add" var="urlAdd" />
+						<form:form action="${param.action == 'add' ? urlAdd : url}" modelAttribute="Product" method="post">
 							<div class="form-group row">
 								<form:errors path="*" cssClass="col-lg-12 text-danger"
 									element="p" />
@@ -641,14 +642,14 @@
 										</div>
 										<div class="col-lg-6">
 											<i class="fa fa-sort"></i>
-											<form:select class="floatLabel" name="categoryByCategoryId"
-												path="categoryByCategoryId">
+											<form:select class="floatLabel" name="categoryId"
+												path="categoryId">
 												<c:forEach var="category" items="${Categories}">
 													<form:option value="${category.id}">${category.name}</form:option>
 												</c:forEach>
 											</form:select>
 											<label
-												${Product.categoryByCategoryId !=null ? "class='active'" : ""}>Category</label>
+												${Product.categoryId !=null ? "class='active'" : ""}>Category</label>
 										</div>
 									</div>
 								</div>
@@ -664,14 +665,14 @@
 									<div class="col-lg-5"></div>
 								</div>
 								<form:input type="hidden" path="id" />
-								<form:input type="hidden" path="discountByDiscountId" value="${ Product.discountByDiscountId.id}" />
-								<%-- <form:input type="hidden" path="productDetailsById"  value="${ Product.productDetailsById.id}"/> --%>
+								<form:input type="hidden" path="discountId"/>
 							</div>
 						</form:form>
 					</c:when>
 					<c:when test="${model eq 'ProductDetail'}">
-						<c:url value="/admin/product/detail/${pathVariable }" var="url" />
-						<form:form action="${url}" modelAttribute="productDetailForm" method="post">
+						<c:url value="/admin/product/detail/${pathVariable }/edit/${productDetailForm.id}" var="urlEdit" />
+						<c:url value="/admin/product/detail/${pathVariable }/add" var="urlAdd" />
+						<form:form action="${param.action eq 'update' ? urlEdit : urlAdd}" modelAttribute="productDetailForm" method="post">
 							<div class="form-group row">
 								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
 							</div>
@@ -695,21 +696,21 @@
 								</div>
 								<div class="controls col-lg-6">
 									<i class="fa fa-sort"></i>
-									<form:select class="floatLabel" name="colorByColorId" path="colorByColorId">
+									<form:select class="floatLabel" name="colorId" path="colorId">
 										<c:forEach var="color" items="${Colors}">
 											<form:option value="${color.id}">${color.name}</form:option>
 										</c:forEach>
 									</form:select>
-									<label ${productDetailForm.colorByColorId !=null ? "class='active'" : ""}>Color</label>
+									<label ${productDetailForm.colorId !=null ? "class='active'" : ""}>Color</label>
 								</div>
 								<div class="controls col-lg-6">
 									<i class="fa fa-sort"></i>
-									<form:select class="floatLabel" name="sizeBySizeId" path="sizeBySizeId">
+									<form:select class="floatLabel" name="sizeId" path="sizeId">
 										<c:forEach var="size" items="${Sizes}">
 											<form:option value="${size.id}">${size.name}</form:option>
 										</c:forEach>
 									</form:select>
-									<label ${productDetailForm.sizeBySizeId !=null ? "class='active'" : ""}>Size</label>
+									<label ${productDetailForm.sizeId !=null ? "class='active'" : ""}>Size</label>
 								</div>
 								<div class="controls col-lg-12">
 									<form:textarea name="description" class="floatLabel"
@@ -723,7 +724,7 @@
 								</div>
 								<div class="row col-lg-12">
 									<form:input path="id" type="hidden"/>
-									<form:input path="productByProductId" value="${pathVariable}" type="hidden"/>
+									<form:input path="productId" type="hidden" value="${pathVariable}"/>
 								</div>
 								
 							</div>
@@ -753,11 +754,11 @@
 								</div>
 								<div class="controls col-lg-6">
 									<i class="fa fa-sort"></i>
-									<form:select class="floatLabel" name="enabled4" path="enabled4">
+									<form:select class="floatLabel" name="enabled" path="enabled">
 										<form:option value="${true}">Active</form:option>
 										<form:option value="${false}">Disable</form:option>
 									</form:select>
-									<label ${Account.enabled4 !=null ? "class='active'" : ""}>Enable</label>
+									<label ${Account.enabled !=null ? "class='active'" : ""}>Enable</label>
 								</div>
 								<div class="controls col-lg-6">
 									<form:input type="text" id="email" class="floatLabel" name="email" path="email" />
@@ -781,12 +782,12 @@
 								</div>
 								<div class="controls col-lg-6">
 									<i class="fa fa-sort"></i>
-									<form:select class="floatLabel" name="roleById" path="roleById">
+									<form:select class="floatLabel" name="roleId" path="roleId">
 										<c:forEach var="role" items="${Roles}">
 											<form:option value="${role.id}">${role.authority}</form:option>
 										</c:forEach>
 									</form:select>
-									<label ${Account.roleById !=null ? "class='active'" : ""}>Role</label>
+									<label ${Account.roleId !=null ? "class='active'" : ""}>Role</label>
 								</div>
 								<c:if test="${param.action eq 'add' }">
 									<div class="controls col-lg-6">
@@ -798,17 +799,17 @@
 										<label for="passwordConfirm" ${Account.passwordConfirm !=null ? "class='active'" : ""}>Confirm Password</label>
 									</div>
 								</c:if>
-								<div class="row col-lg-12">
-									<div class="col-lg-5"></div>
-									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
-									<div class="col-lg-5"></div>
-								</div>
 								<c:if test="${ param.action eq 'update' }">
 									<div class="row col-lg-12">
 										<form:input path="password" value="${password}" type="hidden"/>
 										<form:input path="passwordConfirm" value="${password}" type="hidden"/>
 									</div>
 								</c:if>
+								<div class="row col-lg-12">
+									<div class="col-lg-5"></div>
+									<button type="submit" value="Submit" class="col-lg-2">Submit</button>
+									<div class="col-lg-5"></div>
+								</div>
 							</div>
 						</form:form>
 					</c:when>
@@ -1047,7 +1048,6 @@
 							</div>
 						</form:form>
 					</c:when>
-				
 				</c:choose>
 			</div>
 		</div>

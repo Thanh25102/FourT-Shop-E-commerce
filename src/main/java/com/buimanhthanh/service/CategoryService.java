@@ -1,16 +1,16 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Category;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.CategoryDTO;
+
 public interface CategoryService {
-    Optional<Category> getCategoryById(Integer id);
+    Optional<CategoryDTO> getCategoryById(Integer id);
 
-    Optional<List<Category>> getAllCategory();
+    Optional<List<CategoryDTO>> getAllCategory();
 
-    Boolean saveOrUpdateCategory(Category category);
+    Boolean saveOrUpdateCategory(CategoryDTO categoryDTO);
 
     void deleteCategory(Integer id);
 

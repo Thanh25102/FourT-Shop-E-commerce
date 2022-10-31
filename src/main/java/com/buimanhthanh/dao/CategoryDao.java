@@ -3,12 +3,13 @@ package com.buimanhthanh.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.CategoryDTO;
 import com.buimanhthanh.entity.Category;
 
 public interface CategoryDao {
-    Optional<Category> getCategoryById(Integer id);
+    Optional<CategoryDTO> getCategoryById(Integer id);
 
-    Optional<List<Category>> getAllCategory();
+    Optional<List<CategoryDTO>> getAllCategory();
 
     Boolean saveOrUpdateCategory(Category category);
 

@@ -3,6 +3,7 @@ package com.buimanhthanh.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.AccountDTO;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,27 +18,27 @@ public class AccountDaoImpl implements AccountDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Account> getAccountByUsername(String username) {
-//        return Optional.ofNullable(sessionFactory.getCurrentSession()
-//                .createQuery("from Account as a where a.username =: u",Account.class)
-//                .setParameter("u",username)
-//                .getSingleResult()).orElse();
-		return sessionFactory.getCurrentSession().createQuery("from Account as a where a.username =: u", Account.class)
+	public Optional<AccountDTO> getAccountByUsername(String username) {
+		return sessionFactory.getCurrentSession()
+						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account a where a.username =: u", AccountDTO.class)
 						.setParameter("u", username).getResultList().stream().findFirst();
 				
 	}
 
     
     @Override
-	public Optional<Account> getAccountByEmail(String email){
-		return sessionFactory.getCurrentSession().createQuery("from Account as a where a.email =: u", Account.class)
+	public Optional<AccountDTO> getAccountByEmail(String email){
+		return sessionFactory.getCurrentSession()
+						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account as a where a.email =: u", AccountDTO.class)
 						.setParameter("u", email).getResultList().stream().findFirst();
 				
 	}
 
 	@Override
-	public Optional<List<Account>> getAllAccount() {
-		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery("from Account", Account.class).getResultList());
+	public Optional<List<AccountDTO>> getAllAccount() {
+		return Optional.ofNullable(sessionFactory.getCurrentSession()
+							.createQuery(" select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account a", AccountDTO.class)
+							.getResultList());
 	}
 
 	@Override

@@ -1,16 +1,16 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Order;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.OrderDTO;
+
 public interface OrderService {
-    Optional<Order> getOrderById(Integer id);
+    Optional<OrderDTO> getOrderById(Integer id);
 
-    Optional<List<Order>> getAllOrder();
+    Optional<List<OrderDTO>> getAllOrder();
 
-    Boolean saveOrUpdateOrder(Order order);
+    Boolean saveOrUpdateOrder(OrderDTO orderDTO);
 
     void deleteOrder(Integer id);
 

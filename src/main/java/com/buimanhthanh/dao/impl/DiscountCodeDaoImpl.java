@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.DiscountCodeDao;
+import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.entity.DiscountCode;
 
 @Repository
@@ -18,17 +19,17 @@ public class DiscountCodeDaoImpl implements DiscountCodeDao {
     private SessionFactory sessionFactory;
 
     @Override
-    public Optional<DiscountCode> getDiscountCodeById(Integer id) {
+    public Optional<DiscountCodeDTO> getDiscountCodeById(Integer id) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from DiscountCode as a where a.id =: i",DiscountCode.class)
+                .createQuery("select new com.buimanhthanh.dto.DiscountCodeDTO(a.id,a.code,a.salePercent,a.saleMoney,a.startDay,a.endDay,a.maxDiscount,a.description) from DiscountCode as a where a.id =: i",DiscountCodeDTO.class)
                 .setParameter("i",id)
                 .getResultList().stream().findFirst();
     }
 
     @Override
-    public Optional<List<DiscountCode>> getAllDiscountCode() {
+    public Optional<List<DiscountCodeDTO>> getAllDiscountCode() {
         return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from DiscountCode",DiscountCode.class)
+                .createQuery("select new com.buimanhthanh.dto.DiscountCodeDTO(a.id,a.code,a.salePercent,a.saleMoney,a.startDay,a.endDay,a.maxDiscount,a.description) from DiscountCode a",DiscountCodeDTO.class)
                 .getResultList());
     }
 

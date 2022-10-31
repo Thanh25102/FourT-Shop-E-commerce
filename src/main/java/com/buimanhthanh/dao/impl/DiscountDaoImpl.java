@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.DiscountDao;
+import com.buimanhthanh.dto.DiscountDTO;
 import com.buimanhthanh.entity.Discount;
 
 @Repository
@@ -18,15 +19,17 @@ public class DiscountDaoImpl implements DiscountDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Discount> getDiscountById(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery("from Discount as a where a.id =: i", Discount.class)
+	public Optional<DiscountDTO> getDiscountById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.DiscountDTO(a.id,a.salePercent,a.startDay,a.endDay,a.description) from Discount a where a.id =: i", DiscountDTO.class)
 				.setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<Discount>> getAllDiscount() {
+	public Optional<List<DiscountDTO>> getAllDiscount() {
 		return Optional.ofNullable(
-				sessionFactory.getCurrentSession().createQuery("from Discount", Discount.class).getResultList());
+				sessionFactory.getCurrentSession()
+				.createQuery("select new com.buimanhthanh.dto.DiscountDTO(a.id,a.salePercent,a.startDay,a.endDay,a.description) from Discount a", DiscountDTO.class)
+				.getResultList());
 	}
 
 	@Override

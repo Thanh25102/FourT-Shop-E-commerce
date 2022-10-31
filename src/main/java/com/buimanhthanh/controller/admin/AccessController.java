@@ -16,7 +16,6 @@ public class AccessController {
     @GetMapping("/access")
     public String access(ModelMap model) {
         model.addAttribute("model", Access.class.getSimpleName());
-        System.out.println(Access.class.getSimpleName());
         model.addAttribute("listObject", accessService.getAllAccess().get());
         return "adminTable";
     }

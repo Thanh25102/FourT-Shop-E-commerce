@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.SizeDTO;
 import com.buimanhthanh.entity.Size;
 import com.buimanhthanh.service.SizeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,16 @@ public class SizeController {
                        @RequestParam(required = false, defaultValue = "null") String action) {
         if (action.equals("update")) {
             sizeService.getSizeById(id).ifPresentOrElse(s -> model.addAttribute("Size", s),
-                    () -> model.addAttribute("Size", new Size()));
+                    () -> model.addAttribute("Size", new SizeDTO()));
         } else if (action.equals("add")) {
-            model.addAttribute("Size", new Size());
+            model.addAttribute("Size", new SizeDTO());
         }
         model.addAttribute("model", Size.class.getSimpleName());
         model.addAttribute("listObject", sizeService.getAllSize().get());
         return "adminTable";
     }
     @PostMapping("/size")
-    public String size(ModelMap model, @ModelAttribute("size") @Valid Size size, BindingResult result) {
+    public String size(ModelMap model, @ModelAttribute("size") @Valid SizeDTO size, BindingResult result) {
         if (result.hasErrors())
             return "redirect:/admin/size?action=add";
         else {
@@ -39,7 +40,7 @@ public class SizeController {
     }
 
     @PostMapping("/size/edit/{id}")
-    public String updateSize(ModelMap model, @ModelAttribute("size") @Valid Size size, BindingResult result,
+    public String updateSize(ModelMap model, @ModelAttribute("size") @Valid SizeDTO size, BindingResult result,
                              @PathVariable(required = true) Integer id) {
         if (result.hasErrors())
             return "redirect:/admin/size?action=update&&id=" + id;

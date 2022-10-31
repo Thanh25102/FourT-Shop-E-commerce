@@ -1,18 +1,18 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Role;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.RoleDTO;
+
 public interface RoleService {
-    Optional<Role> getRoleById(Integer id);
+    Optional<RoleDTO> getRoleById(Integer id);
     
-    Optional<Role> getRoleByAuthority(String authority);
+    Optional<RoleDTO> getRoleByAuthority(String authority);
 
-    Optional<List<Role>> getAllRole();
+    Optional<List<RoleDTO>> getAllRole();
 
-    Boolean saveOrUpdateRole(Role role);
+    Boolean saveOrUpdateRole(RoleDTO roleDTO);
 
     void deleteRole(Integer id);
 

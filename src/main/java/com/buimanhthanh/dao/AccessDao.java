@@ -3,12 +3,13 @@ package com.buimanhthanh.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.AccessDTO;
 import com.buimanhthanh.entity.Access;
 
 public interface AccessDao {
-	Optional<Access> getAccessById(Integer id);
+	Optional<AccessDTO> getAccessById(Integer id);
 
-	Optional<List<Access>> getAllAccess();
+	Optional<List<AccessDTO>> getAllAccess();
 
 	Boolean saveOrUpdateAccess(Access access);
 

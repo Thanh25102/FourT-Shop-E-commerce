@@ -1,16 +1,17 @@
 package com.buimanhthanh.service;
 
+import com.buimanhthanh.dto.SizeDTO;
 import com.buimanhthanh.entity.Size;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface SizeService {
-    Optional<Size> getSizeById(Integer id);
+    Optional<SizeDTO> getSizeById(Integer id);
 
-    Optional<List<Size>> getAllSize();
+    Optional<List<SizeDTO>> getAllSize();
 
-    Boolean saveOrUpdateSize(Size size);
+    Boolean saveOrUpdateSize(SizeDTO sizeDTO);
 
     void deleteSize(Integer id);
 

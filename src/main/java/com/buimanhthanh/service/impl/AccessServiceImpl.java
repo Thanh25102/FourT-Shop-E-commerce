@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.AccessDao;
+import com.buimanhthanh.dto.AccessDTO;
 import com.buimanhthanh.entity.Access;
 import com.buimanhthanh.service.AccessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,20 @@ public class AccessServiceImpl implements AccessService {
 
     @Override
     @Transactional
-    public Optional<Access> getAccessById(Integer id) {
+    public Optional<AccessDTO> getAccessById(Integer id) {
         return accessDao.getAccessById(id);
     }
 
     @Override
     @Transactional
-    public Optional<List<Access>> getAllAccess() {
+    public Optional<List<AccessDTO>> getAllAccess() {
         return accessDao.getAllAccess();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateAccess(Access access) {
+    public Boolean saveOrUpdateAccess(AccessDTO accessDTO) {
+    	Access access = new Access(accessDTO.getId(),accessDTO.getCode(),accessDTO.getDescription(),null);
         return accessDao.saveOrUpdateAccess(access);
     }
 

@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.CategoryDao;
+import com.buimanhthanh.dto.CategoryDTO;
 import com.buimanhthanh.entity.Category;
 import com.buimanhthanh.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public Optional<Category> getCategoryById(Integer id) {
+    public Optional<CategoryDTO> getCategoryById(Integer id) {
         return categoryDao.getCategoryById(id);
     }
 
     @Override
     @Transactional
-    public Optional<List<Category>> getAllCategory() {
+    public Optional<List<CategoryDTO>> getAllCategory() {
         return categoryDao.getAllCategory();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateCategory(Category category) {
+    public Boolean saveOrUpdateCategory(CategoryDTO categoryDTO) {
+    	Category category = new Category(categoryDTO.getId(),categoryDTO.getName(),categoryDTO.getCode(),categoryDTO.getThumbnail(),categoryDTO.getDescription(),categoryDTO.getLogo(),null);
         return categoryDao.saveOrUpdateCategory(category);
     }
 

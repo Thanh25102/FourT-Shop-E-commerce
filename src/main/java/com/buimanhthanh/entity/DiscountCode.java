@@ -1,16 +1,21 @@
 package com.buimanhthanh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Collection;
 
 @Entity
-@Table(name = "discount_code", schema = "buimanhthanhecormmercespringmvc", catalog = "")
+@Table(name="discount_code")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DiscountCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

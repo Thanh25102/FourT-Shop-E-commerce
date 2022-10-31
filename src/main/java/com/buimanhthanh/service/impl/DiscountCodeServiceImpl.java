@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.DiscountCodeDao;
+import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.service.DiscountCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,20 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
 
     @Override
     @Transactional
-    public Optional<DiscountCode> getDiscountCodeById(Integer id) {
+    public Optional<DiscountCodeDTO> getDiscountCodeById(Integer id) {
         return discountCodeDao.getDiscountCodeById(id);
     }
 
     @Override
     @Transactional
-    public Optional<List<DiscountCode>> getAllDiscountCode() {
+    public Optional<List<DiscountCodeDTO>> getAllDiscountCode() {
         return discountCodeDao.getAllDiscountCode();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateDiscountCode(DiscountCode discountCode) {
+    public Boolean saveOrUpdateDiscountCode(DiscountCodeDTO discountCodeDTO) {
+    	DiscountCode discountCode = new DiscountCode(discountCodeDTO.getId(),discountCodeDTO.getCode(),discountCodeDTO.getSalePercent(),discountCodeDTO.getSaleMoney(),discountCodeDTO.getStartDay(),discountCodeDTO.getEndDay(),discountCodeDTO.getMaxDiscount(),discountCodeDTO.getDescription(),null);
         return discountCodeDao.saveOrUpdateDiscountCode(discountCode);
     }
 

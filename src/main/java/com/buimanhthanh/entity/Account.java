@@ -4,19 +4,29 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.buimanhthanh.validation.PasswordConfirmMatch;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "account")
 @Data
-@PasswordConfirmMatch
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account implements UserDetails {
 	/**
 	 * 
@@ -28,10 +38,6 @@ public class Account implements UserDetails {
 	@Basic
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
-
-	@Transient
-	private String passwordConfirm;
-
 	@Basic
 	@Column(name = "enabled", nullable = false)
 	private Boolean enabled4;
@@ -51,10 +57,10 @@ public class Account implements UserDetails {
 	@Column(name = "rank_account", nullable = false, length = 55)
 	private String rankAccount;
 
-	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.LAZY)
 	private Set<Cart> cartsByUsername;
 
-	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.LAZY)
 	private Set<Order> ordersByUsername;
 
 	@ManyToOne
@@ -86,23 +92,5 @@ public class Account implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return this.enabled4;
-	}
-
-	@Override
-	public String toString() {
-		return "Account{" +
-				"username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", passwordConfirm='" + passwordConfirm + '\'' +
-				", enabled4=" + enabled4 +
-				", email='" + email + '\'' +
-				", phone='" + phone + '\'' +
-				", fullName='" + fullName + '\'' +
-				", address='" + address + '\'' +
-				", rankAccount='" + rankAccount + '\'' +
-				", cartsByUsername=" + cartsByUsername +
-				", ordersByUsername=" + ordersByUsername +
-				", roleById=" + roleById +
-				'}';
 	}
 }

@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.RoleDTO;
 import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping("/role")
-    public String role(ModelMap model, @ModelAttribute("role") @Valid Role role, BindingResult result) {
+    public String role(ModelMap model, @ModelAttribute("role") @Valid RoleDTO role, BindingResult result) {
         if (result.hasErrors())
             return "adminTable";
         else {

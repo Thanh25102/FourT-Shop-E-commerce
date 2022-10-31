@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.SizeDao;
+import com.buimanhthanh.dto.SizeDTO;
 import com.buimanhthanh.entity.Size;
 
 @Repository
@@ -18,15 +19,15 @@ public class SizeDaoImpl implements SizeDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Size> getSizeById(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery("from Size as a where a.id =: i", Size.class)
+	public Optional<SizeDTO> getSizeById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.SizeDTO(a.id,a.name,a.code,a.description) from Size as a where a.id =: i", SizeDTO.class)
 				.setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<Size>> getAllSize() {
+	public Optional<List<SizeDTO>> getAllSize() {
 		return Optional
-				.ofNullable(sessionFactory.getCurrentSession().createQuery("from Size", Size.class).getResultList());
+				.ofNullable(sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.SizeDTO(a.id,a.name,a.code,a.description) from Size a", SizeDTO.class).getResultList());
 	}
 
 	@Override

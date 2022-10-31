@@ -1,6 +1,9 @@
 package com.buimanhthanh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -10,6 +13,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "access")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Access {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

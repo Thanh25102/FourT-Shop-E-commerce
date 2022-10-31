@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.ColorDTO;
 import com.buimanhthanh.entity.Color;
 import com.buimanhthanh.service.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ColorController {
     }
 
     @PostMapping("/color")
-    public String color(ModelMap model, @ModelAttribute("color") @Valid Color color, BindingResult result) {
+    public String color(ModelMap model, @ModelAttribute("color") @Valid ColorDTO color, BindingResult result) {
         if (result.hasErrors())
             return "redirect:/admin/color?action=add";
         else {
@@ -41,7 +42,7 @@ public class ColorController {
     }
 
     @PostMapping("/color/edit/{id}")
-    public String updateColor(ModelMap model, @ModelAttribute("color") @Valid Color color, BindingResult result,
+    public String updateColor(ModelMap model, @ModelAttribute("color") @Valid ColorDTO color, BindingResult result,
                               @PathVariable(required = true) Integer id) {
         if (result.hasErrors())
             return "redirect:/admin/color?action=update&&id=" + id;

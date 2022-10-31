@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.RoleDao;
+import com.buimanhthanh.dto.RoleDTO;
 import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +18,26 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Optional<Role> getRoleById(Integer id) {
+    public Optional<RoleDTO> getRoleById(Integer id) {
         return roleDao.getRoleById(id);
     }
     
     @Override
     @Transactional
-    public Optional<Role> getRoleByAuthority(String authority) {
+    public Optional<RoleDTO> getRoleByAuthority(String authority) {
         return roleDao.getRoleByAuthority(authority);
     }
 
     @Override
     @Transactional
-    public Optional<List<Role>> getAllRole() {
+    public Optional<List<RoleDTO>> getAllRole() {
         return roleDao.getAllRole();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateRole(Role role) {
+    public Boolean saveOrUpdateRole(RoleDTO roleDTO) {
+    	Role role = new Role(roleDTO.getAuthority(),roleDTO.getId(),null,null);
         return roleDao.saveOrUpdateRole(role);
     }
 

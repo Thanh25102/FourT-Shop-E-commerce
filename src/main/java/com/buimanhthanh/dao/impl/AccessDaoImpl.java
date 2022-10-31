@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.AccessDao;
+import com.buimanhthanh.dto.AccessDTO;
 import com.buimanhthanh.entity.Access;
 
 @Repository
@@ -18,17 +19,17 @@ public class AccessDaoImpl implements AccessDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Access> getAccessById(Integer id) {
+	public Optional<AccessDTO> getAccessById(Integer id) {
 		return sessionFactory.getCurrentSession()
-				.createQuery("from Access as a where a.id =: i",Access.class)
+				.createQuery("select new com.buimanhthanh.dto.AccessDTO(a.id,a.code,a.description) from Access a where a.id =: i",AccessDTO.class)
 				.setParameter("i",id)
 				.getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<Access>> getAllAccess() {
+	public Optional<List<AccessDTO>> getAllAccess() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession()
-				.createQuery("from Access",Access.class)
+				.createQuery("select new com.buimanhthanh.dto.AccessDTO(a.id,a.code,a.description) from Access a",AccessDTO.class)
 				.getResultList());
 	}
 

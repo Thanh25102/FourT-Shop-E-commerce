@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.CategoryDao;
+import com.buimanhthanh.dto.CategoryDTO;
 import com.buimanhthanh.entity.Category;
 
 @Repository
@@ -17,17 +18,17 @@ public class CategoryDaoImpl implements CategoryDao {
     @Autowired
     private SessionFactory sessionFactory;
     @Override
-    public Optional<Category> getCategoryById(Integer id) {
+    public Optional<CategoryDTO> getCategoryById(Integer id) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Category as a where a.id =: i", Category.class)
+                .createQuery("select new com.buimanhthanh.dto.CategoryDTO(a.id,a.name,a.code,a.thumbnail,a.description,a.logo) from Category a where a.id =: i", CategoryDTO.class)
                 .setParameter("i",id)
                 .getResultList().stream().findFirst();
     }
 
     @Override
-    public Optional<List<Category>> getAllCategory() {
+    public Optional<List<CategoryDTO>> getAllCategory() {
         return Optional.ofNullable(sessionFactory.getCurrentSession()
-                .createQuery("from Category",Category.class)
+                .createQuery("select new com.buimanhthanh.dto.CategoryDTO(a.id,a.name,a.code,a.thumbnail,a.description,a.logo) from Category a",CategoryDTO.class)
                 .getResultList());
     }
 

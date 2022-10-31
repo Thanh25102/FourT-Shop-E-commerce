@@ -1,6 +1,7 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.ColorDao;
+import com.buimanhthanh.dto.ColorDTO;
 import com.buimanhthanh.entity.Color;
 import com.buimanhthanh.service.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,20 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     @Transactional
-    public Optional<Color> getColorById(Integer id) {
+    public Optional<ColorDTO> getColorById(Integer id) {
         return colorDao.getColorById(id);
     }
 
     @Override
     @Transactional
-    public Optional<List<Color>> getAllColor() {
+    public Optional<List<ColorDTO>> getAllColor() {
         return colorDao.getAllColor();
     }
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateColor(Color color) {
+    public Boolean saveOrUpdateColor(ColorDTO colorDTO) {
+    	Color color = new Color(colorDTO.getId(),colorDTO.getName(),colorDTO.getCode(),colorDTO.getDescription(),null);
         return colorDao.saveOrUpdateColor(color);
     }
 

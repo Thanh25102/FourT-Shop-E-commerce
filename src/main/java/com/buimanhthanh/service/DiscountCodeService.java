@@ -1,16 +1,17 @@
 package com.buimanhthanh.service;
 
+import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.entity.DiscountCode;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface DiscountCodeService {
-    Optional<DiscountCode> getDiscountCodeById(Integer id);
+    Optional<DiscountCodeDTO> getDiscountCodeById(Integer id);
 
-    Optional<List<DiscountCode>> getAllDiscountCode();
+    Optional<List<DiscountCodeDTO>> getAllDiscountCode();
 
-    Boolean saveOrUpdateDiscountCode(DiscountCode discountCode);
+    Boolean saveOrUpdateDiscountCode(DiscountCodeDTO discountCodeDTO);
 
     void deleteDiscountCode(Integer id);
 

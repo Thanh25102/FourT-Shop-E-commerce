@@ -1,6 +1,6 @@
 package com.buimanhthanh.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -16,12 +16,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "order_")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -44,7 +49,7 @@ public class Order {
 	@Basic
 	@Column(name = "create_time", nullable = false)
 	@NotNull(message = "{null.err}")
-	private Timestamp createTime;
+	private Date createTime;
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
 	@NotNull(message = "{null.err}")
@@ -52,6 +57,6 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")
 	private DiscountCode discountCodeByDiscountCodeId;
-	@OneToMany(mappedBy = "orderByOrderId",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "orderByOrderId",fetch = FetchType.LAZY)
 	private Set<OrderDetail> orderDetailsById;
 }

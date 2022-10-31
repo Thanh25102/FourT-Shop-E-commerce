@@ -3,12 +3,13 @@ package com.buimanhthanh.dao;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.SizeDTO;
 import com.buimanhthanh.entity.Size;
 
 public interface SizeDao {
-    Optional<Size> getSizeById(Integer id);
+    Optional<SizeDTO> getSizeById(Integer id);
 
-    Optional<List<Size>> getAllSize();
+    Optional<List<SizeDTO>> getAllSize();
 
     Boolean saveOrUpdateSize(Size size);
 

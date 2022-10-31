@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.buimanhthanh.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -37,17 +38,17 @@ public class LoginController {
 	}
 
 	@PostMapping(value = { "/register" })
-	public String register(@ModelAttribute(value = "userRegister") @Valid Account account, BindingResult result,
+	public String register(@ModelAttribute(value = "userRegister") @Valid AccountDTO accountDTO, BindingResult result,
 			ModelMap modelMap) {
-		Optional<Account> optionalAccount = userDetailService.getAccountByUsername(account.getUsername());
+		Optional<AccountDTO> optionalAccount = userDetailService.getAccountByUsername(accountDTO.getUsername());
 		
 		optionalAccount
 				.ifPresent(a -> result.addError(new ObjectError("username", messageSource.getMessage("account.username.err.exist",null,"username has already exists :D",null))));
-		userDetailService.getAccountByEmail(account.getEmail())
+		userDetailService.getAccountByEmail(accountDTO.getEmail())
 				.ifPresent(a -> result.addError(new ObjectError("email", messageSource.getMessage("account.email.err.exist",null,"email has already exists :D",null))));
 		
 		if (result.hasErrors() || optionalAccount.isPresent())
 			return "register";
-		return userDetailService.registerAccount(account) ? "redirect:/" : "register";
+		return userDetailService.registerAccount(accountDTO) ? "redirect:/" : "register";
 	}
 }

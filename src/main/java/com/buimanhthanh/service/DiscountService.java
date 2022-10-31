@@ -1,16 +1,16 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.entity.Discount;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.DiscountDTO;
+
 public interface DiscountService {
-    Optional<Discount> getDiscountById(Integer id);
+    Optional<DiscountDTO> getDiscountById(Integer id);
 
-    Optional<List<Discount>> getAllDiscount();
+    Optional<List<DiscountDTO>> getAllDiscount();
 
-    Boolean saveOrUpdateDiscount(Discount discount);
+    Boolean saveOrUpdateDiscount(DiscountDTO discountDTO);
 
     void deleteDiscount(Integer id);
 

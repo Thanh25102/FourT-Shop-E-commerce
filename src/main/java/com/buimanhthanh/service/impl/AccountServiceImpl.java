@@ -1,7 +1,10 @@
 package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.AccountDao;
+import com.buimanhthanh.dto.AccountDTO;
+import com.buimanhthanh.dto.RoleDTO;
 import com.buimanhthanh.entity.Account;
+import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.service.AccountService;
 import com.buimanhthanh.service.RoleService;
 
@@ -29,46 +32,59 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	public Optional<Account> getAccountByUsername(String username) {
+	public Optional<AccountDTO> getAccountByUsername(String username) {
 		return accountDao.getAccountByUsername(username);
 	}
 	
 	@Override
 	@Transactional
-	public Optional<Account> getAccountByEmail(String email) {
+	public Optional<AccountDTO> getAccountByEmail(String email) {
 		return accountDao.getAccountByEmail(email);
 	}
 
 	@Override
 	@Transactional
-	public Optional<List<Account>> getAllAccount() {
+	public Optional<List<AccountDTO>> getAllAccount() {
 		return accountDao.getAllAccount();
 	}
 
 	@Override
 	@Transactional
-	public Boolean saveOrUpdateAccount(Account account) {
+	public Boolean saveOrUpdateAccount(AccountDTO accountDTO) {
+		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),null,null,null);
+		Role role = new Role();
+		role.setId(accountDTO.getRoleId());
+		account.setRoleById(role);
 		return accountDao.saveOrUpdateAccount(account);
 	}
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Account> account = this.getAccountByUsername(username);
+		Optional<AccountDTO> account = this.getAccountByUsername(username);
 		if (account.isEmpty())
 			throw new UsernameNotFoundException("ncc");
-		return account.get();
+		AccountDTO accountDTO = account.get();
+		Account account1 = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),null,null,null);
+		
+		RoleDTO roleDTO = roleService.getRoleById(accountDTO.getRoleId()).get();
+    	Role role = new Role(roleDTO.getAuthority(),roleDTO.getId(),null,null);
+		
+		account1.setRoleById(role);
+		return account1;
 	}
 
 	@Override
 	@Transactional
-	public Boolean registerAccount(Account account) {
-		account.setEnabled4(true);
-    	account.setRankAccount("MEMBER");
-    	account.setRoleById(roleService.getRoleByAuthority("CUSTOMER").get());
+	public Boolean registerAccount(AccountDTO accountDTO) {
+		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),true,accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),"MEMBER",null,null,null);
+
+		RoleDTO roleDTO = roleService.getRoleByAuthority("CUSTOMER").get();
+    	Role role = new Role(roleDTO.getAuthority(),roleDTO.getId(),null,null);
+    	
+		account.setRoleById(role);
 		String newPassword = passwordEncoder.encode(account.getPassword());
 		account.setPassword(newPassword);
-		account.setPasswordConfirm(newPassword);
 		return accountDao.registerAccount(account);
 	}
 	

@@ -3,6 +3,7 @@ package com.buimanhthanh.dao.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.ProductDTO;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,15 +19,16 @@ public class ProductDaoImpl implements ProductDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Optional<Product> getProductById(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery("from Product as a where a.id =: i", Product.class)
+	public Optional<ProductDTO> getProductById(Integer id) {
+		return sessionFactory.getCurrentSession()
+				.createQuery("select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id) from Product as p where p.id =: i", ProductDTO.class)
 				.setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
-	public Optional<List<Product>> getAllProduct() {
+	public Optional<List<ProductDTO>> getAllProduct() {
 		return Optional.ofNullable(
-				sessionFactory.getCurrentSession().createQuery("from Product", Product.class).getResultList());
+				sessionFactory.getCurrentSession().createQuery("select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id) from Product p", ProductDTO.class).getResultList());
 	}
 
 	@Override

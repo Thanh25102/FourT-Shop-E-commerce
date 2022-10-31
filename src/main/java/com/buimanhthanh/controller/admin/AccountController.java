@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.service.AccountService;
@@ -36,11 +37,11 @@ public class AccountController {
             userDetailService.getAccountByUsername(username).ifPresentOrElse(a -> {
                 model.addAttribute("Account", a);
                 model.addAttribute("password", a.getPassword());
-            }, () -> model.addAttribute("Account", new Account()));
+            }, () -> model.addAttribute("Account", new AccountDTO()));
             roleService.getAllRole().ifPresentOrElse(r -> model.addAttribute("Roles", r),
                     () -> model.addAttribute("Roles", new ArrayList<Role>()));
         } else if (action.equals("add")) {
-            model.addAttribute("Account", new Account());
+            model.addAttribute("Account", new AccountDTO());
             roleService.getAllRole().ifPresentOrElse(r -> model.addAttribute("Roles", r),
                     () -> model.addAttribute("Roles", new ArrayList<Role>()));
         }
@@ -49,41 +50,42 @@ public class AccountController {
         return "adminTable";
     }
     @PostMapping("/account")
-    public String account(ModelMap model, @ModelAttribute("Account") @Valid Account account, BindingResult result) {
-        userDetailService.getAccountByUsername(account.getUsername()).ifPresent(a -> result.addError(new ObjectError(
+    public String account(@ModelAttribute("Account") @Valid AccountDTO accountDTO,
+                          BindingResult result) {
+        userDetailService.getAccountByUsername(accountDTO.getUsername()).ifPresent(a -> result.addError(new ObjectError(
                 "username",
                 messageSource.getMessage("account.username.err.exist", null, "username has already exists :D", null))));
-        userDetailService.getAccountByEmail(account.getEmail()).ifPresent(a -> result.addError(new ObjectError("email",
+        userDetailService.getAccountByEmail(accountDTO.getEmail()).ifPresent(a -> result.addError(new ObjectError("email",
                 messageSource.getMessage("account.email.err.exist", null, "email has already exists :D", null))));
-        String passwordEncode = passwordEncoder.encode(account.getPassword());
-        if (result.hasErrors() || !account.getPassword().equals(account.getPasswordConfirm())) {
+        String passwordEncode = passwordEncoder.encode(accountDTO.getPassword());
+        if (result.hasErrors() || !accountDTO.getPassword().equals(accountDTO.getPasswordConfirm())) {
             result.addError(new ObjectError("passwordConfirm", "password does not match"));
-            return "redirect:/admin/account";
         } else {
-            account.setPassword(passwordEncode);
-            account.setPasswordConfirm(passwordEncode);
-            userDetailService.saveOrUpdateAccount(account);
-            return "redirect:/admin/account";
+            accountDTO.setPassword(passwordEncode);
+            accountDTO.setPasswordConfirm(passwordEncode);
+            userDetailService.saveOrUpdateAccount(accountDTO);
         }
+        return "redirect:/admin/account";
     }
 
     @PostMapping("/account/edit/{username}")
-    public String updateAccount(ModelMap model, @ModelAttribute("Account") @Valid Account account, BindingResult result,
+    public String updateAccount(@ModelAttribute("Account") @Valid AccountDTO accountDTO,
+                                BindingResult result,
                                 @PathVariable String username) {
         if (result.hasErrors())
             return "redirect:/admin/account?action=update&&username=" + username;
         else {
-            userDetailService.saveOrUpdateAccount(account);
+            userDetailService.saveOrUpdateAccount(accountDTO);
             return "redirect:/admin/account";
         }
     }
 
     @GetMapping("/account/delete/{username}")
-    public String disableAccount(ModelMap model, @PathVariable(required = true) String username) {
-        Account account = userDetailService.getAccountByUsername(username).get();
-        account.setEnabled4(false);
-        account.setPasswordConfirm(account.getPassword());
-        userDetailService.saveOrUpdateAccount(account);
+    public String disableAccount(@PathVariable(required = true) String username) {
+        AccountDTO accountDTO = userDetailService.getAccountByUsername(username).get();
+        accountDTO.setEnabled(false);
+        accountDTO.setPasswordConfirm(accountDTO.getPassword());
+        userDetailService.saveOrUpdateAccount(accountDTO);
         return "redirect:/admin/account";
     }
 

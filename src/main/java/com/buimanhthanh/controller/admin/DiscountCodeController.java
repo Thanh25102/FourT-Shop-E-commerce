@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.service.DiscountCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DiscountCodeController {
     }
 
     @PostMapping("/discount_code")
-    public String discountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCode discountCode,
+    public String discountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCodeDTO discountCode,
                                BindingResult result) {
         if (result.hasErrors())
             return "redirect:/admin/discount_code?action=add";
@@ -42,7 +43,7 @@ public class DiscountCodeController {
     }
 
     @PostMapping("/discount_code/edit/{id}")
-    public String updateDiscountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCode discountCode,
+    public String updateDiscountCode(ModelMap model, @ModelAttribute("DiscountCode") @Valid DiscountCodeDTO discountCode,
                                      BindingResult result, @PathVariable Integer id) {
         if (result.hasErrors())
             return "redirect:/admin/discount_code?action=update&&id=" + id;
