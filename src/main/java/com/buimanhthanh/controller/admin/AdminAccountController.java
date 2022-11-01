@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/admin")
-public class AccountController {
+public class AdminAccountController {
 
     @Autowired
     private AccountService userDetailService;

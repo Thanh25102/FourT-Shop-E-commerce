@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("")
-public class ConfirmationController {
+public class HomeConfirmationController {
     @GetMapping("/confirmation")
     public String confirmation() {
         return "confirmation";

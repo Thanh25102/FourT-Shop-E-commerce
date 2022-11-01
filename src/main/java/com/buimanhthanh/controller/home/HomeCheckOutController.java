@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("")
-public class CategoryController {
-    @GetMapping("/category")
-    public String category() {
-        return "category";
+public class HomeCheckOutController {
+    @GetMapping("/checkout")
+    public String checkout() {
+        return "checkout";
     }
 }

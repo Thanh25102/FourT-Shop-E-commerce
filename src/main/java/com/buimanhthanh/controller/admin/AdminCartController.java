@@ -11,7 +11,7 @@ import com.buimanhthanh.service.CartService;
 
 @Controller
 @RequestMapping("/admin")
-public class CartController {
+public class AdminCartController {
     @Autowired
     private CartService cartService;
     @GetMapping("/cart")

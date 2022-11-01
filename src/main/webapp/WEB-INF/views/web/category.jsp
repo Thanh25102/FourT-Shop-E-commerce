@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 		 pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -27,11 +28,17 @@
 						<div class="head">Brands</div>
 						<form action="#">
 							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">Apple<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Asus<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gionee" name="brand"><label for="gionee">Gionee<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="micromax" name="brand"><label for="micromax">Micromax<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="samsung" name="brand"><label for="samsung">All<span>(19)</span></label></li>
+								<li class="filter-list"><input class="pixel-radio" type="radio" id="all" name="categoryId" onclick="window.location.href = '<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=0&&orderBy=name&&sortType=ASC&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>';"><label for="all">All<span>( ${allProducts} )</span></label></li>
+								<c:forEach var="category" items="${categories }">
+									<li class="filter-list">
+										<input class="pixel-radio" type="radio" id="${ category.id }" name="categoryId" >
+										<label for="${ category.id }">${category.name}<span>(
+											<c:forEach var="categoryRange" items="${ categoryRanges }">
+												<c:if test="${categoryRange.categoryId == category.id}">${ categoryRange.range }</c:if>
+											</c:forEach>
+										)</span></label>
+									</li>
+								</c:forEach>
 							</ul>
 						</form>
 					</div>
@@ -79,251 +86,138 @@
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting">
-						<select>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-							<option value="1">Default sorting</option>
-						</select>
+						<div class="nice-select" tabindex="0">
+							<span class="current">Sort by ${url.orderBy} and ${url.sortType}</span>
+							<ul class="list">
+								<a href="<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=name&&sortType=ASC&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.orderBy == 'name' && url.sortType =='ASC') ? 'focus selected' : '' } ">Sort by name asc</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=name&&sortType=DESC&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.orderBy == 'name' && url.sortType =='DESC') ? 'focus selected' : '' } ">Sort by name desc</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=ASC&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.orderBy == 'price' && url.sortType =='ASC') ? 'focus selected' : '' } ">Sort by price asc</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=DESC&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.orderBy == 'price' && url.sortType =='DESC') ? 'focus selected' : '' } ">Sort by price desc</li>
+								</a>
+							</ul>
+						</div>
 					</div>
 					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-						</select>
+						<div class="nice-select" tabindex="0">
+							<span class="current">Show ${url.limit}</span>
+							<ul class="list">
+								<a href="<c:url value="/category?page=${curPage}&&limit=6&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.limit == 6 || url.page ==null) ? 'focus selected' : '' } ">Show 6</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=9&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ url.limit == 9 ? 'focus selected' : '' }">Show 9</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=12&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ url.limit == 12 ? 'focus selected' : '' }">Show 12</li>
+								</a>
+							</ul>
+						</div>
 					</div>
 					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						<c:if test="${ totalPage >3 }">
+							<a href="<c:url value="/category?page=${(curPage - 1) == 0 ? 1 : curPage-1 }&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+							<c:forEach var="i" begin="${(curPage - 1) == 0 ? 1 : curPage-1 }" end="${(curPage + 2) >= totalPage ? totalPage : (curPage+2)}">
+								<a href="<c:url value="/category?page=${i}&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" ${ i == curPage ? "class='active'" : "" }>${ i }</a>
+							</c:forEach>
+							<c:if test="${curPage+2 <totalPage }">
+								<a href="#" class="dot-dot" style="padding-right:12px; padding-left:12px"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+								<a href="<c:url value="/category?page=${totalPage}&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" ${curPage == totalPage ? "class='active'" : "" }>${ totalPage }</a>
+							</c:if>
+							<a href="<c:url value="/category?page=${(curPage + 1) >= totalPage  ? totalPage : curPage+1 }&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+							
+						</c:if>
+						<c:if test="${ totalPage <=3 }">
+							<c:forEach var="i" begin="1" end="${totalPage}">
+								<a href="#" ${ i == curPage ? "class='active'" : "" } class="active">${ i }</a>
+							</c:forEach>
+						</c:if>
 					</div>
 				</div>
 				<!-- End Filter Bar -->
 				<!-- Start Best Seller -->
 				<section class="lattest-product-area pb-40 category-list">
 					<div class="row">
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p1.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
+					<c:forEach var="product" items="${ products }">
+							<!-- single product -->
+							<div class="col-lg-4 col-md-6">
+								<div class="single-product">
+									<img class="img-fluid" src="${product.represent}" alt="">
+									<div class="product-details">
+										<h6>${product.name }</h6>
+										<div class="price">
+											<h6>$${product.price}</h6>
+											<h6 class="l-through">$${product.price}</h6>
+										</div>
+										<div class="prd-bottom">
 
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
+											<a href="" class="social-info">
+												<span class="ti-bag"></span>
+												<p class="hover-text">add to bag</p>
+											</a>
+											<a href="" class="social-info">
+												<span class="lnr lnr-heart"></span>
+												<p class="hover-text">Wishlist</p>
+											</a>
+											<a href="" class="social-info">
+												<span class="lnr lnr-sync"></span>
+												<p class="hover-text">compare</p>
+											</a>
+											<a href="" class="social-info">
+												<span class="lnr lnr-move"></span>
+												<p class="hover-text">view more</p>
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p2.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p3.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p4.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p5.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="<c:url value="/asset/web/img/product/p6.jpg"/>" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
+							<!-- single product -->
+						</c:forEach>
 					</div>
 				</section>
 				<!-- End Best Seller -->
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting mr-auto">
-						<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-						</select>
+						<div class="nice-select" tabindex="0">
+							<span class="current">Show ${url.limit}</span>
+							<ul class="list">
+								<a href="<c:url value="/category?page=${curPage}&&limit=6&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ (url.limit == 6 || url.page ==null) ? 'focus selected' : '' } ">Show 6</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=9&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ url.limit == 9 ? 'focus selected' : '' }">Show 9</li>
+								</a>
+								<a href="<c:url value="/category?page=${curPage}&&limit=12&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>">
+									<li data-value="1" class="option ${ url.limit == 12 ? 'focus selected' : '' }">Show 12</li>
+								</a>
+							</ul>
+						</div>
 					</div>
 					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						<c:if test="${ totalPage >3 }">
+							<a href="<c:url value="/category?page=${(curPage - 1) == 0 ? 1 : curPage-1 }&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+							<c:forEach var="i" begin="${(curPage - 1) == 0 ? 1 : curPage-1 }" end="${(curPage + 2) >= totalPage ? totalPage : (curPage+2)}">
+								<a href="<c:url value="/category?page=${i}&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" ${ i == curPage ? "class='active'" : "" }>${ i }</a>
+							</c:forEach>
+							<c:if test="${curPage+2 <totalPage }">
+								<a href="#" class="dot-dot" style="padding-right:12px; padding-left:12px"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+								<a href="<c:url value="/category?page=${totalPage}&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" ${curPage == totalPage ? "class='active'" : "" }>${ totalPage }</a>
+							</c:if>
+							<a href="<c:url value="/category?page=${(curPage + 1) >= totalPage  ? totalPage : curPage+1 }&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+							
+						</c:if>
+						<c:if test="${ totalPage <=3 }">
+							<c:forEach var="i" begin="1" end="${totalPage}">
+								<a href="#" ${ i == curPage ? "class='active'" : "" } class="active">${ i }</a>
+							</c:forEach>
+						</c:if>
 					</div>
 				</div>
 				<!-- End Filter Bar -->

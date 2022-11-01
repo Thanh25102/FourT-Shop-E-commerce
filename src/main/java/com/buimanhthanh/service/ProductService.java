@@ -1,19 +1,29 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.dto.ProductDTO;
-import com.buimanhthanh.entity.Product;
-
 import java.util.List;
 import java.util.Optional;
 
+import com.buimanhthanh.dto.PriceRange;
+import com.buimanhthanh.dto.ProductDTO;
+import com.buimanhthanh.enumration.SortType;
+
 public interface ProductService {
-    Optional<ProductDTO> getProductById(Integer id);
+	Optional<ProductDTO> getProductById(Integer id);
 
-    Optional<List<ProductDTO>> getAllProduct();
+	Optional<List<ProductDTO>> getAllProduct();
 
-    Boolean saveOrUpdateProduct(ProductDTO productDTO);
+	Optional<List<ProductDTO>> getAllProduct(int page, int limit);
 
-    void deleteProduct(Integer id);
+	Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy, SortType sortType,
+			PriceRange priceRange);
 
-    void deleteProduct(List<Integer> ids);
+	Long getCountProductFormCategory(Integer id);
+
+	Long getCountProductFormCategory();
+
+	Boolean saveOrUpdateProduct(ProductDTO productDTO);
+
+	void deleteProduct(Integer id);
+
+	void deleteProduct(List<Integer> ids);
 }

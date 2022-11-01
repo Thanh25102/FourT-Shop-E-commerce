@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
-public class ColorController {
+public class AdminColorController {
     @Autowired
     private ColorService colorService;
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-public class AccessController {
+public class AdminAccessController {
     @Autowired
     private AccessService accessService;
     @GetMapping("/access")

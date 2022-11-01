@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
-public class DiscountCodeController {
+public class AdminDiscountCodeController {
 
     @Autowired
     private DiscountCodeService discountCodeService;

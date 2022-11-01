@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("")
-public class CartController {
-    @GetMapping("/cart")
-    public String cart() {
-        return "cart";
+public class HomeContactController {
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
     }
 }

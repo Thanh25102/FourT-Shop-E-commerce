@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
-public class SizeController {
+public class AdminSizeController {
     @Autowired
     private SizeService sizeService;
     @GetMapping("/size")

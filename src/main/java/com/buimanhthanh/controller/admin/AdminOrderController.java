@@ -17,7 +17,7 @@ import com.buimanhthanh.service.OrderService;
 
 @Controller
 @RequestMapping("/admin")
-public class OrderController {
+public class AdminOrderController {
     @Autowired
     private OrderService orderService;
     

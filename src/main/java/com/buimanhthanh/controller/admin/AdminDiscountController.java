@@ -19,7 +19,7 @@ import com.buimanhthanh.service.DiscountService;
 
 @Controller
 @RequestMapping("/admin")
-public class DiscountController {
+public class AdminDiscountController {
     @Autowired
     private DiscountService discountService;
     @GetMapping("/discount")

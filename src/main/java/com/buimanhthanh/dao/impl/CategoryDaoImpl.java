@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.buimanhthanh.dao.CategoryDao;
 import com.buimanhthanh.dto.CategoryDTO;
+import com.buimanhthanh.dto.CategoryRangeDTO;
 import com.buimanhthanh.entity.Category;
 
 @Repository
@@ -23,6 +24,12 @@ public class CategoryDaoImpl implements CategoryDao {
                 .createQuery("select new com.buimanhthanh.dto.CategoryDTO(a.id,a.name,a.code,a.thumbnail,a.description,a.logo) from Category a where a.id =: i", CategoryDTO.class)
                 .setParameter("i",id)
                 .getResultList().stream().findFirst();
+    }
+    @Override
+    public Optional<List<CategoryRangeDTO>> getCategoryRange() {
+        return Optional.ofNullable(sessionFactory.getCurrentSession()
+                .createQuery("select new com.buimanhthanh.dto.CategoryRangeDTO(c.id, count(p.id)) from Category c inner join Product p on p.categoryByCategoryId.id = c.id group by c.id", CategoryRangeDTO.class)
+                .getResultList());
     }
 
     @Override

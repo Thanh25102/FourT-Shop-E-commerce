@@ -3431,7 +3431,22 @@ label {
   border-radius: 50%;
   position: relative;
   z-index: 2;
-  opacity: 0; }
+  opacity: 0;
+}
+.pixel-radio-of-thanh{
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #ffba00;
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+}
 
 .pixel-radio {
   border-radius: 50%;

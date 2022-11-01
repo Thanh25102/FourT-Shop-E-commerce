@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buimanhthanh.dao.ProductDao;
+import com.buimanhthanh.dto.PriceRange;
 import com.buimanhthanh.dto.ProductDTO;
 import com.buimanhthanh.entity.Category;
 import com.buimanhthanh.entity.Discount;
 import com.buimanhthanh.entity.Product;
+import com.buimanhthanh.enumration.SortType;
 import com.buimanhthanh.service.ProductService;
 
 @Service
@@ -29,6 +31,12 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public Optional<List<ProductDTO>> getAllProduct() {
 		return productDao.getAllProduct();
+	}
+
+	@Override
+	@Transactional
+	public Optional<List<ProductDTO>> getAllProduct(int page, int limit) {
+		return productDao.getAllProduct(page, limit);
 	}
 
 	@Override
@@ -62,4 +70,24 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(List<Integer> ids) {
 		productDao.deleteProduct(ids);
 	}
+
+	@Override
+	@Transactional
+	public Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy,
+			SortType sortType, PriceRange priceRange) {
+		return productDao.getAllProduct(page, limit, categoryId, orderBy, sortType, priceRange);
+	}
+
+	@Override
+	@Transactional
+	public Long getCountProductFormCategory(Integer id) {
+		return productDao.getCountProductFormCategory(id);
+	}
+
+	@Override
+	@Transactional
+	public Long getCountProductFormCategory() {
+		return productDao.getCountProductFormCategory();
+	}
+
 }

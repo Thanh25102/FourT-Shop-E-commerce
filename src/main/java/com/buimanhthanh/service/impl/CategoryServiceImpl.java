@@ -2,6 +2,7 @@ package com.buimanhthanh.service.impl;
 
 import com.buimanhthanh.dao.CategoryDao;
 import com.buimanhthanh.dto.CategoryDTO;
+import com.buimanhthanh.dto.CategoryRangeDTO;
 import com.buimanhthanh.entity.Category;
 import com.buimanhthanh.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao.deleteCategory(ids);
 
     }
+
+	@Override
+	@Transactional
+	public Optional<List<CategoryRangeDTO>> getCategoryRange() {
+		return categoryDao.getCategoryRange();
+	}
 }
