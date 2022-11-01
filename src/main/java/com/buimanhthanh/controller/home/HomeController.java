@@ -13,26 +13,6 @@ public class HomeController {
 		return "index";
 	}
 
-	@GetMapping("/category")
-	public String category() {
-		return "category";
-	}
-	@GetMapping("/cart")
-	public String cart() {
-		return "cart";
-	}
-	@GetMapping("/checkout")
-	public String checkout() {
-		return "checkout";
-	}
-	@GetMapping("/confirmation")
-	public String confirmation() {
-		return "confirmation";
-	}
-	@GetMapping("/contact")
-	public String contact() {
-		return "contact";
-	}
 	@GetMapping("/blog")
 	public String blog() {
 		return "blog";
