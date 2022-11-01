@@ -323,8 +323,9 @@ insert into `account` values
                           ('CustomerThanh123','$2a$12$4cQpgGLVGBdZuiZib8cNteuK3tRiFGI5crbkrJ.XQfyYRv8C7ozzq'
                             ,true,'thanh1234@gmail.com','0328735657','Bui Manh Thanh Customer','Sai gon dau co lanh','member',2),
                           ('Test123','$2a$12$NNbCQSF1CP7mJtGSp57JROD6m3F3t26qHHKZf175EWyGPd0A/EpO6'
-                            ,true,'thanh123434@gmail.com','123','Bui Manh Thanh','Sai gon dau co lanh','member',1);
-
+                            ,true,'thanh123434@gmail.com','123','Bui Manh Thanh','Sai gon dau co lanh','member',1),
+						  ('Test1234','$2a$12$NNbCQSF1CP7mJtGSp57JROD6m3F3t26qHHKZf175EWyGPd0A/EpO6'
+                            ,true,'thanh123433334@gmail.com','1234','Bui Manh Thanh','Sai gon dau co lanh','member',2);
 insert into cart values
 (null,10,'CustomerThanh123'),
 (null,12,'CustomerThanh123');

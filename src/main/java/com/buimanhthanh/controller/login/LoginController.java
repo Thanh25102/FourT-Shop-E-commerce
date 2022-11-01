@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.service.AccountService;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("")
 public class LoginController {
 	@Autowired
 	private MessageSource messageSource;
@@ -33,10 +35,9 @@ public class LoginController {
 
 	@GetMapping("/register")
 	public String register(ModelMap modelMap) {
-		modelMap.addAttribute("userRegister", new Account());
+		modelMap.addAttribute("userRegister", new AccountDTO());
 		return "register";
 	}
-
 	@PostMapping(value = { "/register" })
 	public String register(@ModelAttribute(value = "userRegister") @Valid AccountDTO accountDTO, BindingResult result,
 			ModelMap modelMap) {

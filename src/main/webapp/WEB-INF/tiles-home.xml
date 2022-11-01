@@ -18,9 +18,35 @@
 	<definition name="index" extends="defaultLayout">
 		<put-attribute name="content" value="/WEB-INF/views/web/index.jsp" />
 	</definition>
+	<definition name="category" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/category.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="cart" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/cart.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="checkout" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/checkout.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="confirmation" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/confirmation.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="contact" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/contact.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="elements" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/elements.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
 	<definition name="login" extends="defaultLayout">
+		<put-attribute name="header" value="/WEB-INF/views/web/blank.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/web/login.jsp" />
 		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/web/blank.jsp" />
 	</definition>
 	<definition name="register" extends="defaultLayout">
 		<put-attribute name="content" value="/WEB-INF/views/web/register.jsp" />

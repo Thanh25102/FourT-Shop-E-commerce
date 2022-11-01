@@ -44,7 +44,7 @@ public class SecurityConfig5_7_1 {
                 .and().logout().logoutSuccessUrl("/login").logoutUrl("/logout")
                 .and().authorizeRequests().antMatchers("/","/login","/register").permitAll()
                     .antMatchers("/admin/**").hasAuthority(ROLE.ADMIN)
-                    .antMatchers("/*").hasAuthority(ROLE.CUSTOMER)
+                    .antMatchers("/**").hasAuthority(ROLE.CUSTOMER)
                     .anyRequest().authenticated()
                 .and().csrf().disable().build();
     }

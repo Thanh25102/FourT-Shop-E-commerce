@@ -63,15 +63,4 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		return source;
 	}
 
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		registry.addFormatter(new CategoryFormatter());
-		registry.addFormatter(new DiscountFormatter());
-		registry.addFormatter(new SizeFormatter());
-		registry.addFormatter(new ColorFormatter());
-		registry.addFormatter(new ProductFormatter());
-		registry.addFormatter(new RoleFormatter());
-	}
-
-
 }
