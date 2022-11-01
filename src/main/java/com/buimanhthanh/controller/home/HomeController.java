@@ -33,6 +33,14 @@ public class HomeController {
 	public String contact() {
 		return "contact";
 	}
+	@GetMapping("/blog")
+	public String blog() {
+		return "blog";
+	}
+	@GetMapping("/single-blog")
+	public String singleBlog() {
+		return "singleBlog";
+	}
 	@GetMapping("/elements")
 	public String elements() {
 		return "elements";

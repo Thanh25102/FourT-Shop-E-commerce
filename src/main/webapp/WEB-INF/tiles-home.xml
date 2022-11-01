@@ -38,6 +38,14 @@
 		<put-attribute name="content" value="/WEB-INF/views/web/contact.jsp" />
 		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
 	</definition>
+	<definition name="blog" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/blog.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
+	<definition name="singleBlog" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/single-blog.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
 	<definition name="elements" extends="defaultLayout">
 		<put-attribute name="content" value="/WEB-INF/views/web/elements.jsp" />
 		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
