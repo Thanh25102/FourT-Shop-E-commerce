@@ -79,6 +79,10 @@
 								<div id="upper-value"></div>
 							</div>
 						</div>
+						<div style="display: flex;
+									margin-top: 20px;">
+<%--							<button onclick="filterByPrice('<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=${url.sortType}"/>')" class="genric-btn success-border circle m-auto">Filter -></button>--%>
+						</div>
 					</div>
 				</div>
 			</div>
