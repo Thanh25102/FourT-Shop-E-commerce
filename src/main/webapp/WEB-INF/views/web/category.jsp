@@ -81,7 +81,7 @@
 						</div>
 						<div style="display: flex;
 									margin-top: 20px;">
-<%--							<button onclick="filterByPrice('<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=${url.sortType}"/>')" class="genric-btn success-border circle m-auto">Filter -></button>--%>
+							<button onclick="filterByPrice('<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=${url.sortType}"/>')" class="genric-btn success-border circle m-auto">Filter -></button>
 						</div>
 					</div>
 				</div>
@@ -215,7 +215,7 @@
 								<a href="<c:url value="/category?page=${totalPage}&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" ${curPage == totalPage ? "class='active'" : "" }>${ totalPage }</a>
 							</c:if>
 							<a href="<c:url value="/category?page=${(curPage + 1) >= totalPage  ? totalPage : curPage+1 }&&limit=${url.limit}&&categoryId=${ url.categoryId }&&orderBy=${ url.orderBy }&&sortType=${ url.sortType }&&priceStart=${ url.priceStart }&&priceEnd=${ url.priceEnd }"/>" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-							
+
 						</c:if>
 						<c:if test="${ totalPage <=3 }">
 							<c:forEach var="i" begin="1" end="${totalPage}">

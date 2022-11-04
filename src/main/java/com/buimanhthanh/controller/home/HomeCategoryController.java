@@ -60,6 +60,7 @@ public class HomeCategoryController {
 										.build();
 
 		modelMap.addAttribute("url",productUrlBuilder);
+		modelMap.addAttribute("pages", Math.ceil((double)products.size() / limit));;
 		modelMap.addAttribute("totalPage", totalPage.intValue());
 		modelMap.addAttribute("curPage", page);
 		modelMap.addAttribute("products", products);
