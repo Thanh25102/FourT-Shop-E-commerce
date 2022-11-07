@@ -1,5 +1,7 @@
 package com.buimanhthanh.config;
 
+import com.buimanhthanh.config.handler.LoginSuccessHandler;
+import com.buimanhthanh.config.handler.LogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.buimanhthanh.const_.ROLE;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,9 +29,20 @@ import com.buimanhthanh.const_.ROLE;
         "com.buimanhthanh.dao"
 })
 public class SecurityConfig5_7_1 {
-
+	@Bean
+	public Cloudinary cloudinary(){
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				"cloud_name", "com-buimahthanh", // insert here you cloud name
+				"api_key", "767693717832892", // insert here your api code
+				"api_secret", "prGZdfuasWtSvI2GMocQiZ9Bh9w")); // insert here your api secret
+		return cloudinary;
+	}
     @Autowired
     public UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationSuccessHandler loginSuccessHandler;
+    @Autowired
+    private LogoutSuccessHandler logoutHandler;
     
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -40,8 +58,9 @@ public class SecurityConfig5_7_1 {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .and().formLogin().defaultSuccessUrl("/").failureUrl("/login?error")
+                .and().formLogin().successHandler(this.loginSuccessHandler)
                 .and().exceptionHandling().accessDeniedPage("/error")
-                .and().logout().logoutSuccessUrl("/login").logoutUrl("/logout")
+                .and().logout().logoutSuccessHandler(this.logoutHandler)
                 .and().authorizeRequests().antMatchers("/","/login","/register").permitAll()
                     .antMatchers("/admin/**").hasAuthority(ROLE.ADMIN)
                     .antMatchers("/**").hasAuthority(ROLE.CUSTOMER)
@@ -49,6 +68,14 @@ public class SecurityConfig5_7_1 {
                 .and().csrf().disable().build();
     }
 
+    @Bean
+    public AuthenticationSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
+    }
+    @Bean
+    public LogoutSuccessHandler logoutHandler(){
+        return new LogoutHandler();
+    }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().antMatchers("/asset/**");

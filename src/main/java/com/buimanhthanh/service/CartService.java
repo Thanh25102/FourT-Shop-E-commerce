@@ -6,13 +6,16 @@ import java.util.Optional;
 import com.buimanhthanh.dto.CartDTO;
 
 public interface CartService {
-    Optional<CartDTO> getCartById(Integer id);
+	Optional<CartDTO> getCartById(Integer id);
 
-    Optional<List<CartDTO>> getAllCart();
+	Optional<List<CartDTO>> getAllCart();
 
-    Boolean saveOrUpdateCart(CartDTO cartDTO);
 
-    void deleteCart(Integer id);
+	Optional<CartDTO> getCartByUsername(String username);
+	
+	Boolean saveOrUpdateCart(CartDTO cartDTO);
 
-    void deleteCart(List<Integer> ids);
+	void deleteCart(Integer id);
+
+	void deleteCart(List<Integer> ids);
 }

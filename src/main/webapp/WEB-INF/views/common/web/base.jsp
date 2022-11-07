@@ -36,6 +36,7 @@
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/ion.rangeSlider.skinFlat.css"/>">
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/magnific-popup.css"/>">
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/main.css"/>">
+	<link rel="stylesheet" href="<c:url value="/asset/web/css/customthanh.css"/>">
 
 </head>
 

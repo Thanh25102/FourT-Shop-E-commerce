@@ -43,30 +43,6 @@
 						</form>
 					</div>
 					<div class="common-filter">
-						<div class="head">Color</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="black" name="color"><label for="black">Black<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="balckleather" name="color"><label for="balckleather">Black
-										Leather<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="blackred" name="color"><label for="blackred">Black
-										with red<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gold" name="color"><label for="gold">Gold<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="spacegrey" name="color"><label for="spacegrey">Spacegrey<span>(19)</span></label></li>
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
-						<div class="head">Size</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" name="color"><label for="black">Smaller<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" name="color"><label for="balckleather">Bigger<span>(29)</span></label></li>
-								</label></li>
-							</ul>
-						</form>
-					</div>
-					<div class="common-filter">
 						<div class="head">Price</div>
 						<div class="price-range-area">
 							<div id="price-range"></div>
@@ -82,6 +58,12 @@
 						<div style="display: flex;
 									margin-top: 20px;">
 							<button onclick="filterByPrice('<c:url value="/category?page=${curPage}&&limit=${url.limit }&&categoryId=${ url.categoryId }&&orderBy=price&&sortType=${url.sortType}"/>')" class="genric-btn success-border circle m-auto">Filter -></button>
+						</div>
+					</div>
+					
+					<div class="common-filter">
+						<div style="display: flex; margin-top: 20px;">
+							<a href="<c:url value='/category'/>" class="genric-btn success-border circle m-auto">Reset</a>
 						</div>
 					</div>
 				</div>

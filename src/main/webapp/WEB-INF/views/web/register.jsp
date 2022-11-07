@@ -10,7 +10,7 @@
 				<div class="col-xs-12 m-auto">
 					<div class="login_form_inner p-lg-5">
 						<h3>Register account FourT</h3>
-						<form:form class="row login_form" action="${ url }" method="post" id="contactForm" novalidate="novalidate" style="max-width: 600px;" modelAttribute="userRegister">
+						<form:form class="row login_form" action="${ url }" method="post" id="contactForm" novalidate="novalidate" style="max-width: 600px;" modelAttribute="userRegister" enctype="multipart/form-data">
 							<div class="col-md-12 form-group">
 								<form:errors path="*" cssClass="text-danger" element="p" />
 							</div>
@@ -28,6 +28,9 @@
 							</div>
 							<div class="col-md-6 form-group">
 								<form:input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Password Confirm" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password Confirm'" path="passwordConfirm"/>
+							</div>
+							<div class="col-md-6 form-group">
+								<form:input type="file" class="form-control" id="file-image" name="file-image" placeholder="Upload avatar" path="avatarFile"/>
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn rounded">Register Account</button>

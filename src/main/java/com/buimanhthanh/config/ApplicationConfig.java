@@ -1,25 +1,20 @@
 package com.buimanhthanh.config;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
-
-import com.buimanhthanh.formatter.CategoryFormatter;
-import com.buimanhthanh.formatter.ColorFormatter;
-import com.buimanhthanh.formatter.DiscountFormatter;
-import com.buimanhthanh.formatter.ProductFormatter;
-import com.buimanhthanh.formatter.RoleFormatter;
-import com.buimanhthanh.formatter.SizeFormatter;
 
 @EnableWebMvc
 @Configuration
@@ -63,4 +58,10 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		return source;
 	}
 
+	@Bean
+	public CommonsMultipartResolver multipartResolver(){
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setDefaultEncoding("UTF-8");
+		return multipartResolver;
+	}
 }

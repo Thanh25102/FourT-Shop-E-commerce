@@ -90,4 +90,13 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getCountProductFormCategory();
 	}
 
+
+	@Override
+	@Transactional
+	public Long getCountAllProduct(Integer page, Integer limit, Integer categoryId, String orderBy, SortType sortType,
+			PriceRange priceRange) {
+
+		return productDao.getCountAllProduct(page,limit,categoryId,orderBy,sortType,priceRange);
+	}
+
 }

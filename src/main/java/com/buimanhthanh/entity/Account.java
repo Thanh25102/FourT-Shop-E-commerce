@@ -56,6 +56,10 @@ public class Account implements UserDetails {
 	@Basic
 	@Column(name = "rank_account", nullable = false, length = 55)
 	private String rankAccount;
+	@Basic
+	@Column(name = "avatar",nullable = true,length = 255)
+	private String avatar;
+
 
 	@OneToMany(mappedBy = "accountByUsername",fetch = FetchType.LAZY)
 	private Set<Cart> cartsByUsername;

@@ -10,7 +10,9 @@ public interface CartDao {
     Optional<CartDTO> getCartById(Integer id);
 
     Optional<List<CartDTO>> getAllCart();
-
+    
+    Optional<CartDTO> getCartByUsername(String username);
+    
     Boolean saveOrUpdateCart(Cart cart);
 
     void deleteCart(Integer id);

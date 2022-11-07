@@ -4,7 +4,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import com.buimanhthanh.dto.AccountDTO;
-import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.validation.PasswordConfirmMatch;
 
 public class PasswordConfirmMatchValidator implements ConstraintValidator<PasswordConfirmMatch, AccountDTO>{

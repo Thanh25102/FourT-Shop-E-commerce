@@ -1,10 +1,9 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.dto.DiscountCodeDTO;
-import com.buimanhthanh.entity.DiscountCode;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.dto.DiscountCodeDTO;
 
 public interface DiscountCodeService {
     Optional<DiscountCodeDTO> getDiscountCodeById(Integer id);

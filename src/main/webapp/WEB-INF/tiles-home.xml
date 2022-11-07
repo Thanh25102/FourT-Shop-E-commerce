@@ -50,6 +50,10 @@
 		<put-attribute name="content" value="/WEB-INF/views/web/elements.jsp" />
 		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
 	</definition>
+	<definition name="productDetail" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/single-product.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
 	<definition name="login" extends="defaultLayout">
 		<put-attribute name="header" value="/WEB-INF/views/web/blank.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/web/login.jsp" />

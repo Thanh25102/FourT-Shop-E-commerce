@@ -8,6 +8,8 @@ import com.buimanhthanh.entity.Role;
 import com.buimanhthanh.service.AccountService;
 import com.buimanhthanh.service.RoleService;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service("userDetailService")
@@ -29,6 +33,8 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountDao accountDao;
+	@Autowired
+	private Cloudinary cloudinary;
 
 	@Override
 	@Transactional
@@ -51,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public Boolean saveOrUpdateAccount(AccountDTO accountDTO) {
-		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),null,null,null);
+		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),accountDTO.getAvatar(),null,null,null);
 		Role role = new Role();
 		role.setId(accountDTO.getRoleId());
 		account.setRoleById(role);
@@ -65,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
 		if (account.isEmpty())
 			throw new UsernameNotFoundException("ncc");
 		AccountDTO accountDTO = account.get();
-		Account account1 = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),null,null,null);
+		Account account1 = new Account(accountDTO.getUsername(),accountDTO.getPassword(),accountDTO.getEnabled(),accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),accountDTO.getRankAccount(),accountDTO.getAvatar(),null,null,null);
 		
 		RoleDTO roleDTO = roleService.getRoleById(accountDTO.getRoleId()).get();
     	Role role = new Role(roleDTO.getAuthority(),roleDTO.getId(),null,null);
@@ -77,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public Boolean registerAccount(AccountDTO accountDTO) {
-		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),true,accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),"MEMBER",null,null,null);
+		Account account = new Account(accountDTO.getUsername(),accountDTO.getPassword(),true,accountDTO.getEmail(),accountDTO.getPhone(),accountDTO.getFullName(),accountDTO.getAddress(),"MEMBER",accountDTO.getAvatar(),null,null,null);
 
 		RoleDTO roleDTO = roleService.getRoleByAuthority("CUSTOMER").get();
     	Role role = new Role(roleDTO.getAuthority(),roleDTO.getId(),null,null);
@@ -85,7 +91,17 @@ public class AccountServiceImpl implements AccountService {
 		account.setRoleById(role);
 		String newPassword = passwordEncoder.encode(account.getPassword());
 		account.setPassword(newPassword);
-		return accountDao.registerAccount(account);
+
+		Map result = null;
+		try {
+			result = cloudinary.uploader().upload(accountDTO.getAvatarFile().getBytes(), ObjectUtils.asMap("resource_type","auto"));
+			accountDTO.setAvatar((String)result.get("secure_url"));
+			account.setAvatar(accountDTO.getAvatar());
+			return accountDao.registerAccount(account);
+		} catch (IOException e)  {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

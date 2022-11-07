@@ -21,6 +21,12 @@ public class CartServiceImpl implements CartService {
     public Optional<CartDTO> getCartById(Integer id) {
         return cartDao.getCartById(id);
     }
+    
+    @Override
+    @Transactional
+    public Optional<CartDTO> getCartByUsername(String username) {
+        return cartDao.getCartByUsername(username);
+    }
 
     @Override
     @Transactional
@@ -50,4 +56,5 @@ public class CartServiceImpl implements CartService {
         cartDao.deleteCart(ids);
 
     }
+
 }

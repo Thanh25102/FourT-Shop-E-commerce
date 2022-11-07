@@ -20,7 +20,7 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public Optional<AccountDTO> getAccountByUsername(String username) {
 		return sessionFactory.getCurrentSession()
-						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account a where a.username =: u", AccountDTO.class)
+						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.avatar,a.roleById.id) from Account a where a.username =: u", AccountDTO.class)
 						.setParameter("u", username).getResultList().stream().findFirst();
 				
 	}
@@ -29,15 +29,15 @@ public class AccountDaoImpl implements AccountDao {
     @Override
 	public Optional<AccountDTO> getAccountByEmail(String email){
 		return sessionFactory.getCurrentSession()
-						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account as a where a.email =: u", AccountDTO.class)
+						.createQuery("select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.avatar,a.roleById.id) from Account as a where a.email =: u", AccountDTO.class)
 						.setParameter("u", email).getResultList().stream().findFirst();
 				
 	}
-
+    
 	@Override
 	public Optional<List<AccountDTO>> getAllAccount() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession()
-							.createQuery(" select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.roleById.id) from Account a", AccountDTO.class)
+							.createQuery(" select new com.buimanhthanh.dto.AccountDTO(a.username,a.password,a.password,a.enabled4,a.email,a.phone,a.fullName,a.address,a.rankAccount,a.avatar,a.roleById.id) from Account a", AccountDTO.class)
 							.getResultList());
 	}
 

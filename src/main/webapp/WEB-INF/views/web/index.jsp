@@ -9,6 +9,10 @@
          pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+
+<c:if test="${currentUser !=null}">
+  <h1>${currentUser.email}</h1>
+</c:if>
 <!-- start banner Area -->
 <section class="banner-area">
   <div class="container">

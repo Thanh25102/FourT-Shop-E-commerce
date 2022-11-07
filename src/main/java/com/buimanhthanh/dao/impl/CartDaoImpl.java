@@ -54,4 +54,11 @@ public class CartDaoImpl implements CartDao {
 		if (!ids.isEmpty())
 			ids.forEach(this::deleteCart);
 	}
+
+	@Override
+	public Optional<CartDTO> getCartByUsername(String username) {
+		return sessionFactory.getCurrentSession()
+				.createQuery("select new com.buimanhthanh.dto.CartDTO(a.id,a.ammount,a.accountByUsername.username) from Cart a where a.username =: u", CartDTO.class)
+				.setParameter("u", username).getResultList().stream().findFirst();
+	}
 }

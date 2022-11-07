@@ -1,10 +1,9 @@
 package com.buimanhthanh.service;
 
-import com.buimanhthanh.dto.SizeDTO;
-import com.buimanhthanh.entity.Size;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.buimanhthanh.dto.SizeDTO;
 
 public interface SizeService {
     Optional<SizeDTO> getSizeById(Integer id);

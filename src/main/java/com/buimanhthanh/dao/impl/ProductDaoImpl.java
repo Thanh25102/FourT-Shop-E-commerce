@@ -111,4 +111,31 @@ public class ProductDaoImpl implements ProductDao {
 				"select count(p) from Product p",Long.class)
 				.getSingleResult();
 	}
+
+	@Override
+	public Long getCountAllProduct(Integer page, Integer limit, Integer categoryId, String orderBy, SortType sortType,
+			PriceRange priceRange) {
+		Field[] properties = ProductDTO.class.getDeclaredFields();
+		List<String> propertyNames = new ArrayList<>();
+		for (Field field : properties) {
+			propertyNames.add(field.getName());
+		}
+		
+		StringBuilder sql = new StringBuilder(
+				"select count(p) from Product p where 1=1");
+		if (categoryId != 0) {
+			sql.append(" and p.categoryByCategoryId.id = " + categoryId);
+		}
+		if (priceRange != null) {
+			sql.append(" and p.price >= " + priceRange.getStart() + " and p.price <= " + priceRange.getEnd());
+		}
+		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+			sql.append(" order by p." + orderBy);
+		}
+		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+			sql.append(" " + sortType.getValue());
+		}
+		System.out.println(sql.toString());
+		return sessionFactory.getCurrentSession().createQuery(sql.toString(), Long.class).getSingleResult();
+	}
 }

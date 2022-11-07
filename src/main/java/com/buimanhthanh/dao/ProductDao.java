@@ -17,6 +17,9 @@ public interface ProductDao {
 
 	Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy,
 			SortType sortType, PriceRange priceRange);
+	
+	Long getCountAllProduct(Integer page, Integer limit, Integer categoryId, String orderBy, SortType sortType,
+			PriceRange priceRange); 
 
 	Long getCountProductFormCategory(Integer id);
 

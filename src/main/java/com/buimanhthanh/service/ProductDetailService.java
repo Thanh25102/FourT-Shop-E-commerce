@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.buimanhthanh.dto.ProductDetailDTO;
-import com.buimanhthanh.entity.ProductDetail;
 
 public interface ProductDetailService {
     Optional<ProductDetailDTO> getProductDetailById(Integer id);

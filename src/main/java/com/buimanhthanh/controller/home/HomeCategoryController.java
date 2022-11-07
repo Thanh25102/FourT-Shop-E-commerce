@@ -1,6 +1,5 @@
 package com.buimanhthanh.controller.home;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,10 @@ public class HomeCategoryController {
 				sortType.equalsIgnoreCase(SortType.DESC.getValue()) ? SortType.DESC : SortType.ASC,
 				new PriceRange(priceStart, priceEnd)).get();
 		List<CategoryRangeDTO> listCategoryRangeDTO =  categoryService.getCategoryRange().get();
-		Long allProducts = productService.getCountProductFormCategory();
+		
+		Long allProducts = productService.getCountAllProduct(page, limit, categoryId, orderBy, 
+						sortType.equalsIgnoreCase(SortType.DESC.getValue()) ? SortType.DESC : SortType.ASC
+						, new PriceRange(priceStart, priceEnd));
 		
 		if(categoryId != 0) {
 			for (CategoryRangeDTO categoryRangeDTO : listCategoryRangeDTO) {
@@ -59,6 +61,7 @@ public class HomeCategoryController {
 										.sortType(sortType).priceStart(priceStart).priceEnd(priceEnd)
 										.build();
 
+		System.out.println( products.size()  + " " + limit);
 		modelMap.addAttribute("url",productUrlBuilder);
 		modelMap.addAttribute("pages", Math.ceil((double)products.size() / limit));;
 		modelMap.addAttribute("totalPage", totalPage.intValue());
