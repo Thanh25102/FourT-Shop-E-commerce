@@ -25,9 +25,10 @@
 
 <!--================Order Details Area =================-->
 <section class="order_details section_gap">
+	<c:forEach var="order" items="${ orders }">
     <div class="container">
         <h3 class="title_confirmation">Thank you. Your order has been received.</h3>
-        <div class="row order_d_inner">
+        <div class="row order_d_inner" style="position: relative;">
             <div class="col-lg-4">
                 <div class="details_item">
                     <h4>Order Info</h4>
@@ -61,8 +62,14 @@
                     </ul>
                 </div>
             </div>
+            <span style=" width: 20px;
+						  display: block;
+						  position: absolute;
+						  right: 0;
+						  cursor: pointer;" onclick="openOrderDetail(${order.id});"><img src="/FourT-Shop-E-commerce/asset/web/img/features/down-arrow.png">
+			</span>
         </div>
-        <div class="order_details_table">
+        <div class="order_details_table" id="order_detail_${ order.id }" style="display:none;">
             <h2>Order Details</h2>
             <div class="table-responsive">
                 <table class="table">
@@ -145,5 +152,7 @@
             </div>
         </div>
     </div>
+    
+	</c:forEach>
 </section>
 <!--================End Order Details Area =================-->

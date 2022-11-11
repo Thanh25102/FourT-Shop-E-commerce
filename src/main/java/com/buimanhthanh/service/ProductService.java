@@ -16,6 +16,8 @@ public interface ProductService {
 
 	Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy, SortType sortType,
 			PriceRange priceRange);
+	
+	Optional<List<ProductDTO>> getLatestProducts(int record);
 
 	Long getCountAllProduct(Integer page, Integer limit, Integer categoryId, String orderBy, SortType sortType,
 			PriceRange priceRange);

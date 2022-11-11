@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderDao {
-    Optional<OrderDTO> getOrderById(Integer id);
+	Optional<OrderDTO> getOrderById(Integer id);
 
-    Optional<List<OrderDTO>> getAllOrder();
+	Optional<List<OrderDTO>> getAllOrder();
 
-    Boolean saveOrUpdateOrder(Order order);
+	Optional<List<OrderDTO>> getOrderByUsername(String username);
 
-    void deleteOrder(Integer id);
+	Boolean saveOrUpdateOrder(Order order);
 
-    void deleteOrder(List<Integer> ids);
+	void deleteOrder(Integer id);
+
+	void deleteOrder(List<Integer> ids);
 }

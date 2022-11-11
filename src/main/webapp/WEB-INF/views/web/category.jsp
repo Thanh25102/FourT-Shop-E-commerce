@@ -134,7 +134,9 @@
 							<!-- single product -->
 							<div class="col-lg-4 col-md-6">
 								<div class="single-product">
-									<img class="img-fluid" src="${product.represent}" alt="">
+									<a href="<c:url value='/product-detail/${ product.id }'/>">
+										<img class="img-fluid" src="${product.represent}" alt="">
+									</a>
 									<div class="product-details">
 										<h6>${product.name }</h6>
 										<div class="price">
@@ -143,10 +145,10 @@
 										</div>
 										<div class="prd-bottom">
 
-											<a href="" class="social-info">
+											<span class="social-info" onclick="addToBag(${product.id},${ currentUser != null ? true : false });">
 												<span class="ti-bag"></span>
-												<p class="hover-text">add to bag</p>
-											</a>
+												<p class="hover-text" >add to bag</p>
+											</span>
 											<a href="" class="social-info">
 												<span class="lnr lnr-heart"></span>
 												<p class="hover-text">Wishlist</p>

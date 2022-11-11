@@ -52,7 +52,6 @@ public class HomeCategoryController {
 		}
 		Double totalPage = Math.ceil((double)allProducts / limit);
 		
-		System.out.println(totalPage);
 		ProductUrlBuilder productUrlBuilder = 
 					ProductUrlBuilder.builder()
 										.schema(request.getScheme()).servletName(request.getServerName())
@@ -61,7 +60,6 @@ public class HomeCategoryController {
 										.sortType(sortType).priceStart(priceStart).priceEnd(priceEnd)
 										.build();
 
-		System.out.println( products.size()  + " " + limit);
 		modelMap.addAttribute("url",productUrlBuilder);
 		modelMap.addAttribute("pages", Math.ceil((double)products.size() / limit));;
 		modelMap.addAttribute("totalPage", totalPage.intValue());

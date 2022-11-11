@@ -32,6 +32,14 @@ public class OrderDaoImpl implements OrderDao {
                 .getResultList());
     }
 
+	@Override
+	public Optional<List<OrderDTO>> getOrderByUsername(String username) {
+        return Optional.ofNullable(sessionFactory.getCurrentSession()
+                .createQuery("select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.discountCodeByDiscountCodeId.id) from Order a where a.accountByUsername.username =: u",OrderDTO.class)
+                .setParameter("u", username)
+                .getResultList());
+	}
+	
     @Override
     public Boolean saveOrUpdateOrder(Order order) {
         try {
@@ -56,4 +64,5 @@ public class OrderDaoImpl implements OrderDao {
         if(!ids.isEmpty())
             ids.forEach(this::deleteOrder);
     }
+
 }

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
-@Table(name ="cart")
+@Table(name = "cart")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,11 +23,11 @@ public class Cart {
 	@Column(name = "ammount", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Integer ammount;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
 	private Account accountByUsername;
-	
+
 	@OneToMany(mappedBy = "cartByCartId")
 	private Collection<CartDetail> cartDetailsById;
 }

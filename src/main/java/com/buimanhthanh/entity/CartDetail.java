@@ -1,33 +1,39 @@
 package com.buimanhthanh.entity;
 
-import lombok.Data;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cart_detail", schema = "buimanhthanhecormmercespringmvc", catalog = "")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
-	@NotNull(message = "{null.err}")
 	private Integer id;
 	@Basic
 	@Column(name = "price", nullable = false, precision = 0)
-	@NotNull(message = "{null.err}")
 	private Double price;
 	@Basic
 	@Column(name = "quantity", nullable = false)
-	@NotNull(message = "{null.err}")
 	private Integer quantity;
 	@ManyToOne
 	@JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
-	@NotNull(message = "{null.err}")
 	private ProductDetail productDetailByProductId;
 	@ManyToOne
 	@JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
-	@NotNull(message = "{null.err}")
 	private Cart cartByCartId;
 }

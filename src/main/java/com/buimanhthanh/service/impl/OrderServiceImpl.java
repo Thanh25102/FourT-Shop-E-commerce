@@ -56,4 +56,10 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(List<Integer> ids) {
         orderDao.deleteOrder(ids);
     }
+
+	@Override
+	@Transactional
+	public Optional<List<OrderDTO>> getOrderByUsername(String username) {
+		return orderDao.getOrderByUsername(username);
+	}
 }

@@ -64,5 +64,6 @@
 	<script src="<c:url value="/asset/web/js/gmaps.min.js"/>"></script>
 	<script src="<c:url value="/asset/web/js/main.js"/>"></script>
 	<script src="<c:url value="/asset/web/js/custom.js"/>"></script>
+	<script src="<c:url value="/asset/web/js/cart.js"/>"></script>
 </body>
 </html>

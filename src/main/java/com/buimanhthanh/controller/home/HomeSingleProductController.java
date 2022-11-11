@@ -37,6 +37,7 @@ public class HomeSingleProductController {
 		List<SizeDTO> sizeDTOs = sizeService.getAllSize().get();
 		List<ColorDTO> colorDTOs = colorService.getAllColor().get();
 		
+		modelMap.addAttribute("isExist", productDetailDTOs.size() != 0);
 		modelMap.addAttribute("product", productDTO);
 		modelMap.addAttribute("productDetails", productDetailDTOs);
 		modelMap.addAttribute("sizes", sizeDTOs);

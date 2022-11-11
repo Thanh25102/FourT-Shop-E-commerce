@@ -1,6 +1,7 @@
 create database BuiManhThanhEcormmerceSpringMVC;
 use BuiManhThanhEcormmerceSpringMVC;
 -- drop database BuiManhThanhEcormmerceSpringMVC;
+
 create table `account` (
                            username varchar(50) primary key,
                            `password` varchar(64) not null,
@@ -36,6 +37,7 @@ create table `order_` (
                          create_time datetime not null,
                          discount_code_id int null
 );
+
 create table order_detail (
                               id int primary key auto_increment,
                               product_id int not null,
@@ -75,6 +77,7 @@ create table cart (
                       ammount int not null,
                       username varchar(50) not null
 );
+
 create table cart_detail (
                              id int primary key auto_increment,
                              product_id int not null,
@@ -82,6 +85,7 @@ create table cart_detail (
                              price double not null,
                              quantity int not null
 );
+
 create table discount_code (
                                id int primary key auto_increment,
                                `code` varchar(50) not null,
@@ -149,7 +153,7 @@ insert into color values (null,'blue','BLUE','this is a blue line');
 insert into color values (null,'green','GREEN','this is a green line');
 
 insert into product values
-                        (null,'Air Force1 Pixel',180000,1,'Fake description nike .... this is content .... haloo 123456789','Fake thumnail nike','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853235/shoes/shoes/Nike/AirForce1Pixel_csvstu.png',null),
+                        (null,'Air Force1 Pixel',1800,1,'Fake description nike .... this is content .... haloo 123456789','Fake thumnail nike','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853235/shoes/shoes/Nike/AirForce1Pixel_csvstu.png',null),
                         (null,'Jordan1 Low Magenta',570000,1,'Fake description nike .... this is content .... haloo 123456789','Fake thumnail nike','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853235/shoes/shoes/Nike/AirForce1Pixel_csvstu.png',null),
                         (null,'Jordan1 Midcanyon',180000,1,'Fake description nike .... this is content .... haloo 123456789','Fake thumnail nike','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853235/shoes/shoes/Nike/AirForce1Pixel_csvstu.png',null),
                         (null,'Jordan1 Mid Peach',570000,1,'Fake description nike .... this is content .... haloo 123456789','Fake thumnail nike','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853235/shoes/shoes/Nike/AirForce1Pixel_csvstu.png',null),
@@ -306,11 +310,11 @@ insert into product values
                         (null,'Fila Xlite Click Run',12800000,4,'This is fake description fila .... fake 123456 . . . . .','fake thumbnail fila ','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png',null),
                         (null,'Fila Zagato',12800000,4,'This is fake description fila .... fake 123456 . . . . .','fake thumbnail fila ','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png',null);
 
-insert into product_detail values (null,1,1,1,2,'hehe1','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853228/shoes/shoes/Bitis/BitisNeutral200_mcs1iy.png');
-insert into product_detail values (null,1,1,1,2,'hehe2','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853241/shoes/shoes/Nike/NikeDunkHighByYou_fbc8sd.png');
-insert into product_detail values (null,1,1,1,2,'hehe3','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png');
-insert into product_detail values (null,1,1,1,2,'hehe4','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853233/shoes/shoes/Fila/FilaOakmontTRScript_igynlo.png');
-insert into product_detail values (null,1,1,1,2,'hehe5','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaRayTracerTr2Black_izjz6x.png');
+insert into product_detail values (null,1,1,1,2,'hehe1','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853228/shoes/shoes/Bitis/BitisNeutral200_mcs1iy.png'),
+                                    (null,1,1,1,2,'hehe2','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853241/shoes/shoes/Nike/NikeDunkHighByYou_fbc8sd.png'),
+                                    (null,1,1,1,2,'hehe3','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaStackHouseSpagetti_hyhxp5.png'),
+                                    (null,1,1,1,2,'hehe4','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853233/shoes/shoes/Fila/FilaOakmontTRScript_igynlo.png'),
+                                    (null,1,1,1,2,'hehe5','https://res.cloudinary.com/com-buimahthanh/image/upload/v1661853234/shoes/shoes/Fila/FilaRayTracerTr2Black_izjz6x.png');
 
 insert into access values(null,'/shop','co the truy cap vao url /shop'),
                          (null,'/admin/**','co the truy cap vao tat ca admin');
@@ -334,8 +338,19 @@ insert into `account` values
                             ,true,'thanh123433334@gmail.com','1234','Bui Manh Thanh','Sai gon dau co lanh','member',null,2);
 insert into cart values
 (null,10,'CustomerThanh123'),
-(null,12,'CustomerThanh123');
+(null,12,'CustomerThanh123'),
+(null,6,'Test1234'),
+(null,5,'Test1234');
 
-insert into `order_` values
-(null,'CustomerThanh123','deliver',12,'MOMO','2022-10-10',null);
+insert into cart_detail values(null,1,1,10000000,5),
+                              (null,2,1,10000000,5);
+insert into cart_detail values(null,3,2,10000000,5),
+                              (null,4,2,10000000,5);
+insert into cart_detail values(null,3,3,10000000,3),
+                              (null,4,3,10000000,3);
+insert into cart_detail values(null,3,4,10000000,3),
+                              (null,4,4,10000000,2);
+                              
+insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null);
+insert into `order_detail` values (null,1,2,180000,1);
 

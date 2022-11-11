@@ -77,7 +77,7 @@ public class ProductDaoImpl implements ProductDao {
 		for (Field field : properties) {
 			propertyNames.add(field.getName());
 		}
-		
+
 		StringBuilder sql = new StringBuilder(
 				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id) from Product p where 1=1");
 		if (categoryId != 0) {
@@ -99,16 +99,14 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public Long getCountProductFormCategory(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery(
-				"select count(p) from Product p where p.categoryByCategoryId.id =: i",Long.class)
-				.setParameter("i", id)
-				.getSingleResult();
+		return sessionFactory.getCurrentSession()
+				.createQuery("select count(p) from Product p where p.categoryByCategoryId.id =: i", Long.class)
+				.setParameter("i", id).getSingleResult();
 	}
 
 	@Override
 	public Long getCountProductFormCategory() {
-		return sessionFactory.getCurrentSession().createQuery(
-				"select count(p) from Product p",Long.class)
+		return sessionFactory.getCurrentSession().createQuery("select count(p) from Product p", Long.class)
 				.getSingleResult();
 	}
 
@@ -120,9 +118,8 @@ public class ProductDaoImpl implements ProductDao {
 		for (Field field : properties) {
 			propertyNames.add(field.getName());
 		}
-		
-		StringBuilder sql = new StringBuilder(
-				"select count(p) from Product p where 1=1");
+
+		StringBuilder sql = new StringBuilder("select count(p) from Product p where 1=1");
 		if (categoryId != 0) {
 			sql.append(" and p.categoryByCategoryId.id = " + categoryId);
 		}
@@ -137,5 +134,12 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		System.out.println(sql.toString());
 		return sessionFactory.getCurrentSession().createQuery(sql.toString(), Long.class).getSingleResult();
+	}
+
+	@Override
+	public Optional<List<ProductDTO>> getLatestProducts(int record) {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id) from Product p order by p.id desc",
+				ProductDTO.class).setMaxResults(record).getResultList());
 	}
 }

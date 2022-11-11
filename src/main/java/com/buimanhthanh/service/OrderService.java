@@ -10,6 +10,8 @@ public interface OrderService {
 
     Optional<List<OrderDTO>> getAllOrder();
 
+    Optional<List<OrderDTO>> getOrderByUsername(String username);
+    
     Boolean saveOrUpdateOrder(OrderDTO orderDTO);
 
     void deleteOrder(Integer id);

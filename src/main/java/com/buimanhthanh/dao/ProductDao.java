@@ -15,16 +15,18 @@ public interface ProductDao {
 
 	Optional<List<ProductDTO>> getAllProduct(int page, int limit);
 
-	Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy,
-			SortType sortType, PriceRange priceRange);
-	
+	Optional<List<ProductDTO>> getAllProduct(int page, int limit, int categoryId, String orderBy, SortType sortType,
+			PriceRange priceRange);
+
+	Optional<List<ProductDTO>> getLatestProducts(int record);
+
 	Long getCountAllProduct(Integer page, Integer limit, Integer categoryId, String orderBy, SortType sortType,
-			PriceRange priceRange); 
+			PriceRange priceRange);
 
 	Long getCountProductFormCategory(Integer id);
 
 	Long getCountProductFormCategory();
-	
+
 	Boolean saveOrUpdateProduct(Product product);
 
 	void deleteProduct(Integer id);
