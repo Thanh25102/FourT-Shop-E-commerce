@@ -126,6 +126,14 @@ public class CartDaoImpl implements CartDao {
 	public Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId) {
 		return sessionFactory.getCurrentSession().createQuery(
 				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity) from CartDetail a where a.productDetailByProductId.id =: i and a.cartByCartId.id =: c",
-				CartDetailDTO.class).setParameter("i", productDetailId).setParameter("c", cartId).getResultList().stream().findFirst();
+				CartDetailDTO.class).setParameter("i", productDetailId).setParameter("c", cartId).getResultList()
+				.stream().findFirst();
+	}
+
+	@Override
+	public Optional<CartDetailDTO> getCartDetailById(Integer id) {
+		return sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity) from CartDetail a where a.id =: i",
+				CartDetailDTO.class).setParameter("i", id).getResultList().stream().findFirst();
 	}
 }

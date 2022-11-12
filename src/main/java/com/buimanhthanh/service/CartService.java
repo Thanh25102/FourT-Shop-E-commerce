@@ -36,4 +36,8 @@ public interface CartService {
 	Boolean updateQuantityProductDetailInCartDetail(Integer quantity, Integer cartDetailId);
 
 	Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId);
+	
+	Optional<CartDetailDTO> getCartDetailById(Integer id);
+	
+	Optional<CartDetailDTO> updateQuantityCartDetail(String type,Integer cartDetailId);
 }

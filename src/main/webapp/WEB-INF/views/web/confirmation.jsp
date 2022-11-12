@@ -7,11 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-            <div class="col-first">
+            <div class="col-first"><%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
                 <h1>Confirmation</h1>
                 <nav class="d-flex align-items-center">
                     <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
@@ -33,10 +34,10 @@
                 <div class="details_item">
                     <h4>Order Info</h4>
                     <ul class="list">
-                        <li><a href="#"><span>Order number</span> : 60235</a></li>
+                        <li><a href="#"><span>Order number</span> : ${ order.id }</a></li>
                         <li><a href="#"><span>Date</span> : Los Angeles</a></li>
                         <li><a href="#"><span>Total</span> : USD 2210</a></li>
-                        <li><a href="#"><span>Payment method</span> : Check payments</a></li>
+                        <li><a href="#"><span>Payment method</span> : ${ order.paymentMethod }</a></li>
                     </ul>
                 </div>
             </div>
@@ -81,39 +82,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
+	                    <c:forEach var="orderDetail" items="${ order.orderDetailDTOs }">
+							<tr>
+		                        <td>
+		                            <p>${ orderDetail.productName }</p>
+		                        </td>
+		                        <td>
+		                            <h5>x ${ orderDetail.quantity }</h5>
+		                        </td>
+		                        <td>
+		                            <p><fmt:formatNumber type="currency" value="${orderDetail.price}"/></p>
+		                        </td>
+		                    </tr>        
+	                    </c:forEach>
                     <tr>
                         <td>
                             <h4>Subtotal</h4>

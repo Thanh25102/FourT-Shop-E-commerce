@@ -170,4 +170,25 @@ public class CartServiceImpl implements CartService {
 		return cartDao.getCartDetailByProductDetailId(productDetailId, cartId);
 	}
 
+	@Override
+	@Transactional
+	public Optional<CartDetailDTO> updateQuantityCartDetail(String type, Integer cartDetailId) {
+		CartDetailDTO cartDetailDTO = getCartDetailById(cartDetailId).get();
+		Double price = cartDetailDTO.getPrice() / (double)cartDetailDTO.getQuantity();
+		if (type.equals("up")) {
+			cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() + 1);
+		} else if (type.equals("down")) {
+			cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() - 1);
+		}
+		cartDetailDTO.setPrice(price * cartDetailDTO.getQuantity());
+		this.saveOrUpdateCartDetail(cartDetailDTO);
+		return Optional.of(cartDetailDTO);
+	}
+
+	@Override
+	@Transactional
+	public Optional<CartDetailDTO> getCartDetailById(Integer id) {
+		return cartDao.getCartDetailById(id);
+	}
+
 }

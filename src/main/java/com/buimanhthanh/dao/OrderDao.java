@@ -1,6 +1,7 @@
 package com.buimanhthanh.dao;
 
 import com.buimanhthanh.dto.OrderDTO;
+import com.buimanhthanh.dto.OrderDetailDTO;
 import com.buimanhthanh.entity.Order;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface OrderDao {
 	Optional<List<OrderDTO>> getAllOrder();
 
 	Optional<List<OrderDTO>> getOrderByUsername(String username);
+
+	Optional<List<OrderDetailDTO>> getOrderDetailByOrderId(Integer id);
 
 	Boolean saveOrUpdateOrder(Order order);
 

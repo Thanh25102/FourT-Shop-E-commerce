@@ -36,4 +36,7 @@ public interface CartDao {
 	Boolean updateQuantityProductDetailInCartDetail(Integer quantity, Integer cartDetailId);
 
 	Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId);
+	
+	Optional<CartDetailDTO> getCartDetailById(Integer id);
+
 }

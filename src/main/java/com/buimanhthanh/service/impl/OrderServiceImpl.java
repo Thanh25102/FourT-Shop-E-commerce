@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buimanhthanh.dao.OrderDao;
 import com.buimanhthanh.dto.OrderDTO;
+import com.buimanhthanh.dto.OrderDetailDTO;
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.entity.Order;
@@ -61,5 +62,11 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public Optional<List<OrderDTO>> getOrderByUsername(String username) {
 		return orderDao.getOrderByUsername(username);
+	}
+
+	@Override
+	@Transactional
+	public Optional<List<OrderDetailDTO>> getOrderDetailByOrderId(Integer id) {
+		return orderDao.getOrderDetailByOrderId(id);
 	}
 }

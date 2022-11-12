@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.buimanhthanh.dto.AccountDTO;
@@ -71,6 +72,14 @@ public class APICart {
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponeObject("fail", "You need login", false));
 		}
+	}
+
+	@PostMapping("/quantity/{productDetailId}")
+	public ResponseEntity<ResponeObject> updateQuantity(@PathVariable Integer productDetailId,
+			@RequestParam String type) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponeObject("ok", "update quantity cart detail successfully",
+						cartService.updateQuantityCartDetail(type, productDetailId).get()));
 	}
 
 }

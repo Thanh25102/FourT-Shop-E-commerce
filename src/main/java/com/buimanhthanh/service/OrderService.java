@@ -4,17 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 import com.buimanhthanh.dto.OrderDTO;
+import com.buimanhthanh.dto.OrderDetailDTO;
 
 public interface OrderService {
-    Optional<OrderDTO> getOrderById(Integer id);
+	Optional<OrderDTO> getOrderById(Integer id);
 
-    Optional<List<OrderDTO>> getAllOrder();
+	Optional<List<OrderDTO>> getAllOrder();
 
-    Optional<List<OrderDTO>> getOrderByUsername(String username);
-    
-    Boolean saveOrUpdateOrder(OrderDTO orderDTO);
+	Optional<List<OrderDTO>> getOrderByUsername(String username);
 
-    void deleteOrder(Integer id);
+	Optional<List<OrderDetailDTO>> getOrderDetailByOrderId(Integer id);
 
-    void deleteOrder(List<Integer> ids);
+	Boolean saveOrUpdateOrder(OrderDTO orderDTO);
+
+	void deleteOrder(Integer id);
+
+	void deleteOrder(List<Integer> ids);
 }

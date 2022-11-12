@@ -1,6 +1,7 @@
 package com.buimanhthanh.controller.home;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.OrderDTO;
+import com.buimanhthanh.dto.OrderDetailDTO;
 import com.buimanhthanh.service.OrderService;
 
 @Controller
@@ -24,7 +26,12 @@ public class HomeConfirmationController {
     	AccountDTO accountDTO = null;
 		if (session.getAttribute("currentUser") != null) {
 			accountDTO = (AccountDTO) session.getAttribute("currentUser");
-			modelMap.addAttribute("orders",orderService.getOrderByUsername(accountDTO.getUsername()).get());
+			List<OrderDTO> orderDTO = orderService.getOrderByUsername(accountDTO.getUsername()).get();
+			orderDTO.forEach(o->{
+				List<OrderDetailDTO> orderDetailDTOs = orderService.getOrderDetailByOrderId(o.getId()).get(); 
+				o.setOrderDetailDTOs(orderDetailDTOs);
+			});
+			modelMap.addAttribute("orders",orderDTO);
 		} else {
 			accountDTO = new AccountDTO();
 			modelMap.addAttribute("orders",new ArrayList<OrderDTO>());
