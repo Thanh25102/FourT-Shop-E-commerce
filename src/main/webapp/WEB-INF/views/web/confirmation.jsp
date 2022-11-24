@@ -35,7 +35,7 @@
                     <h4>Order Info</h4>
                     <ul class="list">
                         <li><a href="#"><span>Order number</span> : ${ order.id }</a></li>
-                        <li><a href="#"><span>Date</span> : Los Angeles</a></li>
+                        <li><a href="#"><span>Date</span> : ${ order.createTime }</a></li>
                         <li><a href="#"><span>Total</span> : USD 2210</a></li>
                         <li><a href="#"><span>Payment method</span> : ${ order.paymentMethod }</a></li>
                     </ul>
@@ -45,10 +45,10 @@
                 <div class="details_item">
                     <h4>Billing Address</h4>
                     <ul class="list">
-                        <li><a href="#"><span>Street</span> : 56/8</a></li>
-                        <li><a href="#"><span>City</span> : Los Angeles</a></li>
+                        <li><a href="#"><span>Street</span> : ${ order.shipingAddress }</a></li>
+                        <li><a href="#"><span>City</span> : ${ order.city }</a></li>
                         <li><a href="#"><span>Country</span> : United States</a></li>
-                        <li><a href="#"><span>Postcode </span> : 36952</a></li>
+                        <li><a href="#"><span>Discount Code </span> : ${ order.discountCode }</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,10 +56,10 @@
                 <div class="details_item">
                     <h4>Shipping Address</h4>
                     <ul class="list">
-                        <li><a href="#"><span>Street</span> : 56/8</a></li>
-                        <li><a href="#"><span>City</span> : Los Angeles</a></li>
+                        <li><a href="#"><span>Street</span> : ${ order.shipingAddress }</a></li>
+                        <li><a href="#"><span>City</span> : ${ order.city }</a></li>
                         <li><a href="#"><span>Country</span> : United States</a></li>
-                        <li><a href="#"><span>Postcode </span> : 36952</a></li>
+                        <li><a href="#"><span>Discount Code</span> : ${ order.discountCode }</a></li>
                     </ul>
                 </div>
             </div>

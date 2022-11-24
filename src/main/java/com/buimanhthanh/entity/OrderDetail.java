@@ -1,6 +1,8 @@
 package com.buimanhthanh.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,11 +10,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "order_detail", schema = "buimanhthanhecormmercespringmvc")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
-	@NotNull(message = "{null.err}")
 	private Integer id;
 	@Basic
 	@Column(name = "price", nullable = false, precision = 0)

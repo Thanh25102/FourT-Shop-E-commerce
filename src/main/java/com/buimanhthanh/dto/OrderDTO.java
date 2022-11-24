@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderDTO {
 	private Integer id;
 	private String username;
@@ -16,8 +17,13 @@ public class OrderDTO {
 	private Integer ammount;
 	private String paymentMethod;
 	private Date createTime;
+	private String phone;
+	private String shipingAddress;
+	private String city;
+	
 	private Integer discountCodeId;
 	private List<OrderDetailDTO> orderDetailDTOs;
+	private String discountCode;
 
 	public OrderDTO(Integer id, String username, String orderStatus, Integer ammount, String paymentMethod,
 			Date createTime, Integer discountCodeId) {
@@ -29,5 +35,21 @@ public class OrderDTO {
 		this.createTime = createTime;
 		this.discountCodeId = discountCodeId;
 	}
+
+	public OrderDTO(Integer id, String username, String orderStatus, Integer ammount, String paymentMethod,
+			Date createTime, String phone, String shipingAddress, String city, Integer discountCodeId) {
+		this.id = id;
+		this.username = username;
+		this.orderStatus = orderStatus;
+		this.ammount = ammount;
+		this.paymentMethod = paymentMethod;
+		this.createTime = createTime;
+		this.phone = phone;
+		this.shipingAddress = shipingAddress;
+		this.city = city;
+		this.discountCodeId = discountCodeId;
+	}
+
+	
 
 }

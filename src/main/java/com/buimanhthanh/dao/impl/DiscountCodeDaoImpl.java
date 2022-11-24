@@ -57,4 +57,12 @@ public class DiscountCodeDaoImpl implements DiscountCodeDao {
         if(!ids.isEmpty())
             ids.forEach(this::deleteDiscountCode);
     }
+
+	@Override
+	public Optional<DiscountCodeDTO> getDiscountCodeByCode(String code) {
+		 return sessionFactory.getCurrentSession()
+	                .createQuery("select new com.buimanhthanh.dto.DiscountCodeDTO(a.id,a.code,a.salePercent,a.saleMoney,a.startDay,a.endDay,a.maxDiscount,a.description) from DiscountCode as a where a.code =: i",DiscountCodeDTO.class)
+	                .setParameter("i",code)
+	                .getResultList().stream().findFirst();
+	}
 }

@@ -35,7 +35,11 @@ create table `order_` (
                          ammount int not null,
                          payment_method varchar(50) not null,
                          create_time datetime not null,
-                         discount_code_id int null
+                         discount_code_id int null,
+                         
+                         phone varchar(20) null,
+                         shiping_address varchar(255) null,
+                         city varchar(50) null
 );
 
 create table order_detail (
@@ -351,6 +355,6 @@ insert into cart_detail values(null,3,3,10000000,3),
 insert into cart_detail values(null,3,4,10000000,3),
                               (null,4,4,10000000,2);
                               
-insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null);
-insert into `order_detail` values (null,1,2,180000,1);
+insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY");
+insert into `order_detail` values (null,1,1,180000,1);
 

@@ -22,6 +22,7 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
         return discountCodeDao.getDiscountCodeById(id);
     }
 
+    
     @Override
     @Transactional
     public Optional<List<DiscountCodeDTO>> getAllDiscountCode() {
@@ -46,4 +47,11 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
     public void deleteDiscountCode(List<Integer> ids) {
         discountCodeDao.deleteDiscountCode(ids);
     }
+
+
+	@Override
+	@Transactional
+	public Optional<DiscountCodeDTO> getDiscountCodeByCode(String code) {
+		return discountCodeDao.getDiscountCodeByCode(code);
+	}
 }

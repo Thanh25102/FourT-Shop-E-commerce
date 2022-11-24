@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,6 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "id", nullable = false)
-	@NotNull(message = "{null.err}")
 	private Integer id;
 	@Basic
 	@Column(name = "order_status", nullable = false, length = 20)
@@ -44,19 +44,33 @@ public class Order {
 	@Basic
 	@Column(name = "payment_method", nullable = false, length = 50)
 	@NotNull(message = "{null.err}")
-	@Length(max = 50,message = "{access.code.err}")
+	@Length(max = 50, message = "{access.code.err}")
 	private String paymentMethod;
 	@Basic
 	@Column(name = "create_time", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Date createTime;
+
+	@Basic
+	@Column(name = "phone", nullable = true)
+	private String phone;
+
+	@Basic
+	@Column(name = "shiping_address", nullable = true)
+	private String shipingAddress;
+
+	@Basic
+	@Column(name = "city", nullable = true)
+	private String city;
+
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Account accountByUsername;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")
 	private DiscountCode discountCodeByDiscountCodeId;
-	@OneToMany(mappedBy = "orderByOrderId",fetch = FetchType.LAZY)
+	
+	@OneToMany(mappedBy = "orderByOrderId", fetch = FetchType.LAZY)
 	private Set<OrderDetail> orderDetailsById;
 }

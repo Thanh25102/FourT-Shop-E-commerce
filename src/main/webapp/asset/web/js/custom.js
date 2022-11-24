@@ -91,26 +91,5 @@ function updateQuantityCartDetail(id,type){
 		.catch((e) => console.log(e))
 }
 
-function proceedCheckOut(currentUser){
-	let options = {
-		method: 'POST',
-		Headers: {
-			'Content-Type': 'application/json'
-		},
-	}
-	fetch(`/FourT-Shop-E-commerce/api/v1/cart/quantity/${id}?type=${type}`, options)
-		.then((response) => response.json())
-		.then((data) => {
-			console.log(data)
-			if (data.status === 'ok') {
-				let USDollar = new Intl.NumberFormat('en-US', {
-				    style: 'currency',
-				    currency: 'USD',
-				});
-				document.getElementById(`cart_detail_price_${id}`).innerText = USDollar.format(data.data.price)
-				document.getElementById(`quantity_cart_detail_${id}`).value = data.data.quantity
-			}
-		})
-		.catch((e) => console.log(e))
-}
+
 

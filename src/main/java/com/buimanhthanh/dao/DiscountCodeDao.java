@@ -7,13 +7,15 @@ import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.entity.DiscountCode;
 
 public interface DiscountCodeDao {
-    Optional<DiscountCodeDTO> getDiscountCodeById(Integer id);
+	Optional<DiscountCodeDTO> getDiscountCodeById(Integer id);
 
-    Optional<List<DiscountCodeDTO>> getAllDiscountCode();
+	Optional<List<DiscountCodeDTO>> getAllDiscountCode();
 
-    Boolean saveOrUpdateDiscountCode(DiscountCode discountCode);
+	Optional<DiscountCodeDTO> getDiscountCodeByCode(String code);
 
-    void deleteDiscountCode(Integer id);
+	Boolean saveOrUpdateDiscountCode(DiscountCode discountCode);
 
-    void deleteDiscountCode(List<Integer> ids);
+	void deleteDiscountCode(Integer id);
+
+	void deleteDiscountCode(List<Integer> ids);
 }

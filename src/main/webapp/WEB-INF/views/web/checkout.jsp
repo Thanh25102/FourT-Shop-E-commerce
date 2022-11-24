@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
@@ -51,95 +53,79 @@
                 </div>
             </form>
         </div>
-        <div class="cupon_area">
-            <div class="check_title">
-                <h2>Have a coupon? <a href="#">Click here to enter your code</a></h2>
-            </div>
-            <input type="text" placeholder="Enter coupon code">
-            <a class="tp_btn" href="#">Apply Coupon</a>
-        </div>
         <div class="billing_details">
             <div class="row">
                 <div class="col-lg-8">
-                    <h3>Billing Details</h3>
-                    <form class="row contact_form" action="#" method="post" novalidate="novalidate">
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="first" name="name">
-                            <span class="placeholder" data-placeholder="First name"></span>
-                        </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="last" name="name">
-                            <span class="placeholder" data-placeholder="Last name"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="company" name="company" placeholder="Company name">
-                        </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="number" name="number">
+                    <h3>Update Order Information</h3>
+                    <c:url value='/checkout/process' var="url"/>
+                    <form:form class="row contact_form" action="${url}" method="POST" modelAttribute="order" >
+                         <div class="col-md-6 form-group p_star">
+                            <form:input type="text" class="form-control" id="phone" name="phone" path="phone"/>
                             <span class="placeholder" data-placeholder="Phone number"></span>
                         </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="email" name="compemailany">
-                            <span class="placeholder" data-placeholder="Email Address"></span>
+                        <div class="col-md-6 form-group">
+                            <form:input type="text" class="form-control" id="discountCode" name="discountCode" placeholder="DiscountCode/ZIP" path="discountCode"/>
                         </div>
                         <div class="col-md-12 form-group p_star">
-                            <select class="country_select">
-                                <option value="1">Country</option>
-                                <option value="2">Country</option>
-                                <option value="4">Country</option>
-                            </select>
+                            <form:select class="country_select" path="city">
+                                <form:option value="null">-- Select City --</form:option>
+                                <form:option value="HoChiMinh">Ho Chi Minh City</form:option>
+                                <form:option value="HaNoi">Ha Noi City</form:option>
+                                <form:option value="DaNang">Da Nang City</form:option>
+                            </form:select>
                         </div>
                         <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add1" name="add1">
+                            <form:select class="country_select" path="paymentMethod">
+                                <form:option value="null">-- Select Payment Method --</form:option>
+                                <form:option value="Momo">Momo</form:option>
+                                <form:option value="CreditCards">Credit Cards</form:option>
+                                <form:option value="MobilePayments">Mobile Payments</form:option>
+                                <form:option value="Cash">Cash</form:option>
+                            </form:select>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <form:input type="text" class="form-control" id="shipingAddress" name="shipingAddress" path="shipingAddress"/>
                             <span class="placeholder" data-placeholder="Address line 01"></span>
                         </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add2" name="add2">
-                            <span class="placeholder" data-placeholder="Address line 02"></span>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="city" name="city">
-                            <span class="placeholder" data-placeholder="Town/City"></span>
-                        </div>
-                        <div class="col-md-12 form-group p_star">
-                            <select class="country_select">
-                                <option value="1">District</option>
-                                <option value="2">District</option>
-                                <option value="4">District</option>
-                            </select>
+                        <div>
+                        	<form:input type="hidden" path="id"/>
+                        	<form:input type="hidden" path="username"/>
+                        	<form:input type="hidden" path="orderStatus"/>
+                        	<form:input type="hidden" path="ammount"/>
+                        	<form:input type="hidden" path="discountCodeId"/>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
+                       		<input class="genric-btn primary-border circle arrow" type="submit" value="Submit"/>
                         </div>
-                        <div class="col-md-12 form-group">
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option2" name="selector">
-                                <label for="f-option2">Create an account?</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="creat_account">
-                                <h3>Shipping Details</h3>
-                                <input type="checkbox" id="f-option3" name="selector">
-                                <label for="f-option3">Ship to a different address?</label>
-                            </div>
-                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
-                        </div>
-                    </form>
+                    </form:form>
                 </div>
                 <div class="col-lg-4">
                     <div class="order_box">
                         <h2>Your Order</h2>
                         <ul class="list">
                             <li><a href="#">Product <span>Total</span></a></li>
-                            <li><a href="#">Fresh Blackberry <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
+                            <c:set var="sumPrice" value="0"/>
+                            <c:forEach var="cartDetail" items="${ cartDetails }">
+		                    	<input type="hidden" value="${ sumPrice = sumPrice + cartDetail.price }"/> 
+	                            <li>
+		                            <a href="#">${ cartDetail.productName }
+		                            	<span class="middle">x ${ cartDetail.quantity }</span> 
+		                            	<span class="last">
+                                			<fmt:formatNumber type="currency" value="${cartDetail.price}"/>
+		                            	</span>
+		                            </a>
+	                            </li>
+                            </c:forEach>
                         </ul>
                         <ul class="list list_2">
-                            <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                            <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                            <li><a href="#">Total <span>$2210.00</span></a></li>
+                            <li><a href="#">Subtotal 
+	                            	<span>
+	                                	<fmt:formatNumber type="currency" value="${sumPrice}"/>
+	                                </span>
+                                </a>
+                            </li>
+                            <li><a href="#">Shipping <span>Flat rate: $0.00</span></a></li>
+                            <li><a href="#">Total <span><fmt:formatNumber type="currency" value="${sumPrice}"/></span></a></li>
                         </ul>
                         <div class="payment_item">
                             <div class="radion_btn">

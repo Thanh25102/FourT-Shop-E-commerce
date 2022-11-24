@@ -10,6 +10,8 @@ public interface DiscountCodeService {
 
     Optional<List<DiscountCodeDTO>> getAllDiscountCode();
 
+    Optional<DiscountCodeDTO> getDiscountCodeByCode(String code);
+    
     Boolean saveOrUpdateDiscountCode(DiscountCodeDTO discountCodeDTO);
 
     void deleteDiscountCode(Integer id);
