@@ -92,9 +92,10 @@ public class AccountServiceImpl implements AccountService {
 		String newPassword = passwordEncoder.encode(account.getPassword());
 		account.setPassword(newPassword);
 
-		Map result = null;
+		
 		try {
-			result = cloudinary.uploader().upload(accountDTO.getAvatarFile().getBytes(), ObjectUtils.asMap("resource_type","auto"));
+			@SuppressWarnings("rawtypes")
+			Map result = cloudinary.uploader().upload(accountDTO.getAvatarFile().getBytes(), ObjectUtils.asMap("resource_type","auto"));
 			accountDTO.setAvatar((String)result.get("secure_url"));
 			account.setAvatar(accountDTO.getAvatar());
 			return accountDao.registerAccount(account);

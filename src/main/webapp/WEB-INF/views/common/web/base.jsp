@@ -24,7 +24,7 @@
 	<!--
 		CSS
 		============================================= -->
-
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/linearicons.css"/>">
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/font-awesome.min.css"/>">
 	<link rel="stylesheet" href="<c:url value="/asset/web/css/themify-icons.css"/>">

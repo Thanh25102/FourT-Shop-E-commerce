@@ -55,7 +55,6 @@ public class ProductServiceImpl implements ProductService {
 			discount.setId(productDTO.getDiscountId());
 			product.setDiscountByDiscountId(discount);
 		}
-
 		return productDao.saveOrUpdateProduct(product);
 	}
 

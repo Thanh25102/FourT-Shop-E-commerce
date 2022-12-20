@@ -599,10 +599,9 @@
 					<c:when test="${model eq 'Product'}">
 						<c:url value="/admin/product/edit/${ param.id }" var="url" />
 						<c:url value="/admin/product/add" var="urlAdd" />
-						<form:form action="${param.action == 'add' ? urlAdd : url}" modelAttribute="Product" method="post">
+						<form:form action="${param.action == 'add' ? urlAdd : url}" modelAttribute="Product" method="post" enctype="multipart/form-data">
 							<div class="form-group row">
-								<form:errors path="*" cssClass="col-lg-12 text-danger"
-									element="p" />
+								<form:errors path="*" cssClass="col-lg-12 text-danger" element="p" />
 							</div>
 							<div class="form-group row">
 								<h2 class="heading col-lg-6">${model}form</h2>
@@ -636,7 +635,7 @@
 								<div class="controls col-lg-12">
 									<div class="row">
 										<div class="col-lg-6">
-											<input type="file" class="floatLabel" id="customFile" />
+											<form:input type="file" path="file" class="floatLabel" id="customFile" />
 										</div>
 										<div class="col-lg-6">
 											<i class="fa fa-sort"></i>
@@ -664,6 +663,7 @@
 								</div>
 								<form:input type="hidden" path="id" />
 								<form:input type="hidden" path="discountId"/>
+								<form:input type="hidden" path="represent"/>
 							</div>
 						</form:form>
 					</c:when>

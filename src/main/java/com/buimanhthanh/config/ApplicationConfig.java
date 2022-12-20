@@ -1,5 +1,8 @@
 package com.buimanhthanh.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
+
+import com.cloudinary.Cloudinary;
 
 @EnableWebMvc
 @Configuration
@@ -67,5 +72,17 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setDefaultEncoding("UTF-8");
 		return multipartResolver;
+	}
+	
+	@Bean
+	public Cloudinary cloudinary() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("cloud_name", "com-buimahthanh");
+		map.put("api_key", "767693717832892");
+		map.put("api_secret", "prGZdfuasWtSvI2GMocQiZ9Bh9w");
+		map.put("secure", true);
+		
+		Cloudinary c = new Cloudinary(map);
+		return c;
 	}
 }

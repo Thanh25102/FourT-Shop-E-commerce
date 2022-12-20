@@ -1,6 +1,5 @@
 package com.buimanhthanh.controller.home;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.CartDTO;
 import com.buimanhthanh.dto.CartDetailDTO;
-import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.dto.OrderDTO;
-import com.buimanhthanh.dto.OrderDetailDTO;
-import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.service.CartService;
-import com.buimanhthanh.service.DiscountCodeService;
 import com.buimanhthanh.service.OrderService;
 
 @Controller
@@ -32,8 +27,6 @@ public class HomeCheckOutController {
 	private CartService cartService;
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	private DiscountCodeService discountCodeService;
 
 	@GetMapping(value = { "/", "" })
 	public String proceedCheckOut(ModelMap modelMap, HttpSession session) {

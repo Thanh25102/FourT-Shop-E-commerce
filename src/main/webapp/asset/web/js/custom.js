@@ -16,11 +16,11 @@ function addToBag(productId, isLogin) {
 			.then((response) => response.json())
 			.then((data) => {
 				updateQuantityCart()
-				alert(data.message)
+				swal(data.message)
 			})
 			.catch((e) => console.log(e))
 	} else {
-		alert('you need login')
+		swal('YOU NEED LOGIN')
 	}
 }
 function removeProductFromCart(cartDetailId) {

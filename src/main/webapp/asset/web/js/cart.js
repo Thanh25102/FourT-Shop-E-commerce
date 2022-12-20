@@ -42,10 +42,7 @@ const getCarts = (username) => {
                 cartElements.innerHTML = html
                 document.getElementById('sum_price').innerText = `$${sumPrice}`
             }else {
-                alert(`khoong co san pham nao, nho xu ly cho nay nha :>`)
+                swal(`khoong co san pham nao, nho xu ly cho nay nha :>`)
             }
         })
-}
-const renderCart = () => {
-
 }

@@ -35,10 +35,10 @@ public class APICart {
 						.body(new ResponeObject("ok", "Add Cart successfully", true));
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND)
-						.body(new ResponeObject("fail", "San pham khong con", false));
+						.body(new ResponeObject("fail", "PRODUCT HAS OUT OF STOCK ", false));
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponeObject("fail", "You need login", false));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponeObject("fail", "YOU NEED LOGIN", false));
 		}
 	}
 

@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
 				code -> orderDTO.setDiscountCodeId(code.getId()), () -> orderDTO.setDiscountCodeId(null));
 
 		Integer id = saveOrder(orderDTO);
-		OrderDTO orderTemp = getOrderById(id).get();
+//		OrderDTO orderTemp = getOrderById(id).get();
 		cartDetailDTOs.forEach(cartDetail -> orderDetailDTOs.add(new OrderDetailDTO(null, cartDetail.getProductId(), id,
 				cartDetail.getPrice(), cartDetail.getQuantity())));
 		orderDetailDTOs.forEach(o -> {

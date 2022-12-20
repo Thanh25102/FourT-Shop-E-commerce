@@ -17,7 +17,6 @@ public class AdminCartController {
     @GetMapping("/cart")
     public String cart(ModelMap model) {
         model.addAttribute("model", Cart.class.getSimpleName());
-        System.out.println(Cart.class.getSimpleName());
         model.addAttribute("listObject", cartService.getAllCart().get());
         return "adminTable";
     }

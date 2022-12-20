@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.buimanhthanh.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -14,10 +13,10 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.buimanhthanh.entity.Account;
-import com.buimanhthanh.service.AccountService;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.buimanhthanh.dto.AccountDTO;
+import com.buimanhthanh.service.AccountService;
 
 @Controller
 @RequestMapping("")
