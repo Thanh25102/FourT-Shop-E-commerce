@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.OrderDTO;
 import com.buimanhthanh.dto.OrderDetailDTO;
+import com.buimanhthanh.dto.RevenueDTO;
 
 public interface OrderService {
 	Optional<OrderDTO> getOrderById(Integer id);
@@ -27,4 +28,18 @@ public interface OrderService {
 	void deleteOrder(Integer id);
 
 	void deleteOrder(List<Integer> ids);
+
+	Double getEarningMonth();
+
+	List<RevenueDTO> getEarningYear();
+
+	List<RevenueDTO> getEarningLastYear();
+
+	Double getEarning();
+
+	List<OrderDTO> getAllOrderPending();
+
+	List<OrderDTO> getAllOrderDelevering();
+
+	List<OrderDTO> getAllOrderComplete();
 }

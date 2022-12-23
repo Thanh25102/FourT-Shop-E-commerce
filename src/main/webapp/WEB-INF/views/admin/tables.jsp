@@ -41,9 +41,12 @@
 
 				<c:choose>
 					<c:when test="${ model eq 'Product' && discountProduct == null }">
-						<a href="<c:url value="/admin/product?action=add"/>">
+						<a href="<c:url value="/admin/product?action=add"/>" >
 							<button class="btn-facebook rounded px-3">Add data</button>
 						</a>
+						<span onclick="downloadExcel(`${model}`,`${model}`);"
+							class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-5"><i
+							class="fas fa-download fa-sm text-white-50"></i> Generate Report</span>
 					</c:when>
 					<c:when test="${ model eq 'ProductDetail' }">
 						<a href="<c:url value="/admin/product/detail/${ pathVariable }?action=add"/>">
@@ -54,6 +57,9 @@
 						<a href="<c:url value="/admin/account?action=add"/>">
 							<button class="btn-facebook rounded px-3">Add data</button>
 						</a>
+						<span onclick="downloadExcel(`${model}`,`${model}`);"
+							class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-5"><i
+							class="fas fa-download fa-sm text-white-50"></i> Generate Report</span>
 					</c:when>
 					<c:when test="${ model eq 'Category' }">
 						<a href="<c:url value="/admin/category?action=add"/>">

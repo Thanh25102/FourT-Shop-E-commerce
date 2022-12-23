@@ -1,9 +1,14 @@
 package com.buimanhthanh.controller.login;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.buimanhthanh.dto.CartDetailDTO;
+import com.buimanhthanh.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -23,15 +28,12 @@ import com.buimanhthanh.service.AccountService;
 public class LoginController {
 	@Autowired
 	private MessageSource messageSource;
-
 	@Autowired
 	private AccountService userDetailService;
-
-	@GetMapping("/login")	
+	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
-
 	@GetMapping("/register")
 	public String register(ModelMap modelMap) {
 		modelMap.addAttribute("userRegister", new AccountDTO());
@@ -53,4 +55,7 @@ public class LoginController {
 			return "register";
 		return userDetailService.registerAccount(accountDTO) ? "redirect:/" : "register";
 	}
+
+
+
 }

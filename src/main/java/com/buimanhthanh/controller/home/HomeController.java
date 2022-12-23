@@ -23,14 +23,16 @@ public class HomeController {
 		modelMap.addAttribute("currentUser", session.getAttribute("currentUser"));
 	}
 
-	@GetMapping("/")
+	@GetMapping(value = {"/"})
 	public String index(ModelMap modelMap, HttpSession session) {
+		System.out.println("Tao nè thành");
 		modelMap.addAttribute("lastestProducts", productService.getLatestProducts(8).get());
 		return "index";
 	}
 
 	@GetMapping("/blog")
 	public String blog() {
+		System.out.println("Tao nè thành");
 		return "blog";
 	}
 

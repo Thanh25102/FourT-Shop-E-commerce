@@ -3,6 +3,7 @@ package com.buimanhthanh.dao.impl;
 import com.buimanhthanh.dao.OrderDao;
 import com.buimanhthanh.dto.OrderDTO;
 import com.buimanhthanh.dto.OrderDetailDTO;
+import com.buimanhthanh.dto.RevenueDTO;
 import com.buimanhthanh.entity.Order;
 import com.buimanhthanh.entity.OrderDetail;
 
@@ -12,7 +13,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -93,6 +100,60 @@ public class OrderDaoImpl implements OrderDao {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
 				"select new com.buimanhthanh.dto.OrderDetailDTO(a.id,a.productDetailByProductId.id,a.orderByOrderId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name) from OrderDetail a where a.orderByOrderId.id =: i",
 				OrderDetailDTO.class).setParameter("i", id).getResultList());
+	}
+
+	@Override
+	public Optional<List<OrderDetailDTO>> getAllOrderDetailComplete() {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.OrderDetailDTO(a.id,a.productDetailByProductId.id,a.orderByOrderId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name) from OrderDetail a where a.orderByOrderId.orderStatus = 'COMPLETE'",
+				OrderDetailDTO.class).getResultList());
+	}
+
+	@Override
+	public Optional<List<OrderDetailDTO>> getAllOrderDetailComplete(Month month) {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.OrderDetailDTO(a.id,a.productDetailByProductId.id,a.orderByOrderId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name) from OrderDetail a where MONTH(a.orderByOrderId.createTime) = :d and a.orderByOrderId.orderStatus = 'COMPLETE'",
+				OrderDetailDTO.class).setParameter("d", month.getValue()).getResultList());
+	}
+
+	@Override
+	public Optional<List<OrderDTO>> getAllOrderPending() {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'PENDING'",
+				OrderDTO.class).getResultList());
+	}
+
+	@Override
+	public Optional<List<OrderDTO>> getAllOrderDelevering() {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'DELIVERING'",
+				OrderDTO.class).getResultList());
+	}
+
+	@Override
+	public Optional<List<OrderDTO>> getAllOrderComplete() {
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'COMPLETE'",
+				OrderDTO.class).getResultList());
+	}
+
+	@Override
+	public Optional<List<RevenueDTO>> getEarningYear(int year) {
+		System.out.println("YEAR : " + year);
+		try {
+			return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
+					"SELECT new com.buimanhthanh.dto.RevenueDTO( MONTH(o.createTime),SUM(od.price * od.quantity)) "
+							+ " FROM Order o INNER JOIN o.orderDetailsById od "
+							+ " WHERE o.createTime BETWEEN :startYear AND :endYear " + " GROUP BY MONTH(o.createTime)",
+					RevenueDTO.class)
+					.setParameter("startYear", new SimpleDateFormat("yyyy-MM-dd").parse(year + "-01-01"))
+					.setParameter("endYear", new SimpleDateFormat("yyyy-MM-dd").parse(year + "-12-31"))
+					.getResultList());
+		} catch (HibernateException e) {
+			return null;
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 }

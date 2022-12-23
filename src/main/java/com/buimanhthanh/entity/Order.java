@@ -70,7 +70,7 @@ public class Order {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")
 	private DiscountCode discountCodeByDiscountCodeId;
-	
+
 	@OneToMany(mappedBy = "orderByOrderId", fetch = FetchType.LAZY)
 	private Set<OrderDetail> orderDetailsById;
 }

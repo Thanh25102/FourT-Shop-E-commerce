@@ -1,5 +1,7 @@
 package com.buimanhthanh.service.impl;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import com.buimanhthanh.dto.CartDTO;
 import com.buimanhthanh.dto.CartDetailDTO;
 import com.buimanhthanh.dto.OrderDTO;
 import com.buimanhthanh.dto.OrderDetailDTO;
+import com.buimanhthanh.dto.RevenueDTO;
 import com.buimanhthanh.entity.Account;
 import com.buimanhthanh.entity.DiscountCode;
 import com.buimanhthanh.entity.Order;
@@ -70,17 +73,17 @@ public class OrderServiceImpl implements OrderService {
 		Order order = new Order(orderDTO.getId(), orderDTO.getOrderStatus(), orderDTO.getAmmount(),
 				orderDTO.getPaymentMethod(), orderDTO.getCreateTime(), orderDTO.getPhone(),
 				orderDTO.getShipingAddress(), orderDTO.getCity(), null, null, null);
-		
+
 		Account account = new Account();
 		account.setUsername(orderDTO.getUsername());
-		if(orderDTO.getDiscountCodeId() !=null) {
+		if (orderDTO.getDiscountCodeId() != null) {
 			DiscountCode discountCode = new DiscountCode();
 			discountCode.setId(orderDTO.getDiscountCodeId());
 			order.setDiscountCodeByDiscountCodeId(discountCode);
-		}else {
+		} else {
 			order.setDiscountCodeByDiscountCodeId(null);
 		}
-		
+
 		order.setAccountByUsername(account);
 		java.util.Date today = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(today.getTime()); // your SQL date object
@@ -153,4 +156,70 @@ public class OrderServiceImpl implements OrderService {
 
 		return orderDao.saveOrUpdateOrderDetail(orderDetail);
 	}
+
+	@Override
+	@Transactional
+	public Double getEarningMonth() {
+		LocalDate local = LocalDate.now();
+		Month curMonth = local.getMonth();
+
+		List<OrderDetailDTO> orderDetails = orderDao.getAllOrderDetailComplete(curMonth).get();
+		Double earningMonth = 0.0;
+		for (OrderDetailDTO o : orderDetails) {
+			earningMonth += o.getPrice();
+		}
+		return earningMonth;
+	}
+
+	@Override
+	@Transactional
+	public Double getEarning() {
+		List<OrderDetailDTO> orderDetails = orderDao.getAllOrderDetailComplete().get();
+		Double earning = 0.0;
+		for (OrderDetailDTO o : orderDetails) {
+			earning += o.getPrice();
+		}
+		return earning;
+	}
+
+	@Override
+	@Transactional
+	public List<OrderDTO> getAllOrderPending() {
+		return orderDao.getAllOrderPending().get();
+	}
+
+	@Override
+	@Transactional
+	public List<OrderDTO> getAllOrderDelevering() {
+		return orderDao.getAllOrderDelevering().get();
+	}
+	
+//	ModelMapper modelMapper = new ModelMapper();
+//	modelMapper.createTypeMap(AccountDTO.class, Account.class)
+//	        .addMapping(AccountDTO::getRoleId, (dest, value) -> dest.setRoleById(new Role((Integer) value)));
+
+	@Override
+	@Transactional
+	public List<RevenueDTO> getEarningYear() {
+		LocalDate local = LocalDate.now();
+		int year = local.getYear();
+		return orderDao.getEarningYear(year).get();	
+	}
+
+	@Override
+	@Transactional
+	public List<RevenueDTO> getEarningLastYear() {
+		LocalDate local = LocalDate.now();
+		int year = local.getYear() - 1;
+		return orderDao.getEarningYear(year).get();	
+	}
+	
+	@Override
+	@Transactional
+	public List<OrderDTO> getAllOrderComplete() {
+		return orderDao.getAllOrderComplete().get();
+	}
+
+	
+
 }
