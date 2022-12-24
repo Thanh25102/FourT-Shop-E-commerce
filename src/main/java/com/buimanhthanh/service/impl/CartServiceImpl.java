@@ -175,13 +175,23 @@ public class CartServiceImpl implements CartService {
 	public Optional<CartDetailDTO> updateQuantityCartDetail(String type, Integer cartDetailId) {
 		CartDetailDTO cartDetailDTO = getCartDetailById(cartDetailId).get();
 		Double price = cartDetailDTO.getPrice() / (double)cartDetailDTO.getQuantity();
+		
 		if (type.equals("up")) {
 			cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() + 1);
 		} else if (type.equals("down")) {
-			cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() - 1);
+			int newQuantity = cartDetailDTO.getQuantity() - 1;
+			if(newQuantity >= 1) {
+				cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() - 1);
+			}
 		}
 		cartDetailDTO.setPrice(price * cartDetailDTO.getQuantity());
 		this.saveOrUpdateCartDetail(cartDetailDTO);
+		
+		Integer quantity = this.getQuantityOfCart(cartDetailDTO.getCartId());
+		CartDTO cartDTO = this.getCartById(cartDetailDTO.getCartId()).get();
+		cartDTO.setAmmount(quantity);
+		this.saveOrUpdateCart(cartDTO);
+		
 		return getCartDetailById(cartDetailDTO.getId());
 	}
 
@@ -191,4 +201,11 @@ public class CartServiceImpl implements CartService {
 		return cartDao.getCartDetailById(id);
 	}
 
+	@Override
+	@Transactional
+	public Integer getQuantityOfCart(int cartId) {
+		return cartDao.getQuantityOfCart(cartId);
+	}
+
+	
 }

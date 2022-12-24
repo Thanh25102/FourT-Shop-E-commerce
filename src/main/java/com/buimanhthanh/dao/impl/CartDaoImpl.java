@@ -68,9 +68,15 @@ public class CartDaoImpl implements CartDao {
 
 	@Override
 	public Optional<List<CartDetailDTO>> getCartDetailByCart(Integer cartId) {
-		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.cartByCartId.id =: i",
-				CartDetailDTO.class).setParameter("i", cartId).getResultList());
+		StringBuilder sql = new StringBuilder(
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+		sql.append(" from CartDetail cd ");
+		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
+		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");
+		sql.append(" 	LEFT JOIN Discount d on p.discountByDiscountId.id = d.id");
+		sql.append(" 		where cd.cartByCartId.id =: i");
+		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(sql.toString(), CartDetailDTO.class)
+				.setParameter("i", cartId).getResultList());
 	}
 
 	@Override
@@ -124,16 +130,36 @@ public class CartDaoImpl implements CartDao {
 
 	@Override
 	public Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId) {
-		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.productDetailByProductId.id =: i and a.cartByCartId.id =: c",
-				CartDetailDTO.class).setParameter("i", productDetailId).setParameter("c", cartId).getResultList()
-				.stream().findFirst();
+		StringBuilder sql = new StringBuilder(
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+		sql.append(" from CartDetail cd ");
+		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
+		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");
+		sql.append(" 	LEFT JOIN Discount d on p.discountByDiscountId.id = d.id");
+		sql.append(" 		where pd =: i and cd.cartByCartId.id =: c");
+
+		return sessionFactory.getCurrentSession().createQuery(sql.toString(), CartDetailDTO.class)
+				.setParameter("i", productDetailId).setParameter("c", cartId).getResultList().stream().findFirst();
 	}
 
 	@Override
 	public Optional<CartDetailDTO> getCartDetailById(Integer id) {
-		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.id =: i",
-				CartDetailDTO.class).setParameter("i", id).getResultList().stream().findFirst();
+		StringBuilder sql = new StringBuilder(
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+		sql.append(" from CartDetail cd ");
+		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
+		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");
+		sql.append(" 	LEFT JOIN Discount d on p.discountByDiscountId.id = d.id");
+		sql.append(" 		where cd.id =: i");
+
+		return sessionFactory.getCurrentSession().createQuery(sql.toString(), CartDetailDTO.class).setParameter("i", id)
+				.getResultList().stream().findFirst();
+	}
+
+	@Override
+	public Integer getQuantityOfCart(int cartId) {
+		return sessionFactory.getCurrentSession()
+				.createQuery("select SUM(c.quantity) from CartDetail c where c.cartByCartId.id =: i", Long.class)
+				.setParameter("i", cartId).getSingleResult().intValue();
 	}
 }

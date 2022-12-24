@@ -30,6 +30,8 @@ public interface CartDao {
 	Integer getQuantityOfCart(String username);
 
 	Integer getQuantityOfCartDetail(Integer cartDetailId);
+	
+	Integer getQuantityOfCart(int cartId);
 
 	Boolean isExistProductDetailInCart(Integer productDetailId, Integer cartId);
 

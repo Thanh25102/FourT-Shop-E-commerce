@@ -11,6 +11,8 @@ public interface CartService {
 
 	Optional<List<CartDTO>> getAllCart();
 
+	Integer getQuantityOfCart(int cartId);
+	
 	Optional<CartDTO> getCartByUsername(String username);
 
 	Boolean saveOrUpdateCart(CartDTO cartDTO);

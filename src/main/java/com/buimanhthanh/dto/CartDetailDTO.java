@@ -51,7 +51,7 @@ public class CartDetailDTO {
 	}
 
 	public Double getPriceNew() {
-		return productPrice - (productPrice * (productSalePersent * 0.01));
+		return productSalePersent == null ? productPrice : productPrice - (productPrice * (productSalePersent * 0.01));
 	}
 
 	public CartDetailDTO(Integer id, Integer productId, Integer cartId, Double price, Integer quantity,

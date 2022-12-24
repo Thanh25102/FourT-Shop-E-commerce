@@ -99,13 +99,12 @@ public class APICart {
 
 	}
 
-	@PostMapping("/quantity/{productDetailId}")
-	public ResponseEntity<ResponeObject> updateQuantity(@PathVariable Integer productDetailId,
-			@RequestParam String type) {
-
+	@PostMapping("/quantity/{cartDetailId}")
+	public ResponseEntity<ResponeObject> updateQuantity(@PathVariable Integer cartDetailId,
+			@RequestParam String type,HttpSession session) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ResponeObject("ok", "update quantity cart detail successfully",
-						cartService.updateQuantityCartDetail(type, productDetailId).get()));
+						cartService.updateQuantityCartDetail(type, cartDetailId).get()));
 	}
 
 }
