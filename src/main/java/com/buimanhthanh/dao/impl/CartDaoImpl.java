@@ -69,7 +69,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<List<CartDetailDTO>> getCartDetailByCart(Integer cartId) {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image) from CartDetail a where a.cartByCartId.id =: i",
+				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.cartByCartId.id =: i",
 				CartDetailDTO.class).setParameter("i", cartId).getResultList());
 	}
 
@@ -125,7 +125,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId) {
 		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity) from CartDetail a where a.productDetailByProductId.id =: i and a.cartByCartId.id =: c",
+				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.productDetailByProductId.id =: i and a.cartByCartId.id =: c",
 				CartDetailDTO.class).setParameter("i", productDetailId).setParameter("c", cartId).getResultList()
 				.stream().findFirst();
 	}
@@ -133,7 +133,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<CartDetailDTO> getCartDetailById(Integer id) {
 		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity) from CartDetail a where a.id =: i",
+				"select new com.buimanhthanh.dto.CartDetailDTO(a.id,a.productDetailByProductId.id,a.cartByCartId.id,a.price,a.quantity,a.productDetailByProductId.productByProductId.name,a.productDetailByProductId.image,a.productDetailByProductId.productByProductId.discountByDiscountId.salePercent,a.productDetailByProductId.productByProductId.price) from CartDetail a where a.id =: i",
 				CartDetailDTO.class).setParameter("i", id).getResultList().stream().findFirst();
 	}
 }

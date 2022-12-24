@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.CartDetailDTO;
+import com.buimanhthanh.dto.ProductDTO;
 import com.buimanhthanh.service.CartService;
+import com.buimanhthanh.service.ProductService;
 
 @Controller
 @RequestMapping("")
@@ -31,6 +33,7 @@ public class HomeCartController {
 		}
 		cartService.getCartByUsername(accountDTO.getUsername()).ifPresentOrElse(c -> {
 			List<CartDetailDTO> cartDetailDTO = cartService.getCartDetailByCart(c.getId()).get();
+			cartDetailDTO.forEach(c2->{System.out.println(c2);});
 			modelMap.addAttribute("cartDetails", cartDetailDTO);
 		}, () -> modelMap.addAttribute("cartDetails", new ArrayList<CartDetailDTO>()));
 		return "cart";

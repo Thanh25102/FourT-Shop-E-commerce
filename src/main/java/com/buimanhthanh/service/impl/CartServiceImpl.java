@@ -182,7 +182,7 @@ public class CartServiceImpl implements CartService {
 		}
 		cartDetailDTO.setPrice(price * cartDetailDTO.getQuantity());
 		this.saveOrUpdateCartDetail(cartDetailDTO);
-		return Optional.of(cartDetailDTO);
+		return getCartDetailById(cartDetailDTO.getId());
 	}
 
 	@Override

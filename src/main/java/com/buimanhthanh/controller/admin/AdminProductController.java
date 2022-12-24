@@ -1,5 +1,6 @@
 package com.buimanhthanh.controller.admin;
 
+import com.buimanhthanh.dto.DiscountDTO;
 import com.buimanhthanh.dto.ProductDTO;
 import com.buimanhthanh.dto.ProductDetailDTO;
 import com.buimanhthanh.entity.Category;
@@ -35,6 +36,8 @@ public class AdminProductController {
 	private SizeService sizeService;
 	@Autowired
 	private ColorService colorService;
+	@Autowired
+	private DiscountService discountService;
 
 	@Autowired
 	private Cloudinary cloudinary;
@@ -49,10 +52,14 @@ public class AdminProductController {
 					() -> model.addAttribute("Product", new ProductDTO()));
 			categoryService.getAllCategory().ifPresentOrElse(c -> model.addAttribute("Categories", c),
 					() -> model.addAttribute("Categories", new ArrayList<Category>()));
+			discountService.getAllDiscount().ifPresentOrElse(d -> model.addAttribute("Discounts", d),
+					() -> model.addAttribute("Discounts", new ArrayList<DiscountDTO>()));
 		} else if (action.equals("add")) {
 			model.addAttribute("Product", new ProductDTO());
 			categoryService.getAllCategory().ifPresentOrElse(c -> model.addAttribute("Categories", c),
 					() -> model.addAttribute("Categories", new ArrayList<Category>()));
+			discountService.getAllDiscount().ifPresentOrElse(d -> model.addAttribute("Discounts", d),
+					() -> model.addAttribute("Discounts", new ArrayList<DiscountDTO>()));
 		}
 
 		model.addAttribute("listObject", productService.getAllProduct().get());

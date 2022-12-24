@@ -1,10 +1,14 @@
 package com.buimanhthanh.controller.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.buimanhthanh.dto.AccountDTO;
+import com.buimanhthanh.dto.CartDTO;
+import com.buimanhthanh.dto.CartDetailDTO;
 import com.buimanhthanh.dto.ResponeObject;
 import com.buimanhthanh.service.CartService;
 
@@ -40,6 +46,24 @@ public class APICart {
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponeObject("fail", "YOU NEED LOGIN", false));
 		}
+	}
+
+	@GetMapping("/sum-money")
+	public ResponseEntity<ResponeObject> sumMoney(ModelMap modelMap, HttpSession session) {
+		AccountDTO accountDTO = null;
+		if (session.getAttribute("currentUser") != null) {
+			accountDTO = (AccountDTO) session.getAttribute("currentUser");
+		} else {
+			accountDTO = new AccountDTO();
+		}
+		CartDTO cart = cartService.getCartByUsername(accountDTO.getUsername()).get();
+		List<CartDetailDTO> cartDetailDTO = cartService.getCartDetailByCart(cart.getId()).get();
+		Double sumMoney = 0D;
+		for (CartDetailDTO c2 : cartDetailDTO) {
+			System.out.println(c2);
+			sumMoney += c2.getPriceNew() * c2.getQuantity();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponeObject("OK", "SUM MONEY OF CART", sumMoney));
 	}
 
 //	@PutMapping("/{id}")
@@ -72,12 +96,13 @@ public class APICart {
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponeObject("fail", "You need login", false));
 		}
-		
+
 	}
 
 	@PostMapping("/quantity/{productDetailId}")
 	public ResponseEntity<ResponeObject> updateQuantity(@PathVariable Integer productDetailId,
 			@RequestParam String type) {
+
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ResponeObject("ok", "update quantity cart detail successfully",
 						cartService.updateQuantityCartDetail(type, productDetailId).get()));

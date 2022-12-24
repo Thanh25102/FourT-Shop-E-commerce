@@ -33,6 +33,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Product</th>
+                        <th scope="col">Old Price</th>
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Total</th>
@@ -42,7 +43,7 @@
                     <tbody id="carts_fourt">
                     <c:set var="sumPrice" value="0"/>
                     <c:forEach var="cartDetail" items="${cartDetails}">
-                    	<input type="hidden" value="${ sumPrice = sumPrice + cartDetail.price }"/> 
+                    	<input type="hidden" value="${ sumPrice = sumPrice + cartDetail.priceNew * cartDetail.quantity }"/> 
                         <tr id="cart_item_${cartDetail.id}">
                             <td>
                                 <div class="media">
@@ -55,11 +56,15 @@
                                 </div>
                             </td>
                             <td>
-                                <h5><fmt:formatNumber type="currency" value="${cartDetail.price}"/></h5>
+                                <h5><fmt:formatNumber type="currency" value="${cartDetail.productPrice}"  currencySymbol="$"/></h5>
                             </td>
                             <td>
+                                <h5><fmt:formatNumber type="currency" value="${cartDetail.priceNew}"  currencySymbol="$"/></h5>
+                            </td>
+                            
+                            <td>
                                 <div class="product_count">
-                                    <input type="text" name="qty" id="sst quantity_cart_detail_${cartDetail.id}}" maxlength="1000" value="${cartDetail.quantity}" title="Quantity:"
+                                    <input type="text" name="qty" id="sst quantity_cart_detail_${cartDetail.id}" maxlength="1000" value="${cartDetail.quantity}" title="Quantity:"
                                            class="input-text qty">
                                     <button onclick="updateQuantityCartDetail(${cartDetail.id},'up');var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
                                             class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
@@ -69,7 +74,7 @@
                             </td>
                             <td>
                                 <h5 id="cart_detail_price_${ cartDetail.id }">
-									<fmt:formatNumber type="currency" value="${cartDetail.price}"/>                             
+									<fmt:formatNumber type="currency" value="${cartDetail.priceNew * cartDetail.quantity}" currencySymbol="$"/>                             
                                 </h5>
                             </td>
                             <td> 
@@ -80,6 +85,7 @@
                         </tr>
                     </c:forEach>
                     </tbody>
+                    
                     <tbody>
                         <tr class="bottom_button">
                             <td>
@@ -110,7 +116,7 @@
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5 id="sum_price">$${sumPrice}</h5>
+                           		<h5 id="sum_price"><fmt:formatNumber type="currency" value="${sumPrice}"  currencySymbol="$"/></h5>                 
                             </td>
                         </tr>
                         <tr class="shipping_area">

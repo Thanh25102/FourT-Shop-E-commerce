@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class DiscountCodeServiceImpl implements DiscountCodeService {
@@ -32,7 +33,13 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
     @Override
     @Transactional
     public Boolean saveOrUpdateDiscountCode(DiscountCodeDTO discountCodeDTO) {
-    	DiscountCode discountCode = new DiscountCode(discountCodeDTO.getId(),discountCodeDTO.getCode(),discountCodeDTO.getSalePercent(),discountCodeDTO.getSaleMoney(),discountCodeDTO.getStartDay(),discountCodeDTO.getEndDay(),discountCodeDTO.getMaxDiscount(),discountCodeDTO.getDescription(),null);
+    	String randomDiscountCode;
+    	if(discountCodeDTO.getId() == null) {
+        	randomDiscountCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20).toUpperCase();
+    	}else {
+        	randomDiscountCode = discountCodeDTO.getCode();
+    	}
+    	DiscountCode discountCode = new DiscountCode(discountCodeDTO.getId(),randomDiscountCode,discountCodeDTO.getSalePercent(),0L,discountCodeDTO.getStartDay(),discountCodeDTO.getEndDay(),discountCodeDTO.getMaxDiscount(),discountCodeDTO.getDescription(),null);
         return discountCodeDao.saveOrUpdateDiscountCode(discountCode);
     }
 

@@ -36,16 +36,6 @@ public class AdminDiscountController {
         return "adminTable";
     }
 
-//    @GetMapping("/discount/{id}/product")
-//    public String productByDiscount(ModelMap model, @PathVariable(required = true) Integer id) {
-//        model.addAttribute("model", Product.class.getSimpleName());
-//        model.addAttribute("discountProduct", "discountProduct");
-//        discountService.getDiscountById(id).ifPresentOrElse(p -> model.addAttribute("listObject", p.getProductsById()),
-//                () -> model.addAttribute("listObject", new ArrayList<Product>()));
-//        return "adminTable";
-//    }
-
-
     @PostMapping("/discount")
     public String discount(ModelMap model, @ModelAttribute("discount") @Valid DiscountDTO discount, BindingResult result) {
         if (result.hasErrors())

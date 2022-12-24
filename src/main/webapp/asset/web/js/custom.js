@@ -68,12 +68,29 @@ function openOrderDetail(orderId) {
 	}
 }
 
-function updateQuantityCartDetail(id,type){
+function updateQuantityCartDetail(id, type) {
 	let options = {
 		method: 'POST',
 		Headers: {
 			'Content-Type': 'application/json'
 		},
+	}
+	loading();
+
+	async function callApi() {
+		try {
+			const response = await fetch('/FourT-Shop-E-commerce/api/v1/cart/sum-money');
+			const data = await response.json();
+			// Làm gì đó với dữ liệu trả về từ API
+			let USDollar = new Intl.NumberFormat('en-US', {
+				style: 'currency',
+				currency: 'USD',
+			});
+			let sumPrice = document.getElementById('sum_price');
+			sumPrice.innerHTML = USDollar.format(`${data.data}`)
+		} catch (error) {
+			console.error(error);
+		}
 	}
 	fetch(`/FourT-Shop-E-commerce/api/v1/cart/quantity/${id}?type=${type}`, options)
 		.then((response) => response.json())
@@ -81,14 +98,45 @@ function updateQuantityCartDetail(id,type){
 			console.log(data)
 			if (data.status === 'ok') {
 				let USDollar = new Intl.NumberFormat('en-US', {
-				    style: 'currency',
-				    currency: 'USD',
+					style: 'currency',
+					currency: 'USD',
 				});
-				document.getElementById(`cart_detail_price_${id}`).innerText = USDollar.format(data.data.price)
-				document.getElementById(`quantity_cart_detail_${id}`).value = data.data.quantity
+				document.getElementById(`cart_detail_price_${id}`).innerText = USDollar.format(data.data.priceNew * data.data.quantity)
+				document.getElementById(`sst quantity_cart_detail_${id}`).value = data.data.quantity
+				callApi();
 			}
 		})
 		.catch((e) => console.log(e))
+		.finally(() => {
+			removeLoading()
+		})
+
+}
+
+function loading() {
+	// Lấy nội dung HTML cần thêm vào
+	var html = `
+			<div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;  z-index: 99999;">
+			  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+			  	<div class="loadingio-spinner-spin-qsao3u2fs2"><div class="ldio-1v00vxo0jgl">
+					<div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+					</div>
+				</div>
+			  </div>
+			</div>`;
+
+	// Lấy thẻ body
+	var body = document.getElementsByTagName('body')[0];
+
+	// Tạo một thẻ div mới
+	var div = document.createElement('div');
+	div.innerHTML = html;
+	// Thêm thẻ div vào trong thẻ body
+	body.appendChild(div);
+}
+function removeLoading() {
+	let remvoveElement = document.getElementById("overlay")
+	remvoveElement.parentNode.removeChild(remvoveElement)
 }
 
 

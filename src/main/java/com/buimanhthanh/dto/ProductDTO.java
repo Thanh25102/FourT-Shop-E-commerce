@@ -28,6 +28,13 @@ public class ProductDTO {
 	@Length(max = 255, message = "{access.description.err}")
 	private String represent;
 	private Integer discountId;
+	private Integer salePercent;
+
+	private Double priceNew;
+
+	public Double getPriceNew() {
+		return price - (price * (salePercent * 0.01));
+	}
 
 	public ProductDTO(Integer id,
 			@NotNull(message = "{null.err}") @Length(max = 55, message = "{access.code.err}") String name,
@@ -35,7 +42,6 @@ public class ProductDTO {
 			@Length(max = 255, message = "{access.description.err}") String description,
 			@Length(max = 55, message = "{access.code.err}") String thumbnail,
 			@Length(max = 255, message = "{access.description.err}") String represent, Integer discountId) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -44,6 +50,24 @@ public class ProductDTO {
 		this.thumbnail = thumbnail;
 		this.represent = represent;
 		this.discountId = discountId;
+	}
+
+	public ProductDTO(Integer id,
+			@NotNull(message = "{null.err}") @Length(max = 55, message = "{access.code.err}") String name,
+			@NotNull(message = "{null.err}") Double price, @NotNull(message = "{null.err}") Integer categoryId,
+			@Length(max = 255, message = "{access.description.err}") String description,
+			@Length(max = 55, message = "{access.code.err}") String thumbnail,
+			@Length(max = 255, message = "{access.description.err}") String represent, Integer discountId,
+			Integer salePercent) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.categoryId = categoryId;
+		this.description = description;
+		this.thumbnail = thumbnail;
+		this.represent = represent;
+		this.discountId = discountId;
+		this.salePercent = salePercent;
 	}
 
 	private MultipartFile file;
