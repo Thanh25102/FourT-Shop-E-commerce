@@ -86,11 +86,13 @@ public class ProductDaoImpl implements ProductDao {
 		if (priceRange != null) {
 			sql.append(" and p.price >= " + priceRange.getStart() + " and p.price <= " + priceRange.getEnd());
 		}
-		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
-			sql.append(" order by p." + orderBy);
-		}
-		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
-			sql.append(" " + sortType.getValue());
+		if (orderBy != null) {
+			if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+				sql.append(" order by p." + orderBy);
+			}
+			if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+				sql.append(" " + sortType.getValue());
+			}
 		}
 		System.out.println(sql.toString());
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(sql.toString(), ProductDTO.class)
@@ -126,11 +128,13 @@ public class ProductDaoImpl implements ProductDao {
 		if (priceRange != null) {
 			sql.append(" and p.price >= " + priceRange.getStart() + " and p.price <= " + priceRange.getEnd());
 		}
-		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
-			sql.append(" order by p." + orderBy);
-		}
-		if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
-			sql.append(" " + sortType.getValue());
+		if (orderBy != null) {
+			if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+				sql.append(" order by p." + orderBy);
+			}
+			if (!orderBy.isEmpty() && propertyNames.contains(orderBy)) {
+				sql.append(" " + sortType.getValue());
+			}
 		}
 		System.out.println(sql.toString());
 		return sessionFactory.getCurrentSession().createQuery(sql.toString(), Long.class).getSingleResult();

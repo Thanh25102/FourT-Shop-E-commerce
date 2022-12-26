@@ -1,5 +1,7 @@
 package com.buimanhthanh.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class ProductDTO implements Serializable{
 	private Integer id;
 	@NotNull(message = "{null.err}")
 	@Length(max = 55, message = "{access.code.err}")
@@ -33,7 +35,7 @@ public class ProductDTO {
 	private Double priceNew;
 
 	public Double getPriceNew() {
-		return price - (price * (salePercent * 0.01));
+		return salePercent == null ? price : price - (price * (salePercent * 0.01));
 	}
 
 	public ProductDTO(Integer id,

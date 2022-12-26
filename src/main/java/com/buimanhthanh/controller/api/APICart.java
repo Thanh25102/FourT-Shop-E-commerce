@@ -66,16 +66,6 @@ public class APICart {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponeObject("OK", "SUM MONEY OF CART", sumMoney));
 	}
 
-//	@PutMapping("/{id}")
-//	public ResponseEntity<ResponeObject> updateCart(@RequestBody CartDTO cartDTO, @PathVariable Integer id) {
-//		Optional<CartDTO> oplCartDTO = cartService.getCartById(id);
-//		return oplCartDTO.isEmpty()
-//				? ResponseEntity.status(HttpStatus.NOT_FOUND)
-//						.body(new ResponeObject("fail", "Not found cart with id : " + id, false))
-//				: ResponseEntity.status(HttpStatus.OK).body(
-//						new ResponeObject("ok", "Update Account successfully", cartService.saveOrUpdateCart(cartDTO)));
-//	}
-//
 	@DeleteMapping("/{cartDetailId}")
 	public ResponseEntity<ResponeObject> removeCart(@PathVariable Integer cartDetailId, HttpSession session) {
 		if (session.getAttribute("currentUser") != null) {

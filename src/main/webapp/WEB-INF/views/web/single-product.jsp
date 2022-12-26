@@ -25,7 +25,7 @@
 						<div class="preview col-md-6">
 							<div class="preview-pic tab-content">
 								<c:forEach var="productDetail" items="${ productDetails }">
-										<div class="tab-pane ${ productDetail.id == 1 ? "active show" : "" }"  id="pic-${productDetail.id }"><img src="${ productDetail.image }" /></div>
+										<div class="tab-pane ${ productDetail.id == 1 ? 'active show' : '' }"  id="pic-${productDetail.id }"><img src="${ productDetail.image }" /></div>
 								</c:forEach>
 							</div>
 							<ul class="preview-thumbnail nav nav-tabs">

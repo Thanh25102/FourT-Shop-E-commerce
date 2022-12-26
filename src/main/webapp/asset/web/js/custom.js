@@ -33,7 +33,7 @@ function removeProductFromCart(cartDetailId) {
 	fetch(`/FourT-Shop-E-commerce/api/v1/cart/${cartDetailId}`, options)
 		.then((response) => response.json())
 		.then((data) => {
-			alert(data.message)
+			swal(data.message)
 			document.getElementById(`cart_item_${cartDetailId}`).remove();
 			updateQuantityCart()
 		})

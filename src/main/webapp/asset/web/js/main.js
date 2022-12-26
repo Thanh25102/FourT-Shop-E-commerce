@@ -558,8 +558,10 @@ $(document).ready(function(){
           ]
         });
       }
-
-
-  
-
  });
+ 
+ function filterWithPrice(url) {
+	let priceStart = Number(document.getElementById('lower-value').textContent);
+	let priceEnd = Number(document.getElementById('upper-value').textContent);
+	window.location.href = `${url}?priceStart=${priceStart}&&priceEnd=${priceEnd}`
+}

@@ -1,6 +1,7 @@
 package com.buimanhthanh.controller.home;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buimanhthanh.dto.CategoryRangeDTO;
 import com.buimanhthanh.dto.PriceRange;
@@ -27,47 +31,69 @@ public class HomeCategoryController {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping("/category")
-	public String category(ModelMap modelMap, @RequestParam(defaultValue = "1") Integer page, HttpServletRequest request,
-			@RequestParam(defaultValue = "6") Integer limit, @RequestParam(defaultValue = "0") Integer categoryId,
-			@RequestParam(defaultValue = "") String orderBy, @RequestParam(defaultValue = "ASC") String sortType,
-			@RequestParam(defaultValue = "0") Double priceStart,
-			@RequestParam(defaultValue = "99999999999") Double priceEnd) {
+	private static final int PAGING = 8;
 
-		List<ProductDTO> products = productService.getAllProduct(page, limit, categoryId, orderBy,
-				sortType.equalsIgnoreCase(SortType.DESC.getValue()) ? SortType.DESC : SortType.ASC,
-				new PriceRange(priceStart, priceEnd)).get();
-		List<CategoryRangeDTO> listCategoryRangeDTO =  categoryService.getCategoryRange().get();
-		
-		Long allProducts = productService.getCountAllProduct(page, limit, categoryId, orderBy, 
-						sortType.equalsIgnoreCase(SortType.DESC.getValue()) ? SortType.DESC : SortType.ASC
-						, new PriceRange(priceStart, priceEnd));
-		
-		if(categoryId != 0) {
-			for (CategoryRangeDTO categoryRangeDTO : listCategoryRangeDTO) {
-				if(categoryRangeDTO.getCategoryId() == categoryId) {
-					allProducts = categoryRangeDTO.getRange();
-				}
-			}
+	@ModelAttribute
+	public void category(ModelMap modelMap) {
+		List<CategoryRangeDTO> categoryRanges = categoryService.getCategoryRange().get();
+		int totalProduct = 0;
+		for (CategoryRangeDTO categoryRange : categoryRanges) {
+			totalProduct += categoryRange.getRange();
 		}
-		Double totalPage = Math.ceil((double)allProducts / limit);
-		
-		ProductUrlBuilder productUrlBuilder = 
-					ProductUrlBuilder.builder()
-										.schema(request.getScheme()).servletName(request.getServerName())
-										.serverPort(request.getServerPort()+"").requestURI(request.getRequestURI())
-										.page(page).limit(limit).categoryId(categoryId).orderBy(orderBy)
-										.sortType(sortType).priceStart(priceStart).priceEnd(priceEnd)
-										.build();
-
-		modelMap.addAttribute("url",productUrlBuilder);
-		modelMap.addAttribute("pages", Math.ceil((double)products.size() / limit));;
-		modelMap.addAttribute("totalPage", totalPage.intValue());
-		modelMap.addAttribute("curPage", page);
-		modelMap.addAttribute("products", products);
-		modelMap.addAttribute("allProducts", allProducts);
-		modelMap.addAttribute("categoryRanges",listCategoryRangeDTO);
 		modelMap.addAttribute("categories", categoryService.getAllCategory().get());
+		modelMap.addAttribute("categoryRanges", categoryRanges);
+		modelMap.addAttribute("allCategoryRanges", totalProduct);
+	}
+
+	@GetMapping(value = { "/category/page/{page}/category/{category}/sort/{field}/{type}/limit/{limit}",
+			"/category/page/{page}/category/{category}/sort/{field}/{type}",
+			"/category/page/{page}/category/{category}", "/category2/page/{page}/category/{category}/limit/{limit}",
+			"/category/page/{page}", "/category" })
+	public String category2PageCategorySort(ModelMap model, RedirectAttributes redirect, HttpServletRequest request,
+			@PathVariable(required = false) Integer page, @PathVariable(required = false) Integer category,
+			@PathVariable(required = false) String field, @PathVariable(required = false) String type,
+			@PathVariable(name = "limit", required = false) Integer limit,
+			@RequestParam(required = false, defaultValue = "-1") Double priceStart,
+			@RequestParam(required = false, defaultValue = "-1") Double priceEnd) {
+		if (limit == null) {
+			limit = PAGING;
+		}
+		if (category == null) {
+			category = 0;
+		}
+		if (page == null) {
+			page = 1;
+		}
+
+		SortType sortType = SortType.ASC.getValue().equals(type) ? SortType.ASC : SortType.DESC;
+		PriceRange priceRange = null;
+		if (priceStart != -1 && priceEnd != -1) {
+			priceRange = new PriceRange(priceStart, priceEnd);
+		}
+		List<ProductDTO> products = productService.getAllProduct(page, limit, category, field, sortType, priceRange)
+				.get();
+
+		model.addAttribute("products", products);
+		ProductUrlBuilder productUrlBuilder = setUpBuild(request, page, limit, category, field, sortType, priceStart,
+				priceEnd, model, products);
+		model.addAttribute("productUrlBuilder", productUrlBuilder);
 		return "category";
 	}
+
+	private ProductUrlBuilder setUpBuild(HttpServletRequest request, Integer page, Integer limit, Integer categoryId,
+			String orderBy, SortType sortType, Double priceStart, Double priceEnd, ModelMap modelMap,
+			List<ProductDTO> products) {
+		PriceRange priceRange = null;
+		if (priceStart != -1 && priceEnd != -1) {
+			priceRange = new PriceRange(priceStart, priceEnd);
+		}
+		Long allProducts = productService.getCountAllProduct(page, limit, categoryId, orderBy, sortType, priceRange);
+		Double totalPage = Math.ceil((double) allProducts / limit);
+		modelMap.addAttribute("pages", totalPage.intValue());
+		ProductUrlBuilder productUrlBuilder = ProductUrlBuilder.builder().requestURI("/category").page(page)
+				.limit(limit).categoryId(categoryId).orderBy(orderBy).sortType(sortType.getValue())
+				.priceStart(priceStart).priceEnd(priceEnd).build();
+		return productUrlBuilder;
+	}
+
 }
