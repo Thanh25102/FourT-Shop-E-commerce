@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -73,7 +76,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		multipartResolver.setDefaultEncoding("UTF-8");
 		return multipartResolver;
 	}
-	
+
 	@Bean
 	public Cloudinary cloudinary() {
 		Map<String, Object> map = new HashMap<>();
@@ -81,7 +84,7 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		map.put("api_key", "767693717832892");
 		map.put("api_secret", "prGZdfuasWtSvI2GMocQiZ9Bh9w");
 		map.put("secure", true);
-		
+
 		Cloudinary c = new Cloudinary(map);
 		return c;
 	}

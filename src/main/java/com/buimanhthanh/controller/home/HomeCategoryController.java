@@ -1,7 +1,8 @@
 package com.buimanhthanh.controller.home;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,7 +48,7 @@ public class HomeCategoryController {
 
 	@GetMapping(value = { "/category/page/{page}/category/{category}/sort/{field}/{type}/limit/{limit}",
 			"/category/page/{page}/category/{category}/sort/{field}/{type}",
-			"/category/page/{page}/category/{category}", "/category2/page/{page}/category/{category}/limit/{limit}",
+			"/category/page/{page}/category/{category}", "/category/page/{page}/category/{category}/limit/{limit}",
 			"/category/page/{page}", "/category" })
 	public String category2PageCategorySort(ModelMap model, RedirectAttributes redirect, HttpServletRequest request,
 			@PathVariable(required = false) Integer page, @PathVariable(required = false) Integer category,
@@ -77,6 +78,11 @@ public class HomeCategoryController {
 		ProductUrlBuilder productUrlBuilder = setUpBuild(request, page, limit, category, field, sortType, priceStart,
 				priceEnd, model, products);
 		model.addAttribute("productUrlBuilder", productUrlBuilder);
+
+		Calendar calendar = Calendar.getInstance();
+		Date currentDate = calendar.getTime();
+		System.out.println(currentDate);
+		products.forEach(p -> System.out.println(p));
 		return "category";
 	}
 
@@ -95,5 +101,4 @@ public class HomeCategoryController {
 				.priceStart(priceStart).priceEnd(priceEnd).build();
 		return productUrlBuilder;
 	}
-
 }

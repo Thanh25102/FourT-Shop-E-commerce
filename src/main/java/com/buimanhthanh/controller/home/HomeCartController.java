@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.CartDetailDTO;
-import com.buimanhthanh.dto.ProductDTO;
 import com.buimanhthanh.service.CartService;
-import com.buimanhthanh.service.ProductService;
 
 @Controller
 @RequestMapping("")

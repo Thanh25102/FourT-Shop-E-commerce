@@ -1,6 +1,5 @@
 package com.buimanhthanh.controller.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +33,6 @@ public class APICart {
 		AccountDTO accountDTO = null;
 		if (session.getAttribute("currentUser") != null) {
 			accountDTO = (AccountDTO) session.getAttribute("currentUser");
-			System.out.println(accountDTO.toString() + "-------" + productId);
 			Boolean exist = cartService.addProductToCart(productId, accountDTO.getUsername());
 			if (exist) {
 				return ResponseEntity.status(HttpStatus.OK)

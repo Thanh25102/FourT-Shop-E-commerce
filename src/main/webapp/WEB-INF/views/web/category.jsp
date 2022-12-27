@@ -201,11 +201,11 @@
 								<div class="product-details">
 									<h6>${product.name }</h6>
 									<div class="price">
-										<c:if test="${ product.salePercent !=null }">
+										<c:if test="${ product.priceNew !=null }">
 											<h6>$${product.priceNew}</h6>
 											<h6 class="l-through">$${product.price}</h6>
 										</c:if>
-										<c:if test="${ product.salePercent ==null }">
+										<c:if test="${ product.priceNew == null }">
 											<h6>$${product.price}</h6>
 										</c:if>
 									</div>

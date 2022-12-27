@@ -64,4 +64,8 @@
 		<put-attribute name="content" value="/WEB-INF/views/web/register.jsp" />
 		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
 	</definition>
+	<definition name="404" extends="defaultLayout">
+		<put-attribute name="content" value="/WEB-INF/views/web/404.jsp" />
+		<put-attribute name="deal-of-week" value="/WEB-INF/views/web/blank.jsp" />
+	</definition>
 </tiles-definitions>

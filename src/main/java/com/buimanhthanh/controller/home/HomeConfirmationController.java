@@ -19,23 +19,24 @@ import com.buimanhthanh.service.OrderService;
 @Controller
 @RequestMapping("")
 public class HomeConfirmationController {
-	@Autowired private OrderService orderService;
-	
-    @GetMapping("/confirmation")
-    public String confirmation(ModelMap modelMap,HttpSession session) {
-    	AccountDTO accountDTO = null;
+	@Autowired
+	private OrderService orderService;
+
+	@GetMapping("/confirmation")
+	public String confirmation(ModelMap modelMap, HttpSession session) {
+		AccountDTO accountDTO = null;
 		if (session.getAttribute("currentUser") != null) {
 			accountDTO = (AccountDTO) session.getAttribute("currentUser");
 			List<OrderDTO> orderDTO = orderService.getOrderByUsername(accountDTO.getUsername()).get();
-			orderDTO.forEach(o->{
-				List<OrderDetailDTO> orderDetailDTOs = orderService.getOrderDetailByOrderId(o.getId()).get(); 
+			orderDTO.forEach(o -> {
+				List<OrderDetailDTO> orderDetailDTOs = orderService.getOrderDetailByOrderId(o.getId()).get();
 				o.setOrderDetailDTOs(orderDetailDTOs);
 			});
-			modelMap.addAttribute("orders",orderDTO);
+			modelMap.addAttribute("orders", orderDTO);
 		} else {
 			accountDTO = new AccountDTO();
-			modelMap.addAttribute("orders",new ArrayList<OrderDTO>());
-		} 
-        return "confirmation";
-    }
+			modelMap.addAttribute("orders", new ArrayList<OrderDTO>());
+		}
+		return "confirmation";
+	}
 }

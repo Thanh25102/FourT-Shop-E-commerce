@@ -1,6 +1,7 @@
 package com.buimanhthanh.dao.impl;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,21 +26,22 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public Optional<ProductDTO> getProductById(Integer id) {
 		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  where p.id =: i",
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent,d.startDay,d.endDay) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  where p.id =: i",
 				ProductDTO.class).setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
 	public Optional<List<ProductDTO>> getAllProduct() {
+		
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id ",
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent,d.startDay,d.endDay) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id ",
 				ProductDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<ProductDTO>> getAllProduct(int page, int limit) {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id ",
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent,d.startDay,d.endDay) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id ",
 				ProductDTO.class).setFirstResult((page - 1) * limit).setMaxResults(limit).getResultList());
 	}
 
@@ -79,7 +81,7 @@ public class ProductDaoImpl implements ProductDao {
 		}
 
 		StringBuilder sql = new StringBuilder(
-				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  where 1=1");
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent,d.startDay,d.endDay) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  where 1=1");
 		if (categoryId != 0) {
 			sql.append(" and p.categoryByCategoryId.id = " + categoryId);
 		}
@@ -143,7 +145,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public Optional<List<ProductDTO>> getLatestProducts(int record) {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  order by p.id desc",
+				"select new com.buimanhthanh.dto.ProductDTO(p.id,p.name,p.price,p.categoryByCategoryId.id,p.description,p.thumbnail,p.represent,p.discountByDiscountId.id,d.salePercent,d.startDay,d.endDay) from Product p LEFT JOIN Discount d ON p.discountByDiscountId.id = d.id  order by p.id desc",
 				ProductDTO.class).setMaxResults(record).getResultList());
 	}
 }

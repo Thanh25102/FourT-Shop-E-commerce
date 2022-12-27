@@ -69,7 +69,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<List<CartDetailDTO>> getCartDetailByCart(Integer cartId) {
 		StringBuilder sql = new StringBuilder(
-				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price,d.startDay,d.endDay)");
 		sql.append(" from CartDetail cd ");
 		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
 		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");
@@ -131,12 +131,12 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<CartDetailDTO> getCartDetailByProductDetailId(Integer productDetailId, Integer cartId) {
 		StringBuilder sql = new StringBuilder(
-				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price,d.startDay,d.endDay)");
 		sql.append(" from CartDetail cd ");
 		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
 		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");
 		sql.append(" 	LEFT JOIN Discount d on p.discountByDiscountId.id = d.id");
-		sql.append(" 		where pd =: i and cd.cartByCartId.id =: c");
+		sql.append(" 		where pd.id =: i and cd.cartByCartId.id =: c");
 
 		return sessionFactory.getCurrentSession().createQuery(sql.toString(), CartDetailDTO.class)
 				.setParameter("i", productDetailId).setParameter("c", cartId).getResultList().stream().findFirst();
@@ -145,7 +145,7 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public Optional<CartDetailDTO> getCartDetailById(Integer id) {
 		StringBuilder sql = new StringBuilder(
-				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price)");
+				"select new com.buimanhthanh.dto.CartDetailDTO(cd.id,p.id,cd.cartByCartId.id,cd.price,cd.quantity,p.name,pd.image,d.salePercent,p.price,d.startDay,d.endDay)");
 		sql.append(" from CartDetail cd ");
 		sql.append("	inner join ProductDetail pd on cd.productDetailByProductId.id = pd.id ");
 		sql.append(" 	inner join Product p on p.id = pd.productByProductId.id");

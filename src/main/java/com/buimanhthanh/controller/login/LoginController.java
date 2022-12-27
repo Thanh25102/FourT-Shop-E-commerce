@@ -1,14 +1,10 @@
 package com.buimanhthanh.controller.login;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import com.buimanhthanh.dto.CartDetailDTO;
-import com.buimanhthanh.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -30,10 +26,12 @@ public class LoginController {
 	private MessageSource messageSource;
 	@Autowired
 	private AccountService userDetailService;
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
+
 	@GetMapping("/register")
 	public String register(ModelMap modelMap) {
 		modelMap.addAttribute("userRegister", new AccountDTO());
@@ -42,7 +40,7 @@ public class LoginController {
 
 	@PostMapping(value = { "/register" })
 	public String register(@ModelAttribute(value = "userRegister") @Valid AccountDTO accountDTO, BindingResult result,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws InterruptedException, ExecutionException {
 		Optional<AccountDTO> optionalAccount = userDetailService.getAccountByUsername(accountDTO.getUsername());
 
 		optionalAccount.ifPresent(a -> result.addError(new ObjectError("username",
@@ -55,7 +53,5 @@ public class LoginController {
 			return "register";
 		return userDetailService.registerAccount(accountDTO) ? "redirect:/" : "register";
 	}
-
-
 
 }

@@ -106,11 +106,12 @@ public class CartServiceImpl implements CartService {
 
 		oplCartDTO.ifPresentOrElse(c -> {
 			c.setAmmount(c.getAmmount() + 1);
+			
 			if (isExistProductDetailInCart(productDetailDTO.getId(), c.getId())) {
 				CartDetailDTO cartDetailDTO = getCartDetailByProductDetailId(productDetailDTO.getId(), c.getId()).get();
 				cartDetailDTO.setQuantity(cartDetailDTO.getQuantity() + 1);
 				cartDetailDTO.setPrice(cartDetailDTO.getQuantity() * productDTO.getPrice());
-
+				
 				this.saveOrUpdateCartDetail(cartDetailDTO);
 			} else {
 				CartDetailDTO cartDetailDTO = new CartDetailDTO(null, productDetailDTO.getId(), c.getId(),
