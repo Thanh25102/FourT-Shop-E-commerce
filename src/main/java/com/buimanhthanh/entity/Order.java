@@ -62,12 +62,16 @@ public class Order {
 	@Basic
 	@Column(name = "city", nullable = true)
 	private String city;
+	
+	@Basic
+	@Column(name = "sum_money", nullable = true)
+	private Double sumMoney;
 
 	@ManyToOne
 	@JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
 	@NotNull(message = "{null.err}")
 	private Account accountByUsername;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "discount_code_id", referencedColumnName = "id")
 	private DiscountCode discountCodeByDiscountCodeId;
 

@@ -1,11 +1,10 @@
 package com.buimanhthanh.dao.impl;
 
-import com.buimanhthanh.dao.OrderDao;
-import com.buimanhthanh.dto.OrderDTO;
-import com.buimanhthanh.dto.OrderDetailDTO;
-import com.buimanhthanh.dto.RevenueDTO;
-import com.buimanhthanh.entity.Order;
-import com.buimanhthanh.entity.OrderDetail;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,14 +12,12 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Year;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.buimanhthanh.dao.OrderDao;
+import com.buimanhthanh.dto.OrderDTO;
+import com.buimanhthanh.dto.OrderDetailDTO;
+import com.buimanhthanh.dto.RevenueDTO;
+import com.buimanhthanh.entity.Order;
+import com.buimanhthanh.entity.OrderDetail;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -30,21 +27,21 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Optional<OrderDTO> getOrderById(Integer id) {
 		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order as a where a.id =: i",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order as a where a.id =: i",
 				OrderDTO.class).setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrder() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getOrderByUsername(String username) {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.accountByUsername.username =: u",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.accountByUsername.username =: u",
 				OrderDTO.class).setParameter("u", username).getResultList());
 	}
 
@@ -119,21 +116,21 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderPending() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'PENDING'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'PENDING'",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderDelevering() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'DELIVERING'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'DELIVERING'",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderComplete() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id) from Order a where a.orderStatus = 'COMPLETE'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'COMPLETE'",
 				OrderDTO.class).getResultList());
 	}
 

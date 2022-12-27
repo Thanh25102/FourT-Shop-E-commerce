@@ -38,7 +38,8 @@ create table `order_` (
                           discount_code_id int null,
                           phone varchar(20) null,
                           shiping_address varchar(255) null,
-                          city varchar(50) null
+                          city varchar(50) null,
+                          sum_money double not null
 );
 create table order_detail (
                               id int primary key auto_increment,
@@ -159,6 +160,9 @@ insert into discount values
     (null,30,'2023-01-22','2023-01-26','Happy Lunar New Year x 30% !!!'),
     (null,30,'2022-12-27','2022-12-27','Test Discount x 30% !!!');
 
+insert into discount_code values
+	(null,"CODE1234567890123456",10,0,"2022-12-27","2022-12-27",200,"Return money up to 200$"),
+	(null,"20001234567890123456",10,0,"2022-12-27","2022-12-27",2000,"Return money up to 2000$");
 -- select * from product as p left join discount as d on p.discount_id = d.id where '2022-01-23' between d.start_day and d.end_day;
 
 insert into product values
@@ -494,6 +498,6 @@ insert into cart values(null,2,'Test1234');
 insert into cart_detail values(null,3,1,180000,1),
                               (null,4,1,570000,1);
 
-insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY");
+insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY",180000);
 insert into `order_detail` values (null,1,1,180000,1);
 

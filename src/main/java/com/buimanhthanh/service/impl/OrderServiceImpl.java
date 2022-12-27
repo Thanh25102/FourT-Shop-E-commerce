@@ -14,6 +14,7 @@ import com.buimanhthanh.dao.OrderDao;
 import com.buimanhthanh.dto.AccountDTO;
 import com.buimanhthanh.dto.CartDTO;
 import com.buimanhthanh.dto.CartDetailDTO;
+import com.buimanhthanh.dto.DiscountCodeDTO;
 import com.buimanhthanh.dto.OrderDTO;
 import com.buimanhthanh.dto.OrderDetailDTO;
 import com.buimanhthanh.dto.RevenueDTO;
@@ -53,15 +54,18 @@ public class OrderServiceImpl implements OrderService {
 	public Boolean saveOrUpdateOrder(OrderDTO orderDTO) {
 		Order order = new Order(orderDTO.getId(), orderDTO.getOrderStatus(), orderDTO.getAmmount(),
 				orderDTO.getPaymentMethod(), orderDTO.getCreateTime(), orderDTO.getPhone(),
-				orderDTO.getShipingAddress(), orderDTO.getCity(), null, null, null);
+				orderDTO.getShipingAddress(), orderDTO.getCity(), orderDTO.getSumMoney(), null, null, null);
+
 		Account account = new Account();
 		account.setUsername(orderDTO.getUsername());
 		DiscountCode discountCode = new DiscountCode();
 		discountCode.setId(orderDTO.getDiscountCodeId());
 		order.setDiscountCodeByDiscountCodeId(discountCode);
 		order.setAccountByUsername(account);
+
 		java.util.Date today = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(today.getTime()); // your SQL date object
+
 		order.setCreateTime(date);
 
 		return orderDao.saveOrUpdateOrder(order);
@@ -72,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 	public Integer saveOrder(OrderDTO orderDTO) {
 		Order order = new Order(orderDTO.getId(), orderDTO.getOrderStatus(), orderDTO.getAmmount(),
 				orderDTO.getPaymentMethod(), orderDTO.getCreateTime(), orderDTO.getPhone(),
-				orderDTO.getShipingAddress(), orderDTO.getCity(), null, null, null);
+				orderDTO.getShipingAddress(), orderDTO.getCity(), orderDTO.getSumMoney(), null, null, null);
 
 		Account account = new Account();
 		account.setUsername(orderDTO.getUsername());
@@ -127,18 +131,37 @@ public class OrderServiceImpl implements OrderService {
 		orderDTO.setOrderStatus(OrderStatus.PENDING.getValue());
 		orderDTO.setAmmount(cartDTO.getAmmount());
 
-		discountCodeService.getDiscountCodeByCode(orderDTO.getDiscountCode()).ifPresentOrElse(
-				code -> orderDTO.setDiscountCodeId(code.getId()), () -> orderDTO.setDiscountCodeId(null));
+		DiscountCodeDTO discountCode = discountCodeService.getDiscountCodeByCode(orderDTO.getDiscountCode()).get();
+		if (discountCode != null) {
+			orderDTO.setDiscountCodeId(discountCode.getId());
+		} else {
+			orderDTO.setDiscountCodeId(null);
+		}
 
+		Double sumMoney = 0D;
+		for (CartDetailDTO cartDetail : cartDetailDTOs) {
+			sumMoney += cartDetail.getPriceNew() * cartDetail.getQuantity();
+		}
+		orderDTO.setSumMoney(
+				canculateSumMoneyOrder(sumMoney, discountCode.getSalePercent(), discountCode.getMaxDiscount()));
 		Integer id = saveOrder(orderDTO);
-//		OrderDTO orderTemp = getOrderById(id).get();
-		cartDetailDTOs.forEach(cartDetail -> orderDetailDTOs.add(new OrderDetailDTO(null, cartDetail.getProductId(), id,
-				cartDetail.getPrice(), cartDetail.getQuantity())));
+
+		for (CartDetailDTO cartDetail : cartDetailDTOs) {
+			orderDetailDTOs.add(new OrderDetailDTO(null, cartDetail.getProductId(), id,
+					cartDetail.getPriceNew() * cartDetail.getQuantity(), cartDetail.getQuantity()));
+		}
+
 		orderDetailDTOs.forEach(o -> {
 			saveOrUpdateOrderDetail(o);
 		});
 
 		return true;
+	}
+
+	private Double canculateSumMoneyOrder(Double rawMoney, Integer discountPercent, Long maxDiscount) {
+		Double discountMoney = rawMoney * (discountPercent * 0.01);
+
+		return discountMoney < maxDiscount ? rawMoney - discountMoney : rawMoney - maxDiscount;
 	}
 
 	@Override
@@ -193,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderDTO> getAllOrderDelevering() {
 		return orderDao.getAllOrderDelevering().get();
 	}
-	
+
 //	ModelMapper modelMapper = new ModelMapper();
 //	modelMapper.createTypeMap(AccountDTO.class, Account.class)
 //	        .addMapping(AccountDTO::getRoleId, (dest, value) -> dest.setRoleById(new Role((Integer) value)));
@@ -203,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
 	public List<RevenueDTO> getEarningYear() {
 		LocalDate local = LocalDate.now();
 		int year = local.getYear();
-		return orderDao.getEarningYear(year).get();	
+		return orderDao.getEarningYear(year).get();
 	}
 
 	@Override
@@ -211,15 +234,13 @@ public class OrderServiceImpl implements OrderService {
 	public List<RevenueDTO> getEarningLastYear() {
 		LocalDate local = LocalDate.now();
 		int year = local.getYear() - 1;
-		return orderDao.getEarningYear(year).get();	
+		return orderDao.getEarningYear(year).get();
 	}
-	
+
 	@Override
 	@Transactional
 	public List<OrderDTO> getAllOrderComplete() {
 		return orderDao.getAllOrderComplete().get();
 	}
-
-	
 
 }
