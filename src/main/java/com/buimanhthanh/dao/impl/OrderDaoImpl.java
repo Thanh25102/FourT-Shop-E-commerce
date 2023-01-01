@@ -27,21 +27,21 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Optional<OrderDTO> getOrderById(Integer id) {
 		return sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order as a where a.id =: i",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id where a.id =: i",
 				OrderDTO.class).setParameter("i", id).getResultList().stream().findFirst();
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrder() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id ",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getOrderByUsername(String username) {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.accountByUsername.username =: u",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id where a.accountByUsername.username =: u",
 				OrderDTO.class).setParameter("u", username).getResultList());
 	}
 
@@ -116,21 +116,21 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderPending() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'PENDING'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id where a.orderStatus = 'PENDING'",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderDelevering() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'DELIVERING'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id where a.orderStatus = 'DELIVERING'",
 				OrderDTO.class).getResultList());
 	}
 
 	@Override
 	public Optional<List<OrderDTO>> getAllOrderComplete() {
 		return Optional.ofNullable(sessionFactory.getCurrentSession().createQuery(
-				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney) from Order a where a.orderStatus = 'COMPLETE'",
+				"select new com.buimanhthanh.dto.OrderDTO(a.id,a.accountByUsername.username,a.orderStatus,a.ammount,a.paymentMethod,a.createTime,a.phone,a.shipingAddress,a.city,a.discountCodeByDiscountCodeId.id,a.sumMoney,d.code) from Order a LEFT JOIN DiscountCode d ON a.discountCodeByDiscountCodeId.id = d.id  where a.orderStatus = 'COMPLETE'",
 				OrderDTO.class).getResultList());
 	}
 

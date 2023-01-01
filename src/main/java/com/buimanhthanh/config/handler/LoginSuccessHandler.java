@@ -20,6 +20,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
        AccountDTO accountDTO = this.userDetailService.getAccountByUsername(authentication.getName()).get();
        request.getSession().setAttribute("currentUser",accountDTO);
-       response.sendRedirect("/FourT-Shop-E-commerce/");
+       String rootPath = request.getContextPath();
+       System.out.println(rootPath);
+       response.sendRedirect(rootPath);
     }
 }

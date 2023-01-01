@@ -497,7 +497,10 @@ insert into `account` values
 insert into cart values(null,2,'Test1234');
 insert into cart_detail values(null,3,1,180000,1),
                               (null,4,1,570000,1);
-
-insert into `order_` values (null,'Test1234','deliver',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY",180000);
+select * from order_;
+insert into `order_` values (null,'Test1234','COMPLETE',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY",180000);
 insert into `order_detail` values (null,1,1,180000,1);
+
+insert into `order_` values (null,'Test1234','DELIVERING',1,'MOMO','2022-10-10',null,"0328735659","27/8b ap moi 1, xa Tan Xuan, huyen Hoc Mon","HO CHI MINH CITY",180000);
+insert into `order_detail` values (null,1,2,180000,1);
 

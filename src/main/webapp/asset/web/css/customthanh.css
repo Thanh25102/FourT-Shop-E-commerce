@@ -170,3 +170,18 @@ img {
             transform: scale(1); } }
 
 /*# sourceMappingURL=style.css.map */
+
+
+.order_details .title_pending {
+    text-align: center;
+    color: #CD950C;
+    font-size: 18px;
+    margin-bottom: 80px;
+}
+
+.order_details .title_delivering {
+    text-align: center;
+    color: #3B81F1;
+    font-size: 18px;
+    margin-bottom: 80px;
+}

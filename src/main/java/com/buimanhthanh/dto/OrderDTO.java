@@ -21,7 +21,7 @@ public class OrderDTO {
 	private String shipingAddress;
 	private String city;
 	private Double sumMoney;
-	
+
 	private Integer discountCodeId;
 	private List<OrderDetailDTO> orderDetailDTOs;
 	private String discountCode;
@@ -52,7 +52,8 @@ public class OrderDTO {
 	}
 
 	public OrderDTO(Integer id, String username, String orderStatus, Integer ammount, String paymentMethod,
-			Date createTime, String phone, String shipingAddress, String city, Integer discountCodeId,Double sumMoney) {
+			Date createTime, String phone, String shipingAddress, String city, Integer discountCodeId,
+			Double sumMoney) {
 		this.id = id;
 		this.username = username;
 		this.orderStatus = orderStatus;
@@ -64,6 +65,23 @@ public class OrderDTO {
 		this.city = city;
 		this.discountCodeId = discountCodeId;
 		this.sumMoney = sumMoney;
+	}
+
+	public OrderDTO(Integer id, String username, String orderStatus, Integer ammount, String paymentMethod,
+			Date createTime, String phone, String shipingAddress, String city, Integer discountCodeId, Double sumMoney,
+			String discountCode) {
+		this.id = id;
+		this.username = username;
+		this.orderStatus = orderStatus;
+		this.ammount = ammount;
+		this.paymentMethod = paymentMethod;
+		this.createTime = createTime;
+		this.phone = phone;
+		this.shipingAddress = shipingAddress;
+		this.city = city;
+		this.discountCodeId = discountCodeId;
+		this.sumMoney = sumMoney;
+		this.discountCode = discountCode;
 	}
 
 }

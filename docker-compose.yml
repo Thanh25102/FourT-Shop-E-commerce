@@ -1,17 +1,16 @@
 version: '3.7'
-
-services: 
+services:
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 5001:8080
+    - 5001:8080
     networks:
       kec:
         ipv4_address: 172.26.22.102
     depends_on:
-      - db
+    - db
     restart: always
   db:
     container_name: mydb
@@ -23,20 +22,20 @@ services:
       kec:
         ipv4_address: 172.26.22.103
     volumes:
-      - ./.docker/mysql:/var/lib/mysql
+    - ./.docker/mysql:/var/lib/mysql
 #  adminer:
 #    image: adminer
 #    restart: always
 #    ports:
-#      - 8999:8080
+#    - 8999:8080
 #    networks:
-#      - kec
+#    - kec
 #    depends_on:
-#      - db
+#    - db
 networks:
   kec:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.26.22.0/24
+      - subnet: 172.26.22.0/24

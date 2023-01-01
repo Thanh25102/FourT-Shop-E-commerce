@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.task.AsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -88,4 +85,14 @@ public class ApplicationConfig implements WebMvcConfigurer {
 		Cloudinary c = new Cloudinary(map);
 		return c;
 	}
-}
+	/*
+	 * @Bean public JavaMailSender mailSender() { JavaMailSenderImpl mailSender =
+	 * new JavaMailSenderImpl(); mailSender.setHost("smtp.gmail.com");
+	 * mailSender.setPort(465); mailSender.setUsername("manhthanh147@gmail.com");
+	 * mailSender.setPassword("dfopunmblcxlurwv"); Properties props = new
+	 * Properties(); props.put("mail.transport.protocol", "smtp");
+	 * props.put("mail.smtp.auth", "true"); props.put("mail.smtp.ssl.protocols",
+	 * "TLSv1.2"); props.put("mail.smtp.starttls.enable", "true");
+	 * props.put("mail.debug", "true"); mailSender.setJavaMailProperties(props);
+	 * return mailSender; }
+	 */}

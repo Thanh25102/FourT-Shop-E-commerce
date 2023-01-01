@@ -160,7 +160,6 @@ public class OrderServiceImpl implements OrderService {
 
 	private Double canculateSumMoneyOrder(Double rawMoney, Integer discountPercent, Long maxDiscount) {
 		Double discountMoney = rawMoney * (discountPercent * 0.01);
-
 		return discountMoney < maxDiscount ? rawMoney - discountMoney : rawMoney - maxDiscount;
 	}
 
