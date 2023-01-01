@@ -23,15 +23,15 @@ services:
         ipv4_address: 172.26.22.103
     volumes:
     - ./.docker/mysql:/var/lib/mysql
-#  adminer:
-#    image: adminer
-#    restart: always
-#    ports:
-#    - 8999:8080
-#    networks:
-#    - kec
-#    depends_on:
-#    - db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+    - 8080:8080
+    networks:
+    - kec
+    depends_on:
+    - db
 networks:
   kec:
     driver: bridge
